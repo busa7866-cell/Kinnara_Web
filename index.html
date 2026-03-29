@@ -9,12 +9,13 @@
     
     <style>
         :root {
-            --bg-color: #050505; /* Midnight Black */
+            --bg-color: #050505;
             --card-bg: rgba(255, 255, 255, 0.05);
             --nav-bg: rgba(15, 15, 15, 0.85);
             --accent-white: #ffffff;
             --muted-text: #909090;
             --blue-ios: #007aff;
+            --neon-red: #ff3131;
         }
 
         * {
@@ -22,7 +23,6 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
-            /* နှိပ်လိုက်ရင် အဖြူရောင်အကွက်ပေါ်တာ ဖျောက်ထားသည် */
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -31,7 +31,6 @@
             background-image: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.08) 0%, transparent 60%);
             color: var(--accent-white);
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
         /* --- Header --- */
@@ -51,56 +50,25 @@
             border-radius: 12px;
             object-fit: cover;
             border: 1px solid rgba(255,255,255,0.2);
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
             margin-right: 15px;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
+            transform: perspective(500px) rotateY(-10deg);
         }
 
-        .title {
-            font-size: 24px;
-            font-weight: 600;
-            text-shadow: 0 0 10px rgba(255,255,255,0.4);
-        }
+        .title { font-size: 24px; font-weight: 600; text-shadow: 0 0 10px rgba(255,255,255,0.4); }
 
         /* --- Sections Layout --- */
         .content-section {
             display: none;
             padding: 20px;
-            padding-bottom: 130px;
-            animation: fadeIn 0.5s ease-out;
+            padding-bottom: 140px;
+            animation: fadeIn 0.4s ease-out;
         }
-
         .content-section.active { display: block; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- 2. Information Section --- */
-        .info-item {
-            display: flex;
-            align-items: center;
-            background: var(--card-bg);
-            padding: 22px;
-            border-radius: 20px;
-            margin-bottom: 15px;
-            text-decoration: none;
-            color: white;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: transform 0.2s;
-        }
-
-        .info-item:active { transform: scale(0.97); }
-
-        .info-item i {
-            font-size: 28px;
-            margin-right: 20px;
-            text-shadow: 0 0 15px white;
-        }
-
-        .info-item span { font-size: 16px; font-weight: 500; }
-
-        /* --- 3. ဝယ်ယူရန် Section --- */
+        /* --- Payments --- */
         .pay-card {
             background: var(--card-bg);
             border-radius: 20px;
@@ -113,33 +81,56 @@
             cursor: pointer;
             transition: 0.2s;
         }
-
         .pay-card:active { transform: scale(0.98); background: rgba(255,255,255,0.08); }
-
-        .pay-left { display: flex; align-items: center; }
-
-        .pay-logo-mini {
-            width: 35px;
-            height: 35px;
-            border-radius: 8px;
-            margin-right: 15px;
-            object-fit: contain;
-        }
-
-        .pay-details { display: flex; flex-direction: column; }
+        .pay-logo-mini { width: 35px; height: 35px; border-radius: 8px; margin-right: 15px; object-fit: contain; }
         .pay-num { font-weight: 600; font-size: 15px; }
         .pay-name { font-size: 11px; color: var(--muted-text); }
-
         .copy-text { font-size: 10px; color: var(--muted-text); text-transform: uppercase; letter-spacing: 1px; }
 
-        /* --- 4. ပြေစာတင်ခြင်း --- */
-        .upload-wrapper { margin-top: 30px; }
+        /* --- Neon Note (Red) --- */
+        .neon-note {
+            background: rgba(255, 49, 49, 0.05);
+            border: 1px solid var(--neon-red);
+            padding: 18px;
+            border-radius: 15px;
+            margin: 25px 0 15px 0;
+            box-shadow: 0 0 15px rgba(255, 49, 49, 0.2);
+        }
+        .neon-note strong {
+            color: var(--neon-red);
+            font-size: 19px;
+            text-shadow: 0 0 10px var(--neon-red);
+            display: block;
+            margin-bottom: 8px;
+        }
+        .neon-note p {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #ffcccc;
+        }
 
+        /* --- Input Box (Description) --- */
+        .input-group { margin-bottom: 15px; }
+        .desc-box {
+            width: 100%;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 15px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+            resize: none;
+            transition: 0.3s;
+        }
+        .desc-box:focus { border-color: var(--blue-ios); box-shadow: 0 0 10px rgba(0, 122, 255, 0.2); }
+
+        /* --- Upload Area --- */
         .receipt-box {
             width: 100%;
-            height: 180px;
+            height: 140px;
             border: 2px dashed rgba(255,255,255,0.15);
-            border-radius: 25px;
+            border-radius: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -148,17 +139,10 @@
             background: rgba(255,255,255,0.02);
             transition: 0.3s;
         }
-
-        .receipt-box i { font-size: 40px; margin-bottom: 10px; }
+        .receipt-box i { font-size: 30px; margin-bottom: 8px; }
         .receipt-box span { font-size: 14px; font-weight: 500; }
 
-        #img-preview {
-            width: 100%;
-            border-radius: 20px;
-            margin-top: 20px;
-            display: none;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
+        #img-preview { width: 100%; border-radius: 15px; margin-top: 15px; display: none; border: 1px solid rgba(255,255,255,0.1); }
 
         .send-button {
             width: 100%;
@@ -169,13 +153,30 @@
             border-radius: 20px;
             font-size: 16px;
             font-weight: 600;
-            margin-top: 20px;
-            display: none; /* ပုံတင်မှ ပေါ်မည် */
-            box-shadow: 0 10px 25px rgba(0, 122, 255, 0.3);
+            margin-top: 15px;
+            display: none;
             cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0, 122, 255, 0.3);
         }
 
-        /* --- Bottom Nav (iPhone Style) --- */
+        /* --- Information Tab --- */
+        .info-item {
+            display: flex;
+            align-items: center;
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 18px;
+            margin-bottom: 12px;
+            text-decoration: none;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.2s;
+        }
+        .info-item:active { transform: scale(0.97); }
+        .info-item i { font-size: 25px; margin-right: 15px; text-shadow: 0 0 10px white; }
+        .info-item span { font-size: 16px; font-weight: 500; }
+
+        /* --- Bottom Nav --- */
         .bottom-nav {
             position: fixed;
             bottom: 30px;
@@ -191,59 +192,15 @@
             justify-content: space-around;
             align-items: center;
             border: 1px solid rgba(255,255,255,0.08);
+            z-index: 2000;
             box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            z-index: 1000;
         }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 70px;
-            cursor: pointer;
-            position: relative;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .nav-item i {
-            font-size: 22px;
-            color: #555;
-            transition: 0.4s;
-        }
-
-        .nav-item span {
-            font-size: 10px;
-            color: #555;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: 0.4s;
-            margin-top: 4px;
-        }
-
-        /* Active State - Lifts Up */
-        .nav-item.active i {
-            transform: translateY(-14px);
-            color: var(--accent-white);
-            text-shadow: 0 0 15px white;
-        }
-
-        .nav-item.active span {
-            opacity: 1;
-            transform: translateY(2px);
-            color: var(--accent-white);
-        }
-
-        /* iPhone Line Indicator */
-        .indicator {
-            position: absolute;
-            bottom: 8px;
-            width: 25px;
-            height: 3px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 0 10px white;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+        .nav-item { display: flex; flex-direction: column; align-items: center; width: 70px; cursor: pointer; position: relative; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .nav-item i { font-size: 21px; color: #555; transition: 0.4s; }
+        .nav-item span { font-size: 10px; color: #555; opacity: 0; transform: translateY(10px); transition: 0.4s; margin-top: 4px; }
+        .nav-item.active i { transform: translateY(-14px); color: white; text-shadow: 0 0 15px white; }
+        .nav-item.active span { opacity: 1; transform: translateY(2px); color: white; }
+        .indicator { position: absolute; bottom: 8px; width: 25px; height: 3px; background: white; border-radius: 10px; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 0 10px white; }
     </style>
 </head>
 <body>
@@ -254,51 +211,60 @@
     </header>
 
     <main id="home-tab" class="content-section active">
-        <div style="text-align: center; margin-top: 100px; color: var(--muted-text);">
-            Welcome to Kinnara Space
-        </div>
+        <div style="text-align: center; margin-top: 100px; color: var(--muted-text); letter-spacing: 1px;">Welcome to Kinnara Space</div>
     </main>
 
     <main id="buy-tab" class="content-section">
         
         <div class="pay-card" onclick="copyValue('09788319436', this)">
-            <div class="pay-left">
+            <div style="display:flex; align-items:center;">
                 <img src="https://i.ibb.co/0pB9vcGt/IMG-20260329-154219.png" class="pay-logo-mini">
-                <div class="pay-details">
-                    <span class="pay-num">09788319436</span>
-                    <span class="pay-name">Name - Daw Yin Kyi</span>
+                <div>
+                    <div class="pay-num">09788319436</div>
+                    <div class="pay-name">Daw Yin Kyi (KPay)</div>
                 </div>
             </div>
-            <span class="copy-text">[ Tap To Copy ]</span>
+            <span class="copy-text">Tap To Copy</span>
         </div>
 
         <div class="pay-card" onclick="copyValue('09788319436', this)">
-            <div class="pay-left">
+            <div style="display:flex; align-items:center;">
                 <img src="https://i.ibb.co/JgDdff5/unnamed-4.png" class="pay-logo-mini">
-                <div class="pay-details">
-                    <span class="pay-num">09788319436</span>
-                    <span class="pay-name">Name - Yin Kyi</span>
+                <div>
+                    <div class="pay-num">09788319436</div>
+                    <div class="pay-name">Yin Kyi (Wave)</div>
                 </div>
             </div>
-            <span class="copy-text">[ Tap To Copy ]</span>
+            <span class="copy-text">Tap To Copy</span>
         </div>
 
         <div class="pay-card" onclick="copyValue('09788319436', this)">
-            <div class="pay-left">
+            <div style="display:flex; align-items:center;">
                 <img src="https://i.ibb.co/ch1JyW8X/IMG-20260329-154150.png" class="pay-logo-mini">
-                <div class="pay-details">
-                    <span class="pay-num">09788319436</span>
-                    <span class="pay-name">Name - Myat Myat Moe</span>
+                <div>
+                    <div class="pay-num">09788319436</div>
+                    <div class="pay-name">Myat Myat Moe (AYA)</div>
                 </div>
             </div>
-            <span class="copy-text">[ Tap To Copy ]</span>
+            <span class="copy-text">Tap To Copy</span>
+        </div>
+
+        <div class="neon-note">
+            <strong>Note:</strong>
+            <p>ပြေစာပေးပို့ရာတွင် ကိုယ်ဝယ်တဲ့ Games ဒါမှမဟုတ် Social Media တစ်ခုခုရဲ့အချက်အလက်များနဲ့တကွထည့်ပေးပါရန်!<br><br>
+               ဥပမာ - Mlbb Dia ဝယ်ယူရာတွင် ကိုယ့် In Game ID | Sever ID နဲ့တကွ ပေးပို့ပေးပါရန် !<br><br>
+               ငွေလွဲရာတွင် Shopping Or Shop ရေးပေးပါရန် မသက်ဆိုင်သော Diamond / Uc တစ်ခြားအရာများရေးပါက ထည့်ပေးမည်မဟုတ်</p>
+        </div>
+
+        <div class="input-group">
+            <textarea id="user-info" class="desc-box" rows="3" placeholder="ဝယ်ယူမည့် Game ID / Server ID / Account Name များကို ဤနေရာတွင် ရေးပေးပါ..."></textarea>
         </div>
 
         <div class="upload-wrapper">
             <input type="file" id="receipt-upload" style="display: none;" accept="image/*">
-            <div class="receipt-box" onclick="document.getElementById('receipt-upload').click()">
-                <i class="fa-solid fa-receipt"></i>
-                <span>ပြေစာပို့ရန်</span>
+            <div class="receipt-box" id="upload-box" onclick="document.getElementById('receipt-upload').click()">
+                <i class="fa-solid fa-camera-retro"></i>
+                <span>ပြေစာပေးပို့ရန်</span>
             </div>
             <img id="img-preview" alt="Preview">
             <button class="send-button" id="send-btn" onclick="sendToTelegram()">ပို့ရန်</button>
@@ -335,7 +301,7 @@
         
         <div class="nav-item" onclick="switchTab('info-tab', this)">
             <i class="fa-solid fa-info-circle"></i>
-            <span>Information</span>
+            <span>Info</span>
         </div>
     </nav>
 
@@ -368,7 +334,7 @@
             hint.innerText = "Copied! ✔";
             hint.style.color = "white";
             setTimeout(() => { 
-                hint.innerText = "[ Tap To Copy ]"; 
+                hint.innerText = "Tap To Copy"; 
                 hint.style.color = "#909090";
             }, 2000);
         }
@@ -377,6 +343,7 @@
         const fileInput = document.getElementById('receipt-upload');
         const preview = document.getElementById('img-preview');
         const sendBtn = document.getElementById('send-btn');
+        const uploadBox = document.getElementById('upload-box');
 
         fileInput.onchange = function(e) {
             const file = e.target.files[0];
@@ -385,7 +352,7 @@
                 reader.onload = function(event) {
                     preview.src = event.target.result;
                     preview.style.display = 'block';
-                    document.querySelector('.receipt-box').style.display = 'none';
+                    uploadBox.style.display = 'none';
                     sendBtn.style.display = 'block';
                 }
                 reader.readAsDataURL(file);
@@ -394,11 +361,15 @@
 
         // --- BACKGROUND SENDING TO TELEGRAM BOT ---
         async function sendToTelegram() {
-            // [အရေးကြီး] အကို့ရဲ့ အချက်အလက်များကို ဒီမှာထည့်ပါ
-           const BOT_TOKEN = '8666396262:AAE9E39Td3mLkQTD7EvbDPGPrynAiFJIfsY'; 
-           const CHAT_ID = '8666396262';
+            const BOT_TOKEN = '8666396262:AAE9E39Td3mLkQTD7EvbDPGPrynAiFJIfsY'; 
+            const CHAT_ID = '2006437268'; 
+            
+            const userDescription = document.getElementById('user-info').value;
 
-            if (!fileInput.files[0]) return;
+            if (!fileInput.files[0]) {
+                alert("ကျေးဇူးပြု၍ ပြေစာပုံအရင်ရွေးပါ");
+                return;
+            }
 
             sendBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ပို့နေပါသည်...';
             sendBtn.disabled = true;
@@ -406,7 +377,7 @@
             const formData = new FormData();
             formData.append('chat_id', CHAT_ID);
             formData.append('photo', fileInput.files[0]);
-            formData.append('caption', '🧾 Kinnara Market: ငွေလွှဲပြေစာ အသစ်ရောက်ရှိပါသည်။');
+            formData.append('caption', `ပြေစာအသစ် ရောက်ရှိပါသည်\n\n အချက်အလက်များ:\n${userDescription}`);
 
             try {
                 const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
@@ -420,20 +391,21 @@
                     
                     setTimeout(() => {
                         preview.style.display = 'none';
-                        document.querySelector('.receipt-box').style.display = 'flex';
+                        uploadBox.style.display = 'flex';
                         sendBtn.style.display = 'none';
                         sendBtn.innerHTML = 'ပို့ရန်';
-                        sendBtn.style.background = 'var(--blue-ios)';
+                        sendBtn.style.background = '#007aff';
                         sendBtn.disabled = false;
                         fileInput.value = '';
+                        document.getElementById('user-info').value = '';
                     }, 3000);
                 } else {
-                    alert("Error: Token သို့မဟုတ် Chat ID မှားယွင်းနေပါသည်။");
+                    alert("Error: ပို့လို့မရပါ။ Chat ID/Token ကိုစစ်ဆေးပါ။");
                     sendBtn.disabled = false;
                     sendBtn.innerHTML = 'ပို့ရန်';
                 }
             } catch (err) {
-                alert("အင်တာနက်ချိတ်ဆက်မှုကို စစ်ဆေးပါ။");
+                alert("အင်တာနက်ချိတ်ဆက်မှု မရှိပါ");
                 sendBtn.disabled = false;
                 sendBtn.innerHTML = 'ပို့ရန်';
             }
