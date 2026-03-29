@@ -3,109 +3,396 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kinnara - Clean UI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <title>Kinnara - Midnight Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --bg-color: #08080a;
-            --nav-bg: rgba(20, 20, 25, 0.9);
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --nav-bg: rgba(18, 18, 22, 0.85);
             --neon-white: #ffffff;
-            --text-muted: #666670;
+            --text-muted: #888890;
+            --blue-accent: #007aff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            -webkit-tap-highlight-color: transparent; /* ဖျောက်ရန် */
         }
 
         body {
             background-color: var(--bg-color);
-            background-image: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
-            color: white;
-            margin: 0;
+            background-image: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.07) 0%, transparent 70%);
+            color: var(--neon-white);
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
+        /* --- 3D Header --- */
         .header {
             display: flex;
             align-items: center;
-            padding: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(8, 8, 10, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo-box {
+            position: relative;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
         }
 
         .logo {
-            width: 45px;
-            height: 45px;
-            border-radius: 12px;
-            margin-right: 15px;
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            object-fit: cover;
+            /* 3D Effect */
+            filter: drop-shadow(0px 4px 8px rgba(255, 255, 255, 0.3));
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform: perspective(500px) rotateY(-10deg);
         }
 
         .title {
             font-size: 24px;
-            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
-        /* Clean Bottom Nav */
+        /* --- Sections Layout --- */
+        .section {
+            display: none;
+            padding: 20px;
+            padding-bottom: 120px;
+            animation: slideUp 0.4s ease;
+        }
+
+        .section.active { display: block; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Information Tab (Large Style) --- */
+        .info-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 22px;
+            border-radius: 20px;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            transition: 0.3s;
+        }
+
+        .info-card i {
+            font-size: 28px;
+            margin-right: 20px;
+            text-shadow: 0 0 15px var(--neon-white);
+        }
+
+        .info-card span { font-size: 17px; font-weight: 500; }
+        .info-card:active { transform: scale(0.96); background: rgba(255, 255, 255, 0.08); }
+
+        /* --- Payment Tab (Clean & Copy) --- */
+        .payment-box {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .payment-box:active { transform: scale(0.98); }
+
+        .pay-info { display: flex; align-items: center; }
+        
+        .pay-logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            margin-right: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pay-text { display: flex; flex-direction: column; }
+        .pay-num { font-weight: 600; font-size: 15px; text-shadow: 0 0 5px rgba(255,255,255,0.3); }
+        .pay-owner { font-size: 11px; color: var(--text-muted); }
+
+        .tap-hint { font-size: 10px; color: var(--text-muted); letter-spacing: 0.5px; }
+
+        /* --- Receipt Upload Area --- */
+        .upload-area {
+            margin-top: 30px;
+            border: 2px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 25px;
+            height: 160px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .upload-area:active { background: rgba(255, 255, 255, 0.03); }
+        .upload-area i { font-size: 35px; margin-bottom: 10px; color: var(--neon-white); }
+        .upload-area span { font-weight: 500; font-size: 14px; }
+
+        #preview-img {
+            width: 100%;
+            border-radius: 20px;
+            margin-top: 20px;
+            display: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .send-btn {
+            width: 100%;
+            background: var(--blue-accent);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 18px;
+            font-weight: 600;
+            font-size: 16px;
+            margin-top: 20px;
+            display: none;
+            box-shadow: 0 8px 20px rgba(0, 122, 255, 0.3);
+            cursor: pointer;
+        }
+
+        /* --- Floating Nav (iPhone Smooth) --- */
         .bottom-nav {
             position: fixed;
-            bottom: 25px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            width: 90%;
+            width: 88%;
             max-width: 400px;
-            height: 65px;
+            height: 70px;
             background: var(--nav-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            border-radius: 35px;
             display: flex;
             justify-content: space-around;
             align-items: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            z-index: 2000;
         }
 
         .nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
+            width: 70px;
             cursor: pointer;
-            transition: 0.3s;
-            color: var(--text-muted);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .nav-item i { font-size: 20px; margin-bottom: 4px; }
-        .nav-item span { font-size: 10px; }
+        .nav-item i {
+            font-size: 21px;
+            color: var(--text-muted);
+            transition: 0.4s;
+        }
 
-        /* Active State (Neon Glow Only) */
-        .nav-item.active {
+        .nav-item span {
+            font-size: 10px;
+            font-weight: 500;
+            color: var(--text-muted);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: 0.4s;
+        }
+
+        /* Active State - Icon Lifts Up */
+        .nav-item.active i {
+            transform: translateY(-14px);
             color: var(--neon-white);
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+            text-shadow: 0 0 12px var(--neon-white);
+        }
+
+        .nav-item.active span {
+            opacity: 1;
+            transform: translateY(2px);
+            color: var(--neon-white);
+        }
+
+        /* Smooth Line Indicator */
+        .line-indicator {
+            position: absolute;
+            bottom: 8px;
+            width: 25px;
+            height: 3px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px white;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
     </style>
 </head>
 <body>
 
     <header class="header">
-        <img src="https://i.ibb.co/XvPdKky/IMG-20260329-012454-453.jpg" class="logo">
+        <div class="logo-box">
+            <img src="https://i.ibb.co/XvPdKky/IMG-20260329-012454-453.jpg" class="logo">
+        </div>
         <h1 class="title">Kinnara</h1>
     </header>
 
+    <main id="home" class="section active">
+        <p style="text-align: center; margin-top: 100px; color: var(--text-muted); letter-spacing: 1px;">Welcome to Kinnara Space</p>
+    </main>
+
+    <main id="buy" class="section">
+        <div class="payment-box" onclick="copyNum('09788319436', this)">
+            <div class="pay-info">
+                <img src="https://i.ibb.co/0pB9vcGt/IMG-20260329-154219.png" class="pay-logo">
+                <div class="pay-text">
+                    <span class="pay-num">09788319436</span>
+                    <span class="pay-owner">Daw Yin Kyi (KPay)</span>
+                </div>
+            </div>
+            <span class="tap-hint">[ Tap To Copy ]</span>
+        </div>
+
+        <div class="payment-box" onclick="copyNum('09788319436', this)">
+            <div class="pay-info">
+                <img src="https://i.ibb.co/JgDdff5/unnamed-4.png" class="pay-logo">
+                <div class="pay-text">
+                    <span class="pay-num">09788319436</span>
+                    <span class="pay-owner">Yin Kyi (Wave)</span>
+                </div>
+            </div>
+            <span class="tap-hint">[ Tap To Copy ]</span>
+        </div>
+
+        <div class="payment-box" onclick="copyNum('09788319436', this)">
+            <div class="pay-info">
+                <img src="https://i.ibb.co/ch1JyW8X/IMG-20260329-154150.png" class="pay-logo">
+                <div class="pay-text">
+                    <span class="pay-num">09788319436</span>
+                    <span class="pay-owner">Myat Myat Moe (AYA)</span>
+                </div>
+            </div>
+            <span class="tap-hint">[ Tap To Copy ]</span>
+        </div>
+
+        <input type="file" id="file-input" style="display: none;" accept="image/*">
+        <div class="upload-area" onclick="document.getElementById('file-input').click()">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <span>ပြေစာပို့ရန်</span>
+        </div>
+        <img id="preview-img">
+        <button class="send-btn" id="send-btn" onclick="goToBot()">ပို့ရန်</button>
+    </main>
+
+    <main id="info" class="section">
+        <a href="https://t.me/LaPa_PaBu" target="_blank" class="info-card">
+            <i class="fa-solid fa-user-gear"></i>
+            <span>Owner - @LaPa_PaBu</span>
+        </a>
+        <a href="https://t.me/KixxZGame_Store" target="_blank" class="info-card">
+            <i class="fa-solid fa-bullhorn"></i>
+            <span>Channel - @KixxZGame_Store</span>
+        </a>
+        <a href="https://t.me/KinnaraMarket_bot" target="_blank" class="info-card">
+            <i class="fa-solid fa-robot"></i>
+            <span>Official Bot - @KinnaraMarket_bot</span>
+        </a>
+    </main>
+
     <nav class="bottom-nav">
-        <div class="nav-item active" onclick="changeTab(this)">
+        <div class="line-indicator" id="indicator"></div>
+        <div class="nav-item active" onclick="switchTab('home', this)">
             <i class="fa-solid fa-house"></i>
             <span>Home</span>
         </div>
-        <div class="nav-item" onclick="changeTab(this)">
+        <div class="nav-item" onclick="switchTab('buy', this)">
             <i class="fa-solid fa-cart-shopping"></i>
             <span>ဝယ်ယူရန်</span>
         </div>
-        <div class="nav-item" onclick="changeTab(this)">
-            <i class="fa-solid fa-circle-info"></i>
+        <div class="nav-item" onclick="switchTab('info', this)">
+            <i class="fa-solid fa-info-circle"></i>
             <span>Information</span>
         </div>
     </nav>
 
     <script>
-        function changeTab(element) {
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            element.classList.add('active');
+        // Tab Switching Logic
+        const indicator = document.getElementById('indicator');
+        const sections = document.querySelectorAll('.section');
+        const items = document.querySelectorAll('.nav-item');
+
+        function moveLine(element) {
+            const rect = element.getBoundingClientRect();
+            const navRect = document.querySelector('.bottom-nav').getBoundingClientRect();
+            const left = rect.left - navRect.left + (rect.width / 2) - 12.5;
+            indicator.style.left = left + 'px';
         }
+
+        function switchTab(id, el) {
+            sections.forEach(s => s.classList.remove('active'));
+            items.forEach(i => i.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            el.classList.add('active');
+            moveLine(el);
+        }
+
+        // Copy Function
+        function copyNum(num, el) {
+            navigator.clipboard.writeText(num);
+            const hint = el.querySelector('.tap-hint');
+            hint.innerText = "Copied! ✔";
+            hint.style.color = "white";
+            setTimeout(() => { 
+                hint.innerText = "[ Tap To Copy ]"; 
+                hint.style.color = "#888890";
+            }, 2000);
+        }
+
+        // Image Preview Logic
+        document.getElementById('file-input').onchange = function(e) {
+            const file = e.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = document.getElementById('preview-img');
+                    img.src = event.target.result;
+                    img.style.display = 'block';
+                    document.querySelector('.upload-area').style.display = 'none';
+                    document.getElementById('send-btn').style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Livegram Bot Redirect
+        function goToBot() {
+            const botUser = "KinnaraMarket_bot";
+            window.open(`https://t.me/${botUser}`, '_blank');
+        }
+
+        window.onload = () => moveLine(document.querySelector('.nav-item.active'));
     </script>
 </body>
 </html>
