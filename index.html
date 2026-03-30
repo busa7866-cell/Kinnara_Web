@@ -10,10 +10,10 @@
     <style>
         :root {
             --bg-color: #050505;
-            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-bg: rgba(255, 255, 255, 0.06);
             --nav-bg: rgba(15, 15, 15, 0.85);
             --accent-white: #ffffff;
-            --muted-text: #909090;
+            --muted-text: #a0a0a0;
             --blue-ios: #007aff;
             --neon-red: #ff3131;
         }
@@ -31,13 +31,14 @@
             background-image: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.08) 0%, transparent 60%);
             color: var(--accent-white);
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
         /* --- Header --- */
         .header {
             display: flex;
             align-items: center;
-            padding: 25px;
+            padding: 20px;
             backdrop-filter: blur(15px);
             position: sticky;
             top: 0;
@@ -45,146 +46,219 @@
         }
 
         .logo {
-            width: 45px;
-            height: 45px;
+            width: 40px;
+            height: 40px;
             border-radius: 12px;
             object-fit: cover;
             border: 1px solid rgba(255,255,255,0.2);
-            margin-right: 15px;
+            margin-right: 12px;
             filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
             transform: perspective(500px) rotateY(-10deg);
         }
 
-        .title { font-size: 24px; font-weight: 600; text-shadow: 0 0 10px rgba(255,255,255,0.4); }
+        .title { font-size: 22px; font-weight: 600; text-shadow: 0 0 10px rgba(255,255,255,0.4); }
 
         /* --- Sections Layout --- */
         .content-section {
             display: none;
-            padding: 20px;
+            padding: 15px 20px;
             padding-bottom: 140px;
-            animation: fadeIn 0.4s ease-out;
         }
-        .content-section.active { display: block; }
+        .content-section.active { 
+            display: block; 
+            animation: fadeInSmooth 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; 
+        }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Optimized Animation for Smoothness */
+        @keyframes fadeInSmooth { 
+            from { opacity: 0; transform: translateY(15px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
 
-        /* --- Payments --- */
-        .pay-card {
+        .home-view { display: none; }
+        .home-view.active-view { display: block; animation: fadeInSmooth 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; }
+
+        /* --- 1. HOME TAB (Categories Grid) --- */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .cat-card {
             background: var(--card-bg);
             border-radius: 20px;
-            padding: 15px 20px;
-            margin-bottom: 15px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease, background 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            aspect-ratio: 1 / 1; /* Makes all boxes exact squares */
+            will-change: transform;
+        }
+
+        .cat-card:active { transform: scale(0.95); background: rgba(255,255,255,0.12); }
+        
+        .cat-card img {
+            width: 70px; /* Bigger Image */
+            height: 70px; /* Bigger Image */
+            border-radius: 16px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .cat-card span {
+            font-size: 13px;
+            font-weight: 500;
+            line-height: 1.3;
+            color: #ffffff;
+        }
+
+        /* Back Button & Soon UI */
+        .back-btn {
+            display: inline-flex; align-items: center; padding: 10px 15px;
+            background: rgba(255,255,255,0.1); border-radius: 12px;
+            font-size: 13px; font-weight: 500; cursor: pointer; margin-bottom: 20px;
+            transition: transform 0.2s ease;
+            will-change: transform;
+        }
+        .back-btn:active { transform: scale(0.95); }
+        .back-btn i { margin-right: 8px; }
+
+        .soon-ui { text-align: center; margin-top: 50px; }
+        .soon-ui i { font-size: 50px; color: var(--blue-ios); margin-bottom: 15px; filter: drop-shadow(0 0 15px rgba(0,122,255,0.4)); }
+        .soon-ui h2 { font-size: 22px; font-weight: 600; margin-bottom: 5px; }
+        .soon-ui p { color: var(--muted-text); font-size: 13px; }
+
+        /* --- 2. BUY TAB (Payments) --- */
+        .pay-card {
+            background: var(--card-bg);
+            border-radius: 18px;
+            padding: 12px 15px;
+            margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border: 1px solid rgba(255,255,255,0.05);
             cursor: pointer;
-            transition: 0.2s;
+            transition: transform 0.2s ease;
+            will-change: transform;
         }
-        .pay-card:active { transform: scale(0.98); background: rgba(255,255,255,0.08); }
-        .pay-logo-mini { width: 35px; height: 35px; border-radius: 8px; margin-right: 15px; object-fit: contain; }
-        .pay-num { font-weight: 600; font-size: 15px; }
-        .pay-name { font-size: 11px; color: var(--muted-text); }
+        .pay-card:active { transform: scale(0.97); background: rgba(255,255,255,0.08); }
+        .pay-logo-mini { width: 35px; height: 35px; border-radius: 8px; margin-right: 12px; object-fit: contain; }
+        
+        .pay-num { font-weight: 600; font-size: 14px; }
+        .pay-name { font-size: 13px; color: #dfdfdf; font-weight: 500; white-space: nowrap; }
         .copy-text { font-size: 10px; color: var(--muted-text); text-transform: uppercase; letter-spacing: 1px; }
 
         /* --- Neon Note (Red) --- */
         .neon-note {
             background: rgba(255, 49, 49, 0.05);
             border: 1px solid var(--neon-red);
-            padding: 18px;
+            padding: 12px 15px;
             border-radius: 15px;
-            margin: 25px 0 15px 0;
-            box-shadow: 0 0 15px rgba(255, 49, 49, 0.2);
+            margin: 20px 0 15px 0;
+            box-shadow: 0 0 10px rgba(255, 49, 49, 0.2);
         }
-        .neon-note strong {
-            color: var(--neon-red);
-            font-size: 19px;
-            text-shadow: 0 0 10px var(--neon-red);
-            display: block;
-            margin-bottom: 8px;
-        }
-        .neon-note p {
-            font-size: 13px;
-            line-height: 1.6;
-            color: #ffcccc;
-        }
+        .neon-note strong { color: var(--neon-red); font-size: 14px; text-shadow: 0 0 8px var(--neon-red); display: block; margin-bottom: 5px; }
+        .neon-note p { font-size: 11px; line-height: 1.5; color: #ffcccc; text-align: justify; }
 
-        /* --- Input Box (Description) --- */
-        .input-group { margin-bottom: 15px; }
+        /* --- Combined Upload & Description Box --- */
+        .combined-upload-box {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
         .desc-box {
             width: 100%;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 15px;
-            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 12px;
             color: white;
-            font-size: 14px;
+            font-size: 12px;
             outline: none;
             resize: none;
-            transition: 0.3s;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            margin-bottom: 12px;
+            font-family: 'Poppins', sans-serif;
         }
-        .desc-box:focus { border-color: var(--blue-ios); box-shadow: 0 0 10px rgba(0, 122, 255, 0.2); }
+        .desc-box:focus { border-color: var(--blue-ios); box-shadow: 0 0 8px rgba(0, 122, 255, 0.3); }
 
-        /* --- Upload Area --- */
         .receipt-box {
             width: 100%;
-            height: 140px;
-            border: 2px dashed rgba(255,255,255,0.15);
-            border-radius: 20px;
+            height: 90px;
+            border: 1.5px dashed rgba(255,255,255,0.2);
+            border-radius: 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            background: rgba(255,255,255,0.02);
-            transition: 0.3s;
+            background: rgba(255,255,255,0.01);
+            transition: background 0.3s;
         }
-        .receipt-box i { font-size: 30px; margin-bottom: 8px; }
-        .receipt-box span { font-size: 14px; font-weight: 500; }
+        .receipt-box:active { background: rgba(255,255,255,0.05); }
+        .receipt-box i { font-size: 24px; margin-bottom: 5px; color: var(--muted-text); }
+        .receipt-box span { font-size: 12px; font-weight: 500; color: var(--muted-text); }
 
-        #img-preview { width: 100%; border-radius: 15px; margin-top: 15px; display: none; border: 1px solid rgba(255,255,255,0.1); }
+        #img-preview { width: 100%; border-radius: 12px; margin-top: 10px; display: none; border: 1px solid rgba(255,255,255,0.1); }
 
         .send-button {
             width: 100%;
             background: var(--blue-ios);
             color: white;
             border: none;
-            padding: 18px;
-            border-radius: 20px;
-            font-size: 16px;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 15px;
             font-weight: 600;
-            margin-top: 15px;
             display: none;
             cursor: pointer;
-            box-shadow: 0 10px 25px rgba(0, 122, 255, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 122, 255, 0.3);
+            margin-top: 10px;
+            transition: transform 0.2s;
         }
+        .send-button:active { transform: scale(0.98); }
 
-        /* --- Information Tab --- */
+        /* --- 3. Info Tab --- */
         .info-item {
             display: flex;
             align-items: center;
             background: var(--card-bg);
-            padding: 20px;
-            border-radius: 18px;
-            margin-bottom: 12px;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 10px;
             text-decoration: none;
             color: white;
             border: 1px solid rgba(255,255,255,0.05);
-            transition: 0.2s;
+            transition: transform 0.2s;
+            will-change: transform;
         }
         .info-item:active { transform: scale(0.97); }
-        .info-item i { font-size: 25px; margin-right: 15px; text-shadow: 0 0 10px white; }
-        .info-item span { font-size: 16px; font-weight: 500; }
+        .info-item i { font-size: 20px; margin-right: 12px; color: var(--muted-text); width: 25px; text-align: center; }
+        .info-item span { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
         /* --- Bottom Nav --- */
         .bottom-nav {
             position: fixed;
-            bottom: 30px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             width: 90%;
             max-width: 400px;
-            height: 70px;
+            height: 65px;
             background: var(--nav-bg);
             backdrop-filter: blur(20px);
             border-radius: 35px;
@@ -193,14 +267,16 @@
             align-items: center;
             border: 1px solid rgba(255,255,255,0.08);
             z-index: 2000;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
         }
-        .nav-item { display: flex; flex-direction: column; align-items: center; width: 70px; cursor: pointer; position: relative; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .nav-item i { font-size: 21px; color: #555; transition: 0.4s; }
-        .nav-item span { font-size: 10px; color: #555; opacity: 0; transform: translateY(10px); transition: 0.4s; margin-top: 4px; }
-        .nav-item.active i { transform: translateY(-14px); color: white; text-shadow: 0 0 15px white; }
-        .nav-item.active span { opacity: 1; transform: translateY(2px); color: white; }
-        .indicator { position: absolute; bottom: 8px; width: 25px; height: 3px; background: white; border-radius: 10px; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 0 10px white; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 60px; height: 100%; cursor: pointer; position: relative; }
+        .nav-item i { font-size: 20px; color: #555; transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); will-change: transform; }
+        .nav-item span { font-size: 9px; color: #555; opacity: 0; transform: translateY(8px); transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); margin-top: 4px; position: absolute; bottom: 8px; will-change: transform, opacity; }
+        
+        .nav-item.active i { transform: translateY(-10px); color: white; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+        .nav-item.active span { opacity: 1; transform: translateY(0); color: white; }
+        
+        .indicator { position: absolute; bottom: 8px; width: 20px; height: 3px; background: white; border-radius: 10px; transition: left 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: 0 0 10px white; will-change: left; }
     </style>
 </head>
 <body>
@@ -211,7 +287,50 @@
     </header>
 
     <main id="home-tab" class="content-section active">
-        <div style="text-align: center; margin-top: 100px; color: var(--muted-text); letter-spacing: 1px;">Welcome to Kinnara Space</div>
+        
+        <div id="home-main" class="home-view active-view">
+            <div style="font-size: 14px; font-weight: 500; margin-bottom: 5px; color: white;">Our Services</div>
+            <p style="font-size: 11px; color: var(--muted-text); margin-bottom: 10px;">Select a category to view prices</p>
+            
+            <div class="grid-container">
+                <div class="cat-card" onclick="showView('home-games')">
+                    <img src="https://i.ibb.co/ZpF5cMFP/unnamed-3.png" alt="Games">
+                    <span>Games</span>
+                </div>
+                <div class="cat-card" onclick="showView('home-soon')">
+                    <img src="https://i.ibb.co/bM6wc6mS/social-media-icons-stockcake.jpg" alt="Social Media">
+                    <span>Social Media</span>
+                </div>
+                <div class="cat-card" onclick="showView('home-soon')">
+                    <img src="https://i.ibb.co/FLV73PWZ/telegram-6896827-1280-1.png" alt="Telegram">
+                    <span>Telegram Services</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="home-games" class="home-view">
+            <div class="back-btn" onclick="showView('home-main')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
+            <div class="grid-container">
+                <div class="cat-card" onclick="showView('home-soon')">
+                    <img src="https://i.ibb.co/fdJL3mhk/images-5.jpg" alt="MLBB">
+                    <span>Mobile Legends</span>
+                </div>
+                <div class="cat-card" onclick="showView('home-soon')">
+                    <img src="https://i.ibb.co/NdswyPtp/images-6.jpg" alt="PUBG">
+                    <span>PUBG Mobile</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="home-soon" class="home-view">
+            <div class="back-btn" onclick="showView('home-main')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
+            <div class="soon-ui">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <h2>Coming Soon!</h2>
+                <p>ဈေးနှုန်းဇယားများကို မကြာမီ တင်ပေးသွားပါမည်။</p>
+            </div>
+        </div>
+
     </main>
 
     <main id="buy-tab" class="content-section">
@@ -224,7 +343,7 @@
                     <div class="pay-name">Daw Yin Kyi (KPay)</div>
                 </div>
             </div>
-            <span class="copy-text">Tap To Copy</span>
+            <span class="copy-text">Copy</span>
         </div>
 
         <div class="pay-card" onclick="copyValue('09788319436', this)">
@@ -232,10 +351,10 @@
                 <img src="https://i.ibb.co/JgDdff5/unnamed-4.png" class="pay-logo-mini">
                 <div>
                     <div class="pay-num">09788319436</div>
-                    <div class="pay-name">Yin Kyi (Wave)</div>
+                    <div class="pay-name">Yin Kyi (WavePay)</div>
                 </div>
             </div>
-            <span class="copy-text">Tap To Copy</span>
+            <span class="copy-text">Copy</span>
         </div>
 
         <div class="pay-card" onclick="copyValue('09788319436', this)">
@@ -246,67 +365,60 @@
                     <div class="pay-name">Myat Myat Moe (AYA)</div>
                 </div>
             </div>
-            <span class="copy-text">Tap To Copy</span>
+            <span class="copy-text">Copy</span>
         </div>
 
         <div class="neon-note">
             <strong>Note:</strong>
-            <p>ပြေစာပေးပို့ရာတွင် ကိုယ်ဝယ်တဲ့ Games ဒါမှမဟုတ် Social Media တစ်ခုခုရဲ့အချက်အလက်များနဲ့တကွထည့်ပေးပါရန်!<br><br>
-               ဥပမာ - Mlbb Dia ဝယ်ယူရာတွင် ကိုယ့် In Game ID | Sever ID နဲ့တကွ ပေးပို့ပေးပါရန် !<br><br>
-               ငွေလွဲရာတွင် Shopping Or Shop ရေးပေးပါရန် မသက်ဆိုင်သော Diamond / Uc တစ်ခြားအရာများရေးပါက ထည့်ပေးမည်မဟုတ်</p>
+            <p>ပြေစာပေးပို့ရာတွင် ဝယ်ယူမည့် Games သို့မဟုတ် Social Media ၏ အချက်အလက်များ (ID/Name) တွဲ၍ပို့ပေးပါ။<br><br>
+               ဥပမာ - MLBB Dia ဝယ်ယူရာတွင် In Game ID | Sever ID ထည့်ပေးပါ။<br><br>
+               ငွေလွှဲရာတွင် မှတ်ချက်၌ "Shopping" သို့မဟုတ် "Shop" ဟုသာ ရေးပေးပါ။ မသက်ဆိုင်သောစာများရေးပါက လက်ခံမည်မဟုတ်ပါ။</p>
         </div>
 
-        <div class="input-group">
-            <textarea id="user-info" class="desc-box" rows="3" placeholder="ဝယ်ယူမည့် Game ID / Server ID / Account Name များကို ဤနေရာတွင် ရေးပေးပါ..."></textarea>
-        </div>
-
-        <div class="upload-wrapper">
+        <div class="combined-upload-box">
+            <textarea id="user-info" class="desc-box" rows="2" placeholder="Game ID | User name | Link များကို ဤနေရာတွင် ရေးပေးပါ..."></textarea>
+            
             <input type="file" id="receipt-upload" style="display: none;" accept="image/*">
             <div class="receipt-box" id="upload-box" onclick="document.getElementById('receipt-upload').click()">
-                <i class="fa-solid fa-camera-retro"></i>
-                <span>ပြေစာပေးပို့ရန်</span>
+                <i class="fa-solid fa-image"></i>
+                <span>ပြေစာပုံရွေးချယ်ရန်</span>
             </div>
             <img id="img-preview" alt="Preview">
-            <button class="send-button" id="send-btn" onclick="sendToTelegram()">ပို့ရန်</button>
+            
+            <button class="send-button" id="send-btn" onclick="sendToTelegram()">ယခုပို့မည်</button>
         </div>
     </main>
 
     <main id="info-tab" class="content-section">
         <a href="https://t.me/LaPa_PaBu" target="_blank" class="info-item">
-            <i class="fa-solid fa-user-circle"></i>
-            <span>Owner - @LaPa_PaBu</span>
+            <i class="fa-solid fa-user-tie"></i>
+            <span>Owner : @LaPa_PaBu</span>
         </a>
         <a href="https://t.me/KixxZGame_Store" target="_blank" class="info-item">
-            <i class="fa-solid fa-shop"></i>
-            <span>Channel - @KixxZGame_Store</span>
+            <i class="fa-solid fa-bullhorn"></i>
+            <span>Channel : @KixxZGame_Store</span>
         </a>
         <a href="https://t.me/KinnaraMarket_bot" target="_blank" class="info-item">
             <i class="fa-solid fa-robot"></i>
-            <span>Official Bot - @KinnaraMarket_bot</span>
+            <span>Bot : @KinnaraMarket_bot</span>
         </a>
     </main>
 
     <nav class="bottom-nav">
         <div class="indicator" id="indicator"></div>
-        
         <div class="nav-item active" onclick="switchTab('home-tab', this)">
-            <i class="fa-solid fa-house"></i>
-            <span>Home</span>
+            <i class="fa-solid fa-layer-group"></i><span>Home</span>
         </div>
-        
         <div class="nav-item" onclick="switchTab('buy-tab', this)">
-            <i class="fa-solid fa-cart-shopping"></i>
-            <span>ဝယ်ယူရန်</span>
+            <i class="fa-solid fa-cart-shopping"></i><span>ဝယ်ယူရန်</span>
         </div>
-        
         <div class="nav-item" onclick="switchTab('info-tab', this)">
-            <i class="fa-solid fa-info-circle"></i>
-            <span>Info</span>
+            <i class="fa-solid fa-circle-info"></i><span>Info</span>
         </div>
     </nav>
 
     <script>
-        // --- Tab Switching Logic ---
+        // --- Tab Switching Logic (Optimized) ---
         const indicator = document.getElementById('indicator');
         const sections = document.querySelectorAll('.content-section');
         const navItems = document.querySelectorAll('.nav-item');
@@ -314,8 +426,7 @@
         function updateIndicator(el) {
             const rect = el.getBoundingClientRect();
             const navRect = document.querySelector('.bottom-nav').getBoundingClientRect();
-            const left = rect.left - navRect.left + (rect.width / 2) - 12.5;
-            indicator.style.left = left + 'px';
+            indicator.style.left = (rect.left - navRect.left + (rect.width / 2) - 10) + 'px';
         }
 
         function switchTab(tabId, el) {
@@ -325,18 +436,29 @@
             document.getElementById(tabId).classList.add('active');
             el.classList.add('active');
             updateIndicator(el);
+            
+            // Reset Home view to Main when switching tabs
+            if(tabId === 'home-tab') {
+                showView('home-main');
+            }
+        }
+
+        // --- Home View Switching (Lag Free) ---
+        function showView(viewId) {
+            document.querySelectorAll('.home-view').forEach(v => {
+                v.classList.remove('active-view');
+            });
+            const activeView = document.getElementById(viewId);
+            activeView.classList.add('active-view');
         }
 
         // --- Copy to Clipboard ---
         function copyValue(val, el) {
             navigator.clipboard.writeText(val);
             const hint = el.querySelector('.copy-text');
-            hint.innerText = "Copied! ✔";
+            hint.innerText = "Copied!";
             hint.style.color = "white";
-            setTimeout(() => { 
-                hint.innerText = "Tap To Copy"; 
-                hint.style.color = "#909090";
-            }, 2000);
+            setTimeout(() => { hint.innerText = "Copy"; hint.style.color = "#a0a0a0"; }, 2000);
         }
 
         // --- Image Preview ---
@@ -359,15 +481,21 @@
             }
         }
 
-        // --- BACKGROUND SENDING TO TELEGRAM BOT ---
+        // --- SENDING TO TELEGRAM BOT ---
         async function sendToTelegram() {
             const BOT_TOKEN = '8666396262:AAE9E39Td3mLkQTD7EvbDPGPrynAiFJIfsY'; 
             const CHAT_ID = '2006437268'; 
             
-            const userDescription = document.getElementById('user-info').value;
+            const userDescription = document.getElementById('user-info').value.trim();
+
+            if (!userDescription) {
+                alert("ဝယ်ယူသည့် Game/Social Media တစ်ခုခု၏ ID | User name | Link စသည့်တို့ထည့်ရေးပေးပါ");
+                document.getElementById('user-info').focus();
+                return;
+            }
 
             if (!fileInput.files[0]) {
-                alert("ကျေးဇူးပြု၍ ပြေစာပုံအရင်ရွေးပါ");
+                alert("ကျေးဇူးပြု၍ ငွေလွှဲပြေစာပုံ အရင်ရွေးချယ်ပါ");
                 return;
             }
 
@@ -377,7 +505,7 @@
             const formData = new FormData();
             formData.append('chat_id', CHAT_ID);
             formData.append('photo', fileInput.files[0]);
-            formData.append('caption', `ပြေစာအသစ် ရောက်ရှိပါသည်\n\n အချက်အလက်များ:\n${userDescription}`);
+            formData.append('caption', `🧾 ပြေစာအသစ်\n\n📝 အချက်အလက်များ:\n${userDescription}`);
 
             try {
                 const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
@@ -386,31 +514,32 @@
                 });
 
                 if (response.ok) {
-                    sendBtn.innerHTML = '<i class="fa-solid fa-check"></i> ပို့ပြီးပါပြီ';
+                    sendBtn.innerHTML = '<i class="fa-solid fa-check"></i> အောင်မြင်ပါသည်';
                     sendBtn.style.background = '#28a745';
                     
                     setTimeout(() => {
                         preview.style.display = 'none';
                         uploadBox.style.display = 'flex';
                         sendBtn.style.display = 'none';
-                        sendBtn.innerHTML = 'ပို့ရန်';
-                        sendBtn.style.background = '#007aff';
+                        sendBtn.innerHTML = 'ယခုပို့မည်';
+                        sendBtn.style.background = 'var(--blue-ios)';
                         sendBtn.disabled = false;
                         fileInput.value = '';
                         document.getElementById('user-info').value = '';
                     }, 3000);
                 } else {
-                    alert("Error: ပို့လို့မရပါ။ Chat ID/Token ကိုစစ်ဆေးပါ။");
+                    alert("Error: ပို့လို့မရပါ။ Connection စစ်ဆေးပါ။");
                     sendBtn.disabled = false;
-                    sendBtn.innerHTML = 'ပို့ရန်';
+                    sendBtn.innerHTML = 'ယခုပို့မည်';
                 }
             } catch (err) {
                 alert("အင်တာနက်ချိတ်ဆက်မှု မရှိပါ");
                 sendBtn.disabled = false;
-                sendBtn.innerHTML = 'ပို့ရန်';
+                sendBtn.innerHTML = 'ယခုပို့မည်';
             }
         }
 
+        // Initialize Nav Indicator
         window.onload = () => updateIndicator(document.querySelector('.nav-item.active'));
     </script>
 </body>
