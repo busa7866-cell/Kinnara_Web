@@ -3,20 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KixxZ Game Store - Premium</title>
+    <title>KINNARA MARKET</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
             --bg-color: #050505;
-            --card-bg: rgba(255, 255, 255, 0.06);
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-hover: rgba(255, 255, 255, 0.1);
             --nav-bg: rgba(15, 15, 15, 0.85);
             --accent-white: #ffffff;
             --muted-text: #a0a0a0;
             --blue-ios: #007aff;
             --neon-red: #ff3131;
+            --neon-white: rgba(255, 255, 255, 0.8);
         }
 
         * {
@@ -29,34 +31,33 @@
 
         body {
             background-color: var(--bg-color);
-            background-image: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.08) 0%, transparent 60%);
+            background-image: radial-gradient(circle at 50% -20%, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
             color: var(--accent-white);
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* --- Global Water Ripple & iPhone Smooth Effect --- */
+        /* --- Global Water Ripple & Premium Spring Effect --- */
         .ripple-target {
             position: relative;
             overflow: hidden;
             cursor: pointer;
-            transition: transform 0.15s cubic-bezier(0.25, 1, 0.5, 1), background 0.2s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             will-change: transform;
         }
         .ripple-target:active {
-            transform: scale(0.95);
-            background: rgba(255,255,255,0.1);
+            transform: scale(0.92);
+            background: var(--card-hover);
         }
-        .ripple-effect {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.25);
-            transform: scale(0);
-            animation: ripple-anim 0.6s ease-out;
-            pointer-events: none;
-        }
-        @keyframes ripple-anim {
-            to { transform: scale(4); opacity: 0; }
+        
+        /* --- Premium UI - White Neon & Black Stroke --- */
+        .white-neon-title {
+            color: #ffffff;
+            -webkit-text-stroke: 0.8px #000000;
+            text-shadow: 0 0 5px var(--neon-white), 0 0 10px var(--neon-white), 0 0 15px rgba(255,255,255,0.5);
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
         }
 
         /* --- Header --- */
@@ -68,151 +69,141 @@
             position: sticky;
             top: 0;
             z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
         .logo {
-            width: 40px; height: 40px; border-radius: 12px; object-fit: cover;
-            border: 1px solid rgba(255,255,255,0.2); margin-right: 12px;
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
-            transform: perspective(500px) rotateY(-10deg);
+            width: 45px; height: 45px; border-radius: 12px; object-fit: cover;
+            border: 1px solid rgba(255,255,255,0.3); margin-right: 15px;
+            box-shadow: 0 0 15px rgba(255,255,255,0.2);
         }
-        .title { font-size: 22px; font-weight: 600; text-shadow: 0 0 10px rgba(255,255,255,0.4); }
 
-        /* --- Sections Layout --- */
+        /* --- Sections Layout & Animations --- */
         .content-section { display: none; padding: 15px 20px; padding-bottom: 140px; }
-        .content-section.active { display: block; animation: fadeInSmooth 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; }
-        @keyframes fadeInSmooth { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-
+        .content-section.active { display: block; animation: fadeSlideUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        
         .home-view { display: none; }
-        .home-view.active-view { display: block; animation: fadeInSmooth 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; }
+        .home-view.active-view { display: block; animation: fadeSlideUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
 
-        /* --- 1. HOME TAB (Categories Grid) --- */
+        @keyframes fadeSlideUp { 
+            0% { opacity: 0; transform: translateY(30px) scale(0.98); } 
+            100% { opacity: 1; transform: translateY(0) scale(1); } 
+        }
+
+        /* --- Grids --- */
         .grid-container {
             display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 15px;
         }
+        .grid-3-col {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px;
+        }
+        
         .cat-card {
-            background: var(--card-bg); border-radius: 20px; padding: 15px; text-align: center;
-            border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+            border-radius: 20px; padding: 15px; text-align: center;
+            border: 1px solid rgba(255,255,255,0.1); 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
             display: flex; flex-direction: column; align-items: center; justify-content: center; aspect-ratio: 1/1;
         }
         .cat-card img {
-            width: 70px; height: 70px; border-radius: 16px; object-fit: cover; margin-bottom: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05);
+            width: 70px; height: 70px; border-radius: 18px; object-fit: cover; margin-bottom: 12px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1);
         }
-        .cat-card span { font-size: 13px; font-weight: 500; line-height: 1.3; color: #ffffff; }
+        .grid-3-col .cat-card { padding: 10px; border-radius: 16px; }
+        .grid-3-col .cat-card img { width: 50px; height: 50px; border-radius: 14px; margin-bottom: 8px; }
+        .cat-card span { font-size: 13px; font-weight: 600; line-height: 1.3; color: #ffffff; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
+        .grid-3-col .cat-card span { font-size: 11px; }
 
         /* Clean Back Button */
         .back-btn {
-            display: inline-flex; align-items: center; padding: 10px 15px;
-            background: rgba(0, 122, 255, 0.15); color: #66b2ff; border-radius: 12px;
-            font-size: 13px; font-weight: 600; margin-bottom: 20px; border: 1px solid rgba(0, 122, 255, 0.3);
+            display: inline-flex; align-items: center; padding: 10px 18px;
+            background: rgba(255, 255, 255, 0.08); color: #fff; border-radius: 14px;
+            font-size: 14px; font-weight: 600; margin-bottom: 20px; border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
         }
-        .back-btn i { margin-right: 8px; }
+        .back-btn i { margin-right: 8px; color: var(--blue-ios); }
 
-        .soon-ui { text-align: center; margin-top: 50px; }
-        .soon-ui i { font-size: 50px; color: var(--blue-ios); margin-bottom: 15px; filter: drop-shadow(0 0 15px rgba(0,122,255,0.4)); }
-        .soon-ui h2 { font-size: 22px; font-weight: 600; margin-bottom: 5px; }
-        .soon-ui p { color: var(--muted-text); font-size: 13px; }
-
-        /* --- PRICE LIST STYLES (MLBB & PUBG) --- */
+        /* --- PRICE LIST STYLES --- */
         .midnight-black-title {
-            background: linear-gradient(145deg, #151515, #050505); color: #fff;
-            text-align: center; padding: 14px; border-radius: 14px;
-            font-size: 15px; font-weight: 600; margin-bottom: 12px;
-            border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+            background: linear-gradient(145deg, #1a1a1a, #0a0a0a); color: #fff;
+            text-align: center; padding: 16px; border-radius: 16px;
+            font-size: 16px; font-weight: 700; margin-bottom: 15px;
+            border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+            letter-spacing: 0.5px;
         }
         
-        .danger-note-inline {
-            background: rgba(255, 49, 49, 0.1); color: var(--neon-red);
-            border: 1px solid rgba(255,49,49,0.3); padding: 10px; border-radius: 10px;
-            font-size: 11px; font-weight: 500; margin-bottom: 15px;
-            display: flex; align-items: center; gap: 8px;
-            white-space: nowrap; overflow-x: auto; /* Keeps it on 1 line strictly */
+        .danger-note-block {
+            background: linear-gradient(90deg, rgba(255,49,49,0.15), rgba(255,49,49,0.05)); 
+            color: #ff6b6b;
+            border-left: 4px solid var(--neon-red); padding: 14px; border-radius: 12px;
+            font-size: 13px; font-weight: 500; margin-bottom: 20px; line-height: 1.6;
+            display: flex; gap: 10px; align-items: flex-start;
+            box-shadow: 0 4px 15px rgba(255,49,49,0.1);
         }
-        .danger-note-inline::-webkit-scrollbar { display: none; }
-        .danger-note-inline i { font-size: 14px; }
+        .danger-note-block i { font-size: 18px; margin-top: 2px; }
 
-        .price-list-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .price-list-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
         .full-width-card { grid-column: span 2; }
         
         .price-card {
-            background: var(--card-bg); border-radius: 14px; padding: 12px;
-            display: flex; align-items: center; border: 1px solid rgba(255,255,255,0.06);
+            background: var(--card-bg); border-radius: 16px; padding: 14px;
+            display: flex; align-items: center; border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
-        .price-card img { width: 28px; height: 28px; object-fit: contain; margin-right: 12px; }
+        .price-card img { width: 38px; height: 38px; object-fit: contain; margin-right: 14px; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
         .price-card .p-info { display: flex; flex-direction: column; }
-        .price-card .p-amt { font-size: 13px; font-weight: 600; color: #fff; }
-        .price-card .p-cost { font-size: 12px; color: var(--blue-ios); font-weight: 500; margin-top: 2px; }
+        .price-card .p-amt { font-size: 15px; font-weight: 600; color: #fff; letter-spacing: 0.3px; }
+        .price-card .p-cost { font-size: 14px; color: var(--blue-ios); font-weight: 600; margin-top: 3px; }
         
         .bot-link-btn {
-            background: rgba(255,255,255,0.08); color: white; text-align: center;
-            padding: 15px; border-radius: 14px; font-size: 13px; font-weight: 500;
-            margin-top: 15px; border: 1px solid rgba(255,255,255,0.15); display: block; text-decoration: none;
+            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03)); 
+            color: white; text-align: center;
+            padding: 16px; border-radius: 16px; font-size: 14px; font-weight: 600;
+            margin-top: 20px; border: 1px solid rgba(255,255,255,0.2); display: block; text-decoration: none;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
         }
-        .bot-link-btn span { color: var(--blue-ios); font-weight: 600; }
+        .bot-link-btn span { color: var(--blue-ios); font-weight: 700; }
+
+        /* --- Animated Emojis --- */
+        .emoji-icon {
+            font-size: 32px; margin-right: 12px; display: inline-block;
+            animation: gentleBounce 3s infinite ease-in-out;
+        }
+        @keyframes gentleBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* --- Specific Notes --- */
+        .red-bottom-note {
+            color: #ff4d4d; text-align: center; font-size: 12px; font-weight: 600;
+            margin-top: 20px; line-height: 1.6; padding: 10px;
+            background: rgba(255,49,49,0.08); border-radius: 10px; border: 1px dashed rgba(255,49,49,0.3);
+        }
+        
+        .flag-icon { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; margin-right: 14px; border: 2px solid rgba(255,255,255,0.2); }
 
         /* --- 2. BUY TAB (Payments) --- */
         .pay-card {
-            background: var(--card-bg); border-radius: 16px; padding: 12px 15px; margin-bottom: 12px;
-            display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255,255,255,0.05);
+            background: var(--card-bg); border-radius: 16px; padding: 15px; margin-bottom: 15px;
+            display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255,255,255,0.1);
         }
-        .pay-logo-mini { width: 35px; height: 35px; border-radius: 8px; margin-right: 12px; object-fit: contain; }
-        .pay-num { font-weight: 600; font-size: 14px; }
-        .pay-name { font-size: 12px; color: #dfdfdf; font-weight: 500; white-space: nowrap; }
-        .copy-text { font-size: 10px; color: var(--muted-text); text-transform: uppercase; letter-spacing: 1px; }
+        .pay-logo-mini { width: 40px; height: 40px; border-radius: 10px; margin-right: 15px; object-fit: contain; }
+        .pay-num { font-weight: 700; font-size: 16px; letter-spacing: 0.5px; }
+        .pay-name { font-size: 13px; color: #dfdfdf; font-weight: 500; margin-top: 2px; }
+        .copy-text { font-size: 11px; color: var(--blue-ios); font-weight: 600; text-transform: uppercase; background: rgba(0,122,255,0.1); padding: 6px 12px; border-radius: 8px; }
 
-        .neon-note {
-            background: rgba(255, 49, 49, 0.05); border: 1px solid var(--neon-red);
-            padding: 12px 15px; border-radius: 14px; margin: 15px 0; box-shadow: 0 0 10px rgba(255, 49, 49, 0.15);
-        }
-        .neon-note p { font-size: 10px; line-height: 1.6; color: #ffcccc; margin-bottom: 2px; }
-        .neon-note .alert-line { color: var(--neon-red); font-size: 11px; font-weight: 600; margin-top: 5px; display: block; text-shadow: 0 0 5px rgba(255,49,49,0.3); }
-
-        .combined-upload-box {
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 18px; padding: 15px; margin-bottom: 15px;
-        }
-        
-        .receipt-box {
-            width: 100%; height: 80px; border: 1.5px dashed rgba(255,255,255,0.2);
-            border-radius: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            background: rgba(255,255,255,0.02); margin-bottom: 12px;
-        }
-        .receipt-box i { font-size: 22px; margin-bottom: 5px; color: var(--blue-ios); }
-        .receipt-box span { font-size: 12px; font-weight: 500; color: white; }
-        #img-preview { width: 100%; border-radius: 12px; margin-bottom: 12px; display: none; border: 1px solid rgba(255,255,255,0.1); }
-
-        .desc-box {
-            width: 100%; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 12px; padding: 12px; color: white; font-size: 12px; outline: none; resize: none;
-            transition: border-color 0.3s; font-family: 'Poppins', sans-serif;
-        }
-        .desc-box:focus { border-color: var(--blue-ios); }
-
-        .send-button {
-            width: 100%; background: var(--blue-ios); color: white; border: none; padding: 14px;
-            border-radius: 14px; font-size: 14px; font-weight: 600; display: none; margin-top: 12px;
-            box-shadow: 0 5px 15px rgba(0, 122, 255, 0.3);
-        }
-
-        /* --- 3. Info Tab --- */
-        .info-item {
-            display: flex; align-items: center; background: var(--card-bg); padding: 15px; border-radius: 15px;
-            margin-bottom: 10px; text-decoration: none; color: white; border: 1px solid rgba(255,255,255,0.05);
-        }
-        .info-item i { font-size: 20px; margin-right: 12px; color: var(--blue-ios); width: 25px; text-align: center; }
-        .info-item span { font-size: 13px; font-weight: 500; }
-
-        /* --- Bottom Nav (No Line, Smooth Style) --- */
+        /* --- Bottom Nav --- */
         .bottom-nav {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px;
-            height: 65px; background: var(--nav-bg); backdrop-filter: blur(20px); border-radius: 35px;
-            display: flex; justify-content: space-around; align-items: center; border: 1px solid rgba(255,255,255,0.08); z-index: 2000;
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 420px;
+            height: 70px; background: rgba(10, 10, 10, 0.9); backdrop-filter: blur(25px); border-radius: 24px;
+            display: flex; justify-content: space-around; align-items: center; border: 1px solid rgba(255,255,255,0.1); z-index: 2000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
-        .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 60px; height: 100%; cursor: pointer; position: relative; }
-        .nav-item i { font-size: 22px; color: #666; transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
-        .nav-item span { font-size: 9px; color: #666; opacity: 0; transform: translateY(8px); transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); margin-top: 4px; position: absolute; bottom: 8px; font-weight: 500;}
+        .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 65px; height: 100%; cursor: pointer; position: relative; }
+        .nav-item i { font-size: 24px; color: #777; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .nav-item span { font-size: 10px; color: #777; opacity: 0; transform: translateY(10px); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: absolute; bottom: 10px; font-weight: 600;}
         
-        .nav-item.active i { transform: translateY(-10px); color: var(--blue-ios); text-shadow: 0 0 15px rgba(0,122,255,0.4); }
+        .nav-item.active i { transform: translateY(-12px); color: var(--blue-ios); text-shadow: 0 0 20px rgba(0,122,255,0.6); }
         .nav-item.active span { opacity: 1; transform: translateY(0); color: white; }
     </style>
 </head>
@@ -220,27 +211,27 @@
 
     <header class="header">
         <img src="https://i.ibb.co/XvPdKky/IMG-20260329-012454-453.jpg" class="logo">
-        <h1 class="title">KixxZ Game Store</h1>
+        <h1 class="title white-neon-title">KINNARA MARKET</h1>
     </header>
 
     <main id="home-tab" class="content-section active">
         
         <div id="home-main" class="home-view active-view">
-            <div style="font-size: 14px; font-weight: 500; margin-bottom: 5px; color: white;">Our Services</div>
-            <p style="font-size: 11px; color: var(--muted-text); margin-bottom: 10px;">Select a category to view prices</p>
+            <div style="font-size: 14px; font-weight: 500; margin-bottom: 5px; color: white;">Welcome To Kinnara Market</div>
+            <p style="font-size: 12px; color: var(--muted-text); margin-bottom: 15px;">စျေးနှုန်းများကို အောက်ပါအကွက်များတွင်နှိပ်၍ ကြည့်ရှုနိုင်ပါသည်။</p>
             
             <div class="grid-container">
                 <div class="cat-card ripple-target" onclick="showView('home-games')">
                     <img src="https://i.ibb.co/ZpF5cMFP/unnamed-3.png" alt="Games">
                     <span>Games</span>
                 </div>
+                <div class="cat-card ripple-target" onclick="showView('tg-main')">
+                    <img src="https://i.ibb.co/0R5TS4bC/telegram-6896827-1280-1.png" alt="Telegram Services">
+                    <span>Telegram Services</span>
+                </div>
                 <div class="cat-card ripple-target" onclick="showView('home-soon')">
                     <img src="https://i.ibb.co/bM6wc6mS/social-media-icons-stockcake.jpg" alt="Social Media">
                     <span>Social Media</span>
-                </div>
-                <div class="cat-card ripple-target" onclick="showView('home-soon')">
-                    <img src="https://i.ibb.co/FLV73PWZ/telegram-6896827-1280-1.png" alt="Telegram">
-                    <span>Telegram Services</span>
                 </div>
             </div>
         </div>
@@ -261,14 +252,13 @@
 
         <div id="mlbb-prices" class="home-view">
             <div class="back-btn ripple-target" onclick="showView('home-games')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
-            
             <div class="midnight-black-title">Mobile Legends Diamonds Price</div>
-            <div class="danger-note-inline">
-                <i class="fa-solid fa-triangle-exclamation"></i> Note: MLBB Diamond ဝယ်ယူသည့်အခါ မိမိ In Game ID | Sever ID ကို Description တွင် ရေးပြီးပို့ပေးရန်!
+            <div class="danger-note-block">
+                <i class="fa-solid fa-triangle-exclamation"></i> 
+                <span>Note: MLBB Diamond ဝယ်ယူသည့်အခါ မိမိ In Game ID | Sever ID ကို Description တွင် ရေးပြီးပို့ပေးရန်!</span>
             </div>
-
             <div class="price-list-container">
-                <div class="price-card full-width-card ripple-target">
+                <div class="price-card full-width-card ripple-target" onclick="goToPayment()">
                     <img src="https://i.ibb.co/rnJZC3H/file-000000002d4471faaf3a21cca0e5c27d.png" alt="WP">
                     <div class="p-info">
                         <span class="p-amt">Weekly Pass</span>
@@ -285,7 +275,7 @@
                     ];
                     mlbbPrices.forEach(item => {
                         document.write(`
-                            <div class="price-card ripple-target">
+                            <div class="price-card ripple-target" onclick="goToPayment()">
                                 <img src="https://i.ibb.co/PsgwwtMg/file-00000000d23471fabfdffe8f6a1ae135.png" alt="Dia">
                                 <div class="p-info">
                                     <span class="p-amt">Dia ${item.d}</span>
@@ -296,20 +286,18 @@
                     });
                 </script>
             </div>
-            
             <a href="https://t.me/KinnaraMarket_bot" target="_blank" class="bot-link-btn ripple-target">
-                Other Amount - Bot ကိုမေးရန် <span>[ နှိပ်ပါ ]</span>
+                Other Amount Bot ကိုမေးရန် <span>[ နှိပ်ပါ ]</span>
             </a>
         </div>
 
         <div id="pubg-prices" class="home-view">
             <div class="back-btn ripple-target" onclick="showView('home-games')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
-            
             <div class="midnight-black-title">PUBG Mobile UC Price</div>
-            <div class="danger-note-inline">
-                <i class="fa-solid fa-triangle-exclamation"></i> Note: PUBG UC ဝယ်ယူသည်အခါ မိမိ In Game ID ကို Description တွင်ရေးပြီးပို့ပေးရန်!
+            <div class="danger-note-block">
+                <i class="fa-solid fa-triangle-exclamation"></i> 
+                <span>Note: PUBG UC ဝယ်ယူသည်အခါ မိမိ In Game ID ကို Description တွင်ရေးပြီးပို့ပေးရန်!</span>
             </div>
-
             <div class="price-list-container">
                 <script>
                     const pubgPrices = [
@@ -319,7 +307,7 @@
                     ];
                     pubgPrices.forEach(item => {
                         document.write(`
-                            <div class="price-card ripple-target">
+                            <div class="price-card ripple-target" onclick="goToPayment()">
                                 <img src="https://i.ibb.co/G3Np0HmP/file-0000000036d871faad98d3f3c563bcf1.png" alt="UC">
                                 <div class="p-info">
                                     <span class="p-amt">Uc ${item.u}</span>
@@ -330,25 +318,237 @@
                     });
                 </script>
             </div>
-
             <a href="https://t.me/KinnaraMarket_bot" target="_blank" class="bot-link-btn ripple-target">
-                Other Amount & Game Pass - Bot ကိုမေးရန် <span>[ နှိပ်ပါ ]</span>
+                Other Amount & Game Pass Bot ကိုမေးရန် <span>[ နှိပ်ပါ ]</span>
             </a>
+        </div>
+
+        <div id="tg-main" class="home-view">
+            <div class="back-btn ripple-target" onclick="showView('home-main')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
+            <div class="grid-3-col">
+                <div class="cat-card ripple-target" onclick="showView('tg-star-ton')">
+                    <img src="https://i.ibb.co/tP8dmVY9/1775062086458.png" alt="Star & Ton">
+                    <span>Telegram<br>Star & Ton</span>
+                </div>
+                <div class="cat-card ripple-target" onclick="showView('tg-gift')">
+                    <img src="https://i.ibb.co/k2D3q6Ny/avatar-b9jf0o0zao.jpg" alt="Gift">
+                    <span>Telegram<br>Gift</span>
+                </div>
+                <div class="cat-card ripple-target" onclick="showView('tg-services')">
+                    <img src="https://i.ibb.co/Q3Qgwsmx/Picsart-26-04-02-00-18-50-445.jpg" alt="Services">
+                    <span>Services</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="tg-star-ton" class="home-view">
+            <div class="back-btn ripple-target" onclick="showView('tg-main')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
+            <div class="midnight-black-title">Telegram Star & Ton</div>
+            <div class="danger-note-block">
+                <i class="fa-solid fa-circle-info"></i> 
+                <span>Note: Telegram Star & Ton ဝယ်ယူသည်အခါ ကိုယ့် Telegram User Name Or Ton Keeper Address ကို Copy ပြီးထည့်ပေးပါ</span>
+            </div>
+            <div class="price-list-container">
+                <div class="price-card full-width-card ripple-target" onclick="goToPayment()">
+                    <img src="https://i.ibb.co/4n360BQx/Picsart-26-04-01-23-12-29-752.png" alt="Ton">
+                    <div class="p-info"><span class="p-amt">1 Ton</span><span class="p-cost">5,800 Ks</span></div>
+                </div>
+                <div class="price-card full-width-card ripple-target" onclick="goToPayment()">
+                    <img src="https://i.ibb.co/4n360BQx/Picsart-26-04-01-23-12-29-752.png" alt="Ton">
+                    <div class="p-info"><span class="p-amt">0.1 Ton</span><span class="p-cost">580 Ks</span></div>
+                </div>
+                <script>
+                    const starPrices = [
+                        {s: "50", p: "3,600"}, {s: "75", p: "5,300"}, {s: "100", p: "6,900"},
+                        {s: "150", p: "10,300"}, {s: "175", p: "12,000"}, {s: "200", p: "13,800"},
+                        {s: "250", p: "17,100"}, {s: "300", p: "20,500"}, {s: "500", p: "34,200"},
+                        {s: "1,000", p: "68,200"}
+                    ];
+                    starPrices.forEach(item => {
+                        document.write(`
+                            <div class="price-card ripple-target" onclick="goToPayment()">
+                                <img src="https://i.ibb.co/x88dpFHY/Picsart-26-04-01-23-18-30-377.png" alt="Star">
+                                <div class="p-info"><span class="p-amt">Star ${item.s}</span><span class="p-cost">${item.p} Ks</span></div>
+                            </div>
+                        `);
+                    });
+                </script>
+            </div>
+        </div>
+
+        <div id="tg-gift" class="home-view">
+            <div class="back-btn ripple-target" onclick="showView('tg-main')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
+            <div class="midnight-black-title">Telegram Gift Price</div>
+            <div class="danger-note-block">
+                <i class="fa-solid fa-circle-info"></i> 
+                <span>Note: Telegram Gift ကို ဝယ်ယူသည့်အခါ ကိုယ့် Telegram User Name ကို Copy ပြီးထည့်ပေးပါ</span>
+            </div>
+            <div class="price-list-container">
+                <script>
+                    const giftPrices = [
+                        {e: "🧸", n: "ဝက်ဝံရုပ်", p: "1,200"}, {e: "💝", n: "အသည်း", p: "1,200"},
+                        {e: "🎁", n: "Lucky Box", p: "2,400"}, {e: "🌹", n: "နှင်းဆီပန်း", p: "2,400"},
+                        {e: "🎂", n: "Cake", p: "3,700"}, {e: "💐", n: "ပန်း", p: "3,700"},
+                        {e: "🍾", n: "ပုလင်း", p: "3,700"}, {e: "🚀", n: "Rocket", p: "3,700"},
+                        {e: "🏆", n: "ရွှေဖုလား", p: "7,000"}, {e: "💎", n: "Diamond", p: "7,000"},
+                        {e: "💍", n: "စိန်လက်စွတ်", p: "7,000"}
+                    ];
+                    giftPrices.forEach(item => {
+                        document.write(`
+                            <div class="price-card ripple-target" onclick="goToPayment()">
+                                <span class="emoji-icon">${item.e}</span>
+                                <div class="p-info"><span class="p-amt">${item.n}</span><span class="p-cost">${item.p} Ks</span></div>
+                            </div>
+                        `);
+                    });
+                </script>
+            </div>
+        </div>
+
+        <div id="tg-services" class="home-view">
+            <div class="back-btn ripple-target" onclick="showView('tg-main')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
+            <div class="midnight-black-title">Telegram Services</div>
+            <div class="danger-note-block">
+                <i class="fa-solid fa-bolt"></i> 
+                <span>Note: ကိုယ့် Boost ချင်သည့် Services ပြုလုပ်သည့်အခါ သက်ဆိုင်ရာ အချက်လက်များဖြည့်သွင်းပေးပါ</span>
+            </div>
+            <div class="grid-container">
+                <div class="cat-card ripple-target" onclick="showView('tg-all-services')">
+                    <img src="https://i.ibb.co/21FHpC1X/37b4e0d2e4f368a89dc60edc5af11de4.jpg" alt="All Services">
+                    <span>All Of Telegram<br>Services</span>
+                </div>
+                <div class="cat-card ripple-target" onclick="showView('tg-premium')">
+                    <img src="https://i.ibb.co/0yrSM1sH/telegram-premium-3-months-subscription-77644.jpg" alt="Premium">
+                    <span>Telegram<br>Premium</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="tg-all-services" class="home-view">
+            <div class="back-btn ripple-target" onclick="showView('tg-services')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
+            <div class="midnight-black-title">All Of Telegram Services</div>
+            <div class="grid-container">
+                <div class="cat-card ripple-target full-width-card" onclick="showView('tg-sub-boost')">
+                    <img src="https://i.ibb.co/9mnfQfJT/e5ca629751503d9351cb97899a0f4336.jpg" style="width: 80px; height:80px;" alt="Sub Boost">
+                    <span style="font-size: 16px;">Telegram Subscriber Boost</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="tg-sub-boost" class="home-view">
+            <div class="back-btn ripple-target" onclick="showView('tg-all-services')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
+            <div class="danger-note-block">
+                <i class="fa-solid fa-link"></i> 
+                <span>Note: Telegram Subscriber Boost ဝယ်ယူရာတွင် Channel Link ထည့်ပေးပါ</span>
+            </div>
+            <div class="grid-container">
+                <div class="cat-card ripple-target" onclick="showView('tg-mm-sub')">
+                    <img src="https://i.ibb.co/Z6B96XGf/6ee1ff69dd2165d51cedf840b01e07e8.jpg" alt="MM" style="border-radius: 50%;">
+                    <span>Myanmar<br>Subscriber Boost</span>
+                </div>
+                <div class="cat-card ripple-target" onclick="showView('tg-eng-sub')">
+                    <img src="https://i.ibb.co/RpTLKnmM/337a27d282b3b04c744209040942e3cc.jpg" alt="USA" style="border-radius: 50%;">
+                    <span>English<br>Subscriber Boost</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="tg-mm-sub" class="home-view">
+            <div class="back-btn ripple-target" onclick="showView('tg-sub-boost')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
+            <div class="midnight-black-title">Myanmar Subscriber Boost</div>
+            <div class="price-list-container">
+                <script>
+                    const mmSubPrices = [
+                        {s: "50", p: "400"}, {s: "100", p: "800"}, {s: "200", p: "1,200"},
+                        {s: "300", p: "1,700"}, {s: "400", p: "2,200"}, {s: "500", p: "2,800"},
+                        {s: "600", p: "3,300"}, {s: "700", p: "3,800"}, {s: "800", p: "4,300"},
+                        {s: "900", p: "4,900"}, {s: "1K", p: "5,400"}
+                    ];
+                    mmSubPrices.forEach(item => {
+                        document.write(`
+                            <div class="price-card ripple-target" onclick="goToPayment()">
+                                <img src="https://i.ibb.co/Z6B96XGf/6ee1ff69dd2165d51cedf840b01e07e8.jpg" class="flag-icon" alt="MM">
+                                <div class="p-info"><span class="p-amt">MM Sub ${item.s}</span><span class="p-cost">${item.p} Ks</span></div>
+                            </div>
+                        `);
+                    });
+                </script>
+            </div>
+            <a href="https://t.me/KinnaraMarket_bot" target="_blank" class="bot-link-btn ripple-target">
+                Other Amount Bot ကိုမေးရန် <span>[ နှိပ်ပါ ]</span>
+            </a>
+            <div class="red-bottom-note">
+                 Myanmar Name နဲ့ Subscriber များဖြစ်မည်။ <br>( ရက် 60 တိတိအာမခံ )
+            </div>
+        </div>
+
+        <div id="tg-eng-sub" class="home-view">
+            <div class="back-btn ripple-target" onclick="showView('tg-sub-boost')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
+            <div class="midnight-black-title">English Subscriber Boost</div>
+            <div class="price-list-container">
+                <script>
+                    const engSubPrices = [
+                        {s: "50", p: "300"}, {s: "100", p: "500"}, {s: "200", p: "700"},
+                        {s: "300", p: "900"}, {s: "400", p: "1,200"}, {s: "500", p: "1,400"},
+                        {s: "600", p: "1,600"}, {s: "700", p: "1,800"}, {s: "800", p: "1,900"},
+                        {s: "900", p: "2,000"}, {s: "1K", p: "2,200"}
+                    ];
+                    engSubPrices.forEach(item => {
+                        document.write(`
+                            <div class="price-card ripple-target" onclick="goToPayment()">
+                                <img src="https://i.ibb.co/RpTLKnmM/337a27d282b3b04c744209040942e3cc.jpg" class="flag-icon" alt="USA">
+                                <div class="p-info"><span class="p-amt">Eng Sub ${item.s}</span><span class="p-cost">${item.p} Ks</span></div>
+                            </div>
+                        `);
+                    });
+                </script>
+            </div>
+            <a href="https://t.me/KinnaraMarket_bot" target="_blank" class="bot-link-btn ripple-target">
+                Other Amount Bot ကိုမေးရန် <span>[ နှိပ်ပါ ]</span>
+            </a>
+            <div class="red-bottom-note">
+                ( ရက် 60 တိတိအာမခံ )
+            </div>
+        </div>
+
+        <div id="tg-premium" class="home-view">
+            <div class="back-btn ripple-target" onclick="showView('tg-services')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
+            <div class="midnight-black-title">Telegram Premium Price</div>
+            <div class="danger-note-block">
+                <i class="fa-solid fa-star"></i> 
+                <span>Note: Telegram Premium ဝယ်ယူသည့်အခါ ကိုယ့် Telegram User Name Copy ပြီးထည့်ပေးပါ</span>
+            </div>
+            <div class="price-list-container">
+                <div class="price-card full-width-card ripple-target" onclick="goToPayment()">
+                    <img src="https://i.ibb.co/0yrSM1sH/telegram-premium-3-months-subscription-77644.jpg" alt="Prem" style="border-radius: 8px;">
+                    <div class="p-info"><span class="p-amt">Premium 1 Month</span><span class="p-cost">23,000 Ks (Login)</span></div>
+                </div>
+                <div class="price-card full-width-card ripple-target" onclick="goToPayment()">
+                    <img src="https://i.ibb.co/0yrSM1sH/telegram-premium-3-months-subscription-77644.jpg" alt="Prem" style="border-radius: 8px;">
+                    <div class="p-info"><span class="p-amt">Premium 3 Months</span><span class="p-cost">50,000 Ks</span></div>
+                </div>
+                <div class="price-card full-width-card ripple-target" onclick="goToPayment()">
+                    <img src="https://i.ibb.co/0yrSM1sH/telegram-premium-3-months-subscription-77644.jpg" alt="Prem" style="border-radius: 8px;">
+                    <div class="p-info"><span class="p-amt">Premium 6 Months</span><span class="p-cost">72,000 Ks</span></div>
+                </div>
+                <div class="price-card full-width-card ripple-target" onclick="goToPayment()">
+                    <img src="https://i.ibb.co/0yrSM1sH/telegram-premium-3-months-subscription-77644.jpg" alt="Prem" style="border-radius: 8px;">
+                    <div class="p-info"><span class="p-amt">Premium 12 Months (1 Year)</span><span class="p-cost">117,000 Ks</span></div>
+                </div>
+            </div>
         </div>
 
         <div id="home-soon" class="home-view">
             <div class="back-btn ripple-target" onclick="showView('home-main')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
-            <div class="soon-ui">
-                <i class="fa-solid fa-clock-rotate-left"></i>
-                <h2>Coming Soon!</h2>
-                <p>ဈေးနှုန်းဇယားများကို မကြာမီ တင်ပေးသွားပါမည်။</p>
+            <div style="text-align: center; margin-top: 50px;">
+                <i class="fa-solid fa-clock-rotate-left" style="font-size: 50px; color: var(--blue-ios); margin-bottom: 15px; filter: drop-shadow(0 0 15px rgba(0,122,255,0.4));"></i>
+                <h2 style="font-size: 22px; font-weight: 600; margin-bottom: 5px;">Coming Soon!</h2>
+                <p style="color: var(--muted-text); font-size: 13px;">ဈေးနှုန်းဇယားများကို မကြာမီ တင်ပေးသွားပါမည်။</p>
             </div>
         </div>
-
     </main>
 
     <main id="buy-tab" class="content-section">
-        
         <div class="pay-card ripple-target" onclick="copyValue('09788319436', this)">
             <div style="display:flex; align-items:center;">
                 <img src="https://i.ibb.co/0pB9vcGt/IMG-20260329-154219.png" class="pay-logo-mini">
@@ -382,41 +582,40 @@
             <span class="copy-text">Copy</span>
         </div>
 
-        <div class="neon-note">
-            <p>• ပြေစာပို့ရာတွင် ဝယ်ယူမည့် Game/Social Media ၏ အချက်အလက် (ID/Name) တွဲပို့ပါ။</p>
-            <p>• ဥပမာ - MLBB ဝယ်လျှင် In Game ID | Sever ID ထည့်ပေးပါ။</p>
-            <p>• ငွေလွှဲမှတ်ချက်တွင် "Shop" ဟုသာ ရေးပါ။ အခြားစာများရေးပါက လက်ခံမည်မဟုတ်ပါ။</p>
-            <span class="alert-line">" ငွေအပြည့်လွဲမှသာ ဝယ်ယူသည့် Items ရောက်မည်! "</span>
+        <div style="background: rgba(255, 49, 49, 0.05); border: 1px solid var(--neon-red); padding: 15px; border-radius: 16px; margin: 20px 0; box-shadow: 0 0 15px rgba(255, 49, 49, 0.15);">
+            <p style="font-size: 12px; line-height: 1.6; color: #ffcccc; margin-bottom: 5px;">• ပြေစာပို့ရာတွင် ဝယ်ယူမည့် Game/Social Media ၏ အချက်အလက် (ID/Name) တွဲပို့ပါ။</p>
+            <p style="font-size: 12px; line-height: 1.6; color: #ffcccc; margin-bottom: 5px;">• ဥပမာ - MLBB ဝယ်လျှင် In Game ID | Sever ID ထည့်ပေးပါ။</p>
+            <p style="font-size: 12px; line-height: 1.6; color: #ffcccc; margin-bottom: 5px;">• ငွေလွှဲမှတ်ချက်တွင် "Shop" ဟုသာ ရေးပါ။ အခြားစာများရေးပါက လက်ခံမည်မဟုတ်ပါ။</p>
+            <span style="color: var(--neon-red); font-size: 13px; font-weight: 700; margin-top: 10px; display: block; text-shadow: 0 0 8px rgba(255,49,49,0.4); text-align: center;">" ငွေအပြည့်လွဲမှသာ ဝယ်ယူသည့် Items ရောက်မည်! "</span>
         </div>
 
-        <div class="combined-upload-box">
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 18px; margin-bottom: 15px;">
             <input type="file" id="receipt-upload" style="display: none;" accept="image/*">
-            
-            <div class="receipt-box ripple-target" id="upload-box" onclick="document.getElementById('receipt-upload').click()">
-                <i class="fa-solid fa-cloud-arrow-up"></i>
-                <span>ပြေစာပုံတင်ရန် နှိပ်ပါ</span>
+            <div class="ripple-target" id="upload-box" onclick="document.getElementById('receipt-upload').click()" style="width: 100%; height: 90px; border: 1.5px dashed rgba(255,255,255,0.3); border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255,255,255,0.02); margin-bottom: 15px;">
+                <i class="fa-solid fa-cloud-arrow-up" style="font-size: 26px; margin-bottom: 8px; color: var(--blue-ios);"></i>
+                <span style="font-size: 13px; font-weight: 600; color: white;">ပြေစာပုံတင်ရန် နှိပ်ပါ</span>
             </div>
             
-            <img id="img-preview" alt="Preview" class="ripple-target" onclick="document.getElementById('receipt-upload').click()">
+            <img id="img-preview" alt="Preview" class="ripple-target" onclick="document.getElementById('receipt-upload').click()" style="width: 100%; border-radius: 14px; margin-bottom: 15px; display: none; border: 1px solid rgba(255,255,255,0.1);">
 
-            <textarea id="user-info" class="desc-box" rows="2" placeholder="Game ID | User name | Link များကို ဤနေရာတွင် ရေးပေးပါ..."></textarea>
+            <textarea id="user-info" rows="2" placeholder="Game ID | User name | Link များကို ဤနေရာတွင် ရေးပေးပါ..." style="width: 100%; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 15px; color: white; font-size: 13px; outline: none; resize: none; transition: 0.3s;"></textarea>
             
-            <button class="send-button ripple-target" id="send-btn" onclick="sendToTelegram()">ယခုပို့မည်</button>
+            <button class="ripple-target" id="send-btn" onclick="sendToTelegram()" style="width: 100%; background: var(--blue-ios); color: white; border: none; padding: 16px; border-radius: 16px; font-size: 15px; font-weight: 700; display: none; margin-top: 15px; box-shadow: 0 6px 20px rgba(0, 122, 255, 0.4);">ယခုပို့မည်</button>
         </div>
     </main>
 
     <main id="info-tab" class="content-section">
-        <a href="https://t.me/LaPa_PaBu" target="_blank" class="info-item ripple-target">
-            <i class="fa-solid fa-user-tie"></i>
-            <span>Owner : @LaPa_PaBu</span>
+        <a href="https://t.me/LaPa_PaBu" target="_blank" class="ripple-target" style="display: flex; align-items: center; background: var(--card-bg); padding: 18px; border-radius: 16px; margin-bottom: 12px; text-decoration: none; color: white; border: 1px solid rgba(255,255,255,0.08);">
+            <i class="fa-solid fa-user-tie" style="font-size: 22px; margin-right: 15px; color: var(--blue-ios); width: 30px; text-align: center;"></i>
+            <span style="font-size: 14px; font-weight: 600;">Owner : @LaPa_PaBu</span>
         </a>
-        <a href="https://t.me/KixxZGame_Store" target="_blank" class="info-item ripple-target">
-            <i class="fa-solid fa-bullhorn"></i>
-            <span>Channel : @KixxZGame_Store</span>
+        <a href="https://t.me/KixxZGame_Store" target="_blank" class="ripple-target" style="display: flex; align-items: center; background: var(--card-bg); padding: 18px; border-radius: 16px; margin-bottom: 12px; text-decoration: none; color: white; border: 1px solid rgba(255,255,255,0.08);">
+            <i class="fa-solid fa-bullhorn" style="font-size: 22px; margin-right: 15px; color: var(--blue-ios); width: 30px; text-align: center;"></i>
+            <span style="font-size: 14px; font-weight: 600;">Channel : @KixxZGame_Store</span>
         </a>
-        <a href="https://t.me/KinnaraMarket_bot" target="_blank" class="info-item ripple-target">
-            <i class="fa-solid fa-robot"></i>
-            <span>Bot : @KinnaraMarket_bot</span>
+        <a href="https://t.me/KinnaraMarket_bot" target="_blank" class="ripple-target" style="display: flex; align-items: center; background: var(--card-bg); padding: 18px; border-radius: 16px; margin-bottom: 12px; text-decoration: none; color: white; border: 1px solid rgba(255,255,255,0.08);">
+            <i class="fa-solid fa-robot" style="font-size: 22px; margin-right: 15px; color: var(--blue-ios); width: 30px; text-align: center;"></i>
+            <span style="font-size: 14px; font-weight: 600;">Bot : @KinnaraMarket_bot</span>
         </a>
     </main>
 
@@ -433,22 +632,6 @@
     </nav>
 
     <script>
-        // --- Water Ripple Effect Script ---
-        document.addEventListener('click', function(e) {
-            let target = e.target.closest('.ripple-target');
-            if (!target) return;
-            
-            let rect = target.getBoundingClientRect();
-            let ripple = document.createElement('span');
-            let size = Math.max(rect.width, rect.height);
-            ripple.style.width = ripple.style.height = size + 'px';
-            ripple.style.left = e.clientX - rect.left - size/2 + 'px';
-            ripple.style.top = e.clientY - rect.top - size/2 + 'px';
-            ripple.classList.add('ripple-effect');
-            target.appendChild(ripple);
-            setTimeout(() => ripple.remove(), 600);
-        });
-
         // --- Telegram User Info Integration ---
         const tg = window.Telegram.WebApp;
         tg.expand();
@@ -469,11 +652,18 @@
             el.classList.add('active');
             
             if(tabId === 'home-tab') showView('home-main');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function showView(viewId) {
             document.querySelectorAll('.home-view').forEach(v => v.classList.remove('active-view'));
             document.getElementById(viewId).classList.add('active-view');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function goToPayment() {
+            const buyTabBtn = document.querySelectorAll('.nav-item')[1];
+            switchTab('buy-tab', buyTabBtn);
         }
 
         function copyValue(val, el) {
@@ -481,7 +671,7 @@
             const hint = el.querySelector('.copy-text');
             hint.innerText = "Copied!";
             hint.style.color = "white";
-            setTimeout(() => { hint.innerText = "Copy"; hint.style.color = "#a0a0a0"; }, 2000);
+            setTimeout(() => { hint.innerText = "Copy"; hint.style.color = "var(--blue-ios)"; }, 2000);
         }
 
         // --- Image Preview ---
@@ -504,7 +694,7 @@
             }
         }
 
-        // --- SENDING TO TELEGRAM (Owner & Customer) ---
+        // --- SENDING TO TELEGRAM ---
         async function sendToTelegram() {
             const BOT_TOKEN = '8666396262:AAE9E39Td3mLkQTD7EvbDPGPrynAiFJIfsY'; 
             const OWNER_CHAT_ID = '2006437268'; 
@@ -525,7 +715,6 @@
             sendBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ပို့နေပါသည်...';
             sendBtn.disabled = true;
 
-            // 1. Send to Owner with Customer Name
             const formDataOwner = new FormData();
             formDataOwner.append('chat_id', OWNER_CHAT_ID);
             formDataOwner.append('photo', fileInput.files[0]);
@@ -537,22 +726,19 @@
                 });
 
                 if (responseOwner.ok) {
-                    // 2. Send copy to Customer's Bot Chat (if using Telegram Web App)
                     if (tgUserId && tgUserId != OWNER_CHAT_ID) {
                         const formDataCustomer = new FormData();
                         formDataCustomer.append('chat_id', tgUserId);
                         formDataCustomer.append('photo', fileInput.files[0]);
                         formDataCustomer.append('caption', `✅ သင်၏ ပြေစာကို လက်ခံရရှိပါပြီ။\n\n📝 အချက်အလက်များ:\n${userDescription}\n\nခဏစောင့်ပေးပါ Admin မှ စစ်ဆေးပြီး Items လွဲပေးပါမည်။`);
                         
-                        // Send quietly to customer
                         fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
                             method: 'POST', body: formDataCustomer
                         });
                     }
-
                     sendBtn.innerHTML = '<i class="fa-solid fa-check"></i> ပို့ပြီးပါပြီ';
                     sendBtn.style.background = '#28a745';
-                    // Disable and keep it showing
+                    sendBtn.style.boxShadow = '0 6px 20px rgba(40, 167, 69, 0.4)';
                 } else {
                     alert("Error: ပို့လို့မရပါ။ Connection စစ်ဆေးပါ။");
                     sendBtn.disabled = false;
