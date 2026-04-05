@@ -141,18 +141,54 @@
         }
         .danger-note-block i { font-size: 18px; margin-top: 2px; }
 
-        .price-list-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        .full-width-card { grid-column: span 2; }
-        
-        .price-card {
-            background: var(--card-bg); border-radius: 16px; padding: 14px;
-            display: flex; align-items: center; border: 1px solid rgba(255,255,255,0.08);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-        .price-card img { width: 38px; height: 38px; object-fit: contain; margin-right: 14px; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
-        .price-card .p-info { display: flex; flex-direction: column; }
-        .price-card .p-amt { font-size: 15px; font-weight: 600; color: #fff; letter-spacing: 0.3px; }
-        .price-card .p-cost { font-size: 14px; color: var(--blue-ios); font-weight: 600; margin-top: 3px; }
+        @keyframes pulse { 0% { opacity: 0.7; } 50% { opacity: 1; } 100% { opacity: 0.7; } }
+
+        .price-list-container { 
+    display: grid; 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 12px; 
+}
+.price-card {
+    background: linear-gradient(145deg, #121212, #1c1c1c); 
+    border-radius: 16px; 
+    padding: 16px;
+    display: flex; 
+    flex-direction: column; /* အကွက်တွေကို Icon အပေါ် စာသားအောက်ပြောင်းတာ */
+    align-items: center; 
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    transition: 0.3s ease;
+}
+.price-card:hover {
+    background: linear-gradient(145deg, #1c1c1c, #262626);
+    border-color: var(--blue-ios);
+}
+.price-card img, .price-card .emoji-icon { 
+    width: 50px !important; /* MLBB Dia အရွယ်အစားလို ကြီးစေချင်လို့ ၅၀ ထားပေးပါတယ် */
+    height: 50px !important; 
+    object-fit: contain; 
+    margin-bottom: 10px; 
+    filter: drop-shadow(0 0 10px rgba(0, 122, 255, 0.3)); /* Icon ကိုလင်းနေစေဖို့ */
+}
+.price-card .p-amt { 
+    font-size: 14px; 
+    font-weight: 600; 
+    color: #ffffff; 
+    margin-bottom: 8px; /* ဒီနေရာမှာ margin ကို ၈ အထိ တိုးလိုက်လို့ စာနှစ်ကြောင်း ပိုကွာသွားပါမယ် */
+    letter-spacing: 0.5px;
+}
+
+.price-card .p-cost { 
+    font-size: 13px; 
+    color: var(--blue-ios); 
+    font-weight: 700; 
+    background: rgba(0, 122, 255, 0.1); /* ဈေးနှုန်းနောက်မှာ Background အရောင်ဖျော့လေး ခံလိုက်တာပါ */
+    padding: 4px 10px;
+    border-radius: 8px;
+    display: inline-block;
+}
         
         .bot-link-btn {
             background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03)); 
@@ -207,7 +243,18 @@
         .nav-item.active span { opacity: 1; transform: translateY(0); color: white; }
     </style>
 </head>
-<body>
+</body>
+ 
+<div id="ads-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: 0.5s ease;">
+    <div style="background: #121212; width: 85%; max-width: 360px; border-radius: 20px; padding: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.1); transform: scale(0.8); transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+        
+        <img src="https://i.ibb.co/NnVZXJbb/Picsart-26-04-05-01-54-47-621.jpg" alt="Ads" style="width: 100%; border-radius: 12px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.05);">
+        
+        <button id="ads-btn" disabled style="width: 100%; background: #4b5563; color: #a1a1aa; border: none; padding: 14px; border-radius: 14px; font-size: 15px; font-weight: 700; cursor: not-allowed; transition: 0.3s;">
+            စောင့်ပါ (5)
+        </button>
+    </div>
+</div>
 
     <header class="header">
         <img src="https://i.ibb.co/XvPdKky/IMG-20260329-012454-453.jpg" class="logo">
@@ -253,10 +300,15 @@
         <div id="mlbb-prices" class="home-view">
             <div class="back-btn ripple-target" onclick="showView('home-games')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
             <div class="midnight-black-title">Mobile Legends Diamonds Price</div>
-            <div class="danger-note-block">
-                <i class="fa-solid fa-triangle-exclamation"></i> 
-                <span>Note: MLBB Diamond ဝယ်ယူသည့်အခါ မိမိ In Game ID | Sever ID ကို Description တွင် ရေးပြီးပို့ပေးရန်!</span>
-            </div>
+             <div class="danger-note-block">
+    <i class="fa-solid fa-triangle-exclamation"></i> 
+    <div>
+        <span>Note: MLBB Diamond ဝယ်ယူသည့်အခါ မိမိ In Game ID | Sever ID ကို Description တွင် ရေးပြီးပို့ပေးရန်!</span>
+        <div style="margin-top: 8px; color: #ffffff; font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-clock" style="color: #ffcc00; animation: pulse 1.5s infinite;"></i> ကြာချိန်: 5 မိနစ်ကနေ 10မိနစ် ကြား
+        </div>
+    </div>
+</div>
             <div class="price-list-container">
                 <div class="price-card full-width-card ripple-target" onclick="goToPayment()">
                     <img src="https://i.ibb.co/rnJZC3H/file-000000002d4471faaf3a21cca0e5c27d.png" alt="WP">
@@ -295,9 +347,14 @@
             <div class="back-btn ripple-target" onclick="showView('home-games')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
             <div class="midnight-black-title">PUBG Mobile UC Price</div>
             <div class="danger-note-block">
-                <i class="fa-solid fa-triangle-exclamation"></i> 
-                <span>Note: PUBG UC ဝယ်ယူသည်အခါ မိမိ In Game ID ကို Description တွင်ရေးပြီးပို့ပေးရန်!</span>
-            </div>
+    <i class="fa-solid fa-triangle-exclamation"></i> 
+    <div>
+        <span>Note: PUBG UC ဝယ်ယူသည်အခါ မိမိ In Game ID ကို Description တွင်ရေးပြီးပို့ပေးရန်!</span>
+        <div style="margin-top: 8px; color: #ffffff; font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-clock" style="color: #ffcc00; animation: pulse 1.5s infinite;"></i> ကြာချိန်: 5 မိနစ်ကနေ 10မိနစ် ကြား
+        </div>
+    </div>
+</div>
             <div class="price-list-container">
                 <script>
                     const pubgPrices = [
@@ -345,9 +402,14 @@
             <div class="back-btn ripple-target" onclick="showView('tg-main')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
             <div class="midnight-black-title">Telegram Star & Ton</div>
             <div class="danger-note-block">
-                <i class="fa-solid fa-circle-info"></i> 
-                <span>Note: Telegram Star & Ton ဝယ်ယူသည်အခါ ကိုယ့် Telegram User Name Or Ton Keeper Address ကို Copy ပြီးထည့်ပေးပါ</span>
-            </div>
+    <i class="fa-solid fa-triangle-exclamation"></i> 
+    <div>
+        <span>Note: Telegram Star & Ton ဝယ်ယူသည်အခါ ကိုယ့် Telegram User Name Or Ton Keeper Address ကို Copy ပြီးထည့်ပေးပါ</span>
+        <div style="margin-top: 8px; color: #ffffff; font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-clock" style="color: #ffcc00; animation: pulse 1.5s infinite;"></i> ကြာချိန်: 5 မိနစ်ကနေ 10မိနစ် ကြား
+        </div>
+    </div>
+</div>
             <div class="price-list-container">
                 <div class="price-card full-width-card ripple-target" onclick="goToPayment()">
                     <img src="https://i.ibb.co/4n360BQx/Picsart-26-04-01-23-12-29-752.png" alt="Ton">
@@ -380,9 +442,14 @@
             <div class="back-btn ripple-target" onclick="showView('tg-main')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
             <div class="midnight-black-title">Telegram Gift Price</div>
             <div class="danger-note-block">
-                <i class="fa-solid fa-circle-info"></i> 
-                <span>Note: Telegram Gift ကို ဝယ်ယူသည့်အခါ ကိုယ့် Telegram User Name ကို Copy ပြီးထည့်ပေးပါ</span>
-            </div>
+    <i class="fa-solid fa-triangle-exclamation"></i> 
+    <div>
+        <span>Note: Telegram Gift ကို ဝယ်ယူသည့်အခါ ကိုယ့် Telegram User Name ကို Copy ပြီးထည့်ပေးပါ</span>
+        <div style="margin-top: 8px; color: #ffffff; font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-clock" style="color: #ffcc00; animation: pulse 1.5s infinite;"></i> ကြာချိန်: 5 မိနစ်ကနေ 10မိနစ် ကြား
+        </div>
+    </div>
+</div>
             <div class="price-list-container">
                 <script>
                     const giftPrices = [
@@ -409,9 +476,14 @@
             <div class="back-btn ripple-target" onclick="showView('tg-main')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
             <div class="midnight-black-title">Telegram Services</div>
             <div class="danger-note-block">
-                <i class="fa-solid fa-bolt"></i> 
-                <span>Note: ကိုယ့် Boost ချင်သည့် Services ပြုလုပ်သည့်အခါ သက်ဆိုင်ရာ အချက်လက်များဖြည့်သွင်းပေးပါ</span>
-            </div>
+    <i class="fa-solid fa-triangle-exclamation"></i> 
+    <div>
+        <span>Note: ကိုယ့် Boost ချင်သည့် Services ပြုလုပ်သည့်အခါ သက်ဆိုင်ရာ အချက်လက်များဖြည့်သွင်းပေးပါ</span>
+        <div style="margin-top: 8px; color: #ffffff; font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-clock" style="color: #ffcc00; animation: pulse 1.5s infinite;"></i> ကြာချိန်: 5 မိနစ်ကနေ 10မိနစ် ကြား
+        </div>
+    </div>
+</div>
             <div class="grid-container">
                 <div class="cat-card ripple-target" onclick="showView('tg-all-services')">
                     <img src="https://i.ibb.co/21FHpC1X/37b4e0d2e4f368a89dc60edc5af11de4.jpg" alt="All Services">
@@ -425,22 +497,40 @@
         </div>
 
         <div id="tg-all-services" class="home-view">
-            <div class="back-btn ripple-target" onclick="showView('tg-services')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
-            <div class="midnight-black-title">All Of Telegram Services</div>
-            <div class="grid-container">
-                <div class="cat-card ripple-target full-width-card" onclick="showView('tg-sub-boost')">
-                    <img src="https://i.ibb.co/9mnfQfJT/e5ca629751503d9351cb97899a0f4336.jpg" style="width: 80px; height:80px;" alt="Sub Boost">
-                    <span style="font-size: 16px;">Telegram Subscriber Boost</span>
-                </div>
-            </div>
+    <div class="back-btn ripple-target" onclick="showView('tg-services')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
+    <div class="midnight-black-title">All Of Telegram Services</div>
+    
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px;">
+        
+        <div class="cat-card ripple-target" onclick="showView('tg-sub-boost')">
+            <img src="https://i.ibb.co/9mnfQfJT/e5ca629751503d9351cb97899a0f4336.jpg" style="width: 50px; height:50px;" alt="Sub Boost">
+            <span style="font-size: 11px;">Telegram Sub Boost</span>
         </div>
+
+        <div class="cat-card" style="opacity: 0.5; cursor: not-allowed;">
+            <div style="font-size: 24px; color: #777; margin-bottom: 10px;"><i class="fa-solid fa-hourglass-half"></i></div>
+            <span style="font-size: 11px;">Coming Soon</span>
+        </div>
+
+        <div class="cat-card" style="opacity: 0.5; cursor: not-allowed;">
+            <div style="font-size: 24px; color: #777; margin-bottom: 10px;"><i class="fa-solid fa-hourglass-half"></i></div>
+            <span style="font-size: 11px;">Coming Soon</span>
+        </div>
+
+    </div>
+</div>
 
         <div id="tg-sub-boost" class="home-view">
             <div class="back-btn ripple-target" onclick="showView('tg-all-services')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
             <div class="danger-note-block">
-                <i class="fa-solid fa-link"></i> 
-                <span>Note: Telegram Subscriber Boost ဝယ်ယူရာတွင် Channel Link ထည့်ပေးပါ</span>
-            </div>
+    <i class="fa-solid fa-triangle-exclamation"></i> 
+    <div>
+        <span>Note: Telegram Subscriber Boost ဝယ်ယူရာတွင် Channel Link ထည့်ပေးပါ</span>
+        <div style="margin-top: 8px; color: #ffffff; font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-clock" style="color: #ffcc00; animation: pulse 1.5s infinite;"></i> ကြာချိန်: 5 မိနစ်ကနေ 10မိနစ် ကြား
+        </div>
+    </div>
+</div>
             <div class="grid-container">
                 <div class="cat-card ripple-target" onclick="showView('tg-mm-sub')">
                     <img src="https://i.ibb.co/Z6B96XGf/6ee1ff69dd2165d51cedf840b01e07e8.jpg" alt="MM" style="border-radius: 50%;">
@@ -515,9 +605,14 @@
             <div class="back-btn ripple-target" onclick="showView('tg-services')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
             <div class="midnight-black-title">Telegram Premium Price</div>
             <div class="danger-note-block">
-                <i class="fa-solid fa-star"></i> 
-                <span>Note: Telegram Premium ဝယ်ယူသည့်အခါ ကိုယ့် Telegram User Name Copy ပြီးထည့်ပေးပါ</span>
-            </div>
+    <i class="fa-solid fa-triangle-exclamation"></i> 
+    <div>
+        <span>Note: Telegram Premium ဝယ်ယူသည့်အခါ ကိုယ့် Telegram User Name Copy ပြီးထည့်ပေးပါ</span>
+        <div style="margin-top: 8px; color: #ffffff; font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-clock" style="color: #ffcc00; animation: pulse 1.5s infinite;"></i> ကြာချိန်: 5 မိနစ်ကနေ 10မိနစ် ကြား
+        </div>
+    </div>
+</div>
             <div class="price-list-container">
                 <div class="price-card full-width-card ripple-target" onclick="goToPayment()">
                     <img src="https://i.ibb.co/0yrSM1sH/telegram-premium-3-months-subscription-77644.jpg" alt="Prem" style="border-radius: 8px;">
@@ -595,6 +690,10 @@
                 <i class="fa-solid fa-cloud-arrow-up" style="font-size: 26px; margin-bottom: 8px; color: var(--blue-ios);"></i>
                 <span style="font-size: 13px; font-weight: 600; color: white;">ပြေစာပုံတင်ရန် နှိပ်ပါ</span>
             </div>
+
+        <div style="position: relative;">
+            <span id="remove-preview-btn" onclick="resetUploadState()" style="display: none; position: absolute; top: 10px; right: 10px; background: rgba(255, 49, 49, 0.8); color: white; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; cursor: pointer; z-index: 10; font-weight: bold;">×</span>
+        </div>
             
             <img id="img-preview" alt="Preview" class="ripple-target" onclick="document.getElementById('receipt-upload').click()" style="width: 100%; border-radius: 14px; margin-bottom: 15px; display: none; border: 1px solid rgba(255,255,255,0.1);">
 
@@ -655,6 +754,42 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        window.onload = function() {
+    const modal = document.getElementById('ads-modal');
+    const adsBtn = document.getElementById('ads-btn');
+    
+    // 1 Second အကြာမှာ Ads ပြမယ်
+    setTimeout(() => {
+        modal.style.opacity = '1';
+        modal.style.pointerEvents = 'auto';
+        modal.firstElementChild.style.transform = 'scale(1)';
+        
+        // 5 Seconds Countdown စပါမယ်
+        let timeLeft = 5;
+        const timer = setInterval(() => {
+            timeLeft--;
+            if(timeLeft > 0) {
+                adsBtn.innerText = `စောင့်ပါ (${timeLeft})`;
+            } else {
+                clearInterval(timer);
+                adsBtn.innerText = "OK";
+                adsBtn.disabled = false;
+                adsBtn.style.background = "var(--blue-ios)";
+                adsBtn.style.color = "white";
+                adsBtn.style.cursor = "pointer";
+                adsBtn.style.boxShadow = "0 4px 15px rgba(0, 122, 255, 0.4)";
+                
+                // OK နှိပ်ရင် ပိတ်သွားမယ်
+                adsBtn.onclick = function() {
+                    modal.style.opacity = '0';
+                    modal.style.pointerEvents = 'none';
+                    modal.firstElementChild.style.transform = 'scale(0.8)';
+                }
+            }
+        }, 1000);
+    }, 1000);
+};
+
         function showView(viewId) {
             document.querySelectorAll('.home-view').forEach(v => v.classList.remove('active-view'));
             document.getElementById(viewId).classList.add('active-view');
@@ -681,18 +816,19 @@
         const uploadBox = document.getElementById('upload-box');
 
         fileInput.onchange = function(e) {
-            const file = e.target.files[0];
-            if(file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    preview.src = event.target.result;
-                    preview.style.display = 'block';
-                    uploadBox.style.display = 'none';
-                    sendBtn.style.display = 'block';
-                }
-                reader.readAsDataURL(file);
-            }
+    const file = e.target.files[0];
+    if(file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            preview.src = event.target.result;
+            preview.style.display = 'block';
+            uploadBox.style.display = 'none';
+            sendBtn.style.display = 'block';
+            document.getElementById('remove-preview-btn').style.display = 'block'; // X ပေါ်လာမယ်
         }
+        reader.readAsDataURL(file);
+    }
+}
 
         // --- SENDING TO TELEGRAM ---
         async function sendToTelegram() {
@@ -715,10 +851,25 @@
             sendBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ပို့နေပါသည်...';
             sendBtn.disabled = true;
 
+            // Admin ဆီ ပို့မယ့် စာသား
+            const adminCaption = `🧾 ပြေစာအသစ် ရောက်ပါပြီ!\n\n👤 ပို့သူ: ${tgUserName} ${tgUsernameTag}\n📝 အချက်အလက်များ:\n${userDescription}`;
+
+            // ခလုတ် ၃ ခု လုပ်ပေးမယ့် နေရာ (Customer ID ကိုပါ တွဲထည့်ထားပါတယ်)
+            const replyMarkup = {
+                inline_keyboard: [
+                    [
+                        { text: "⏳ စောင့်ပါ", callback_data: `reply_wait_${tgUserId || 'unknown'}` },
+                        { text: "✅ ရရှိပါသည်", callback_data: `reply_received_${tgUserId || 'unknown'}` },
+                        { text: "🛒 ထည့်ပြီး", callback_data: `reply_done_${tgUserId || 'unknown'}` }
+                    ]
+                ]
+            };
+
             const formDataOwner = new FormData();
             formDataOwner.append('chat_id', OWNER_CHAT_ID);
             formDataOwner.append('photo', fileInput.files[0]);
-            formDataOwner.append('caption', `🧾 ပြေစာအသစ် ရောက်ပါပြီ!\n\n👤 ပို့သူ: ${tgUserName} ${tgUsernameTag}\n📝 အချက်အလက်များ:\n${userDescription}`);
+            formDataOwner.append('caption', adminCaption);
+            formDataOwner.append('reply_markup', JSON.stringify(replyMarkup)); // ခလုတ်တွေကို Telegram ဆီ ပို့တာ
 
             try {
                 const responseOwner = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
@@ -750,6 +901,20 @@
                 sendBtn.innerHTML = 'ယခုပို့မည်';
             }
         }
+
+// ပုံတင်ပြီးရင် မူလအတိုင်းပြန်ဖြစ်အောင်လုပ်တာ
+function resetUploadState() {
+    fileInput.value = '';
+    preview.style.display = 'none';
+    uploadBox.style.display = 'flex';
+    sendBtn.style.display = 'none';
+    sendBtn.disabled = false;
+    sendBtn.innerHTML = 'ယခုပို့မည်';
+    sendBtn.style.background = 'var(--blue-ios)';
+    document.getElementById('user-info').value = '';
+    const removeBtn = document.getElementById('remove-preview-btn');
+    if(removeBtn) removeBtn.style.display = 'none';
+}
     </script>
 </body>
 </html>
