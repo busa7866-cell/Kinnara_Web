@@ -2,23 +2,27 @@
 <html lang="my">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>KINNARA MARKET</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        /* --- PREMIUM ULTRA UI COLOR PALETTE --- */
         :root {
-            --bg-color: #050505;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --card-hover: rgba(255, 255, 255, 0.1);
-            --nav-bg: rgba(15, 15, 15, 0.85);
+            --bg-color: #030303; /* Deep Midnight Black */
+            --card-bg: rgba(20, 20, 20, 0.45);
+            --card-hover: rgba(35, 35, 35, 0.6);
+            --nav-bg: rgba(10, 10, 10, 0.75);
             --accent-white: #ffffff;
-            --muted-text: #a0a0a0;
-            --blue-ios: #007aff;
-            --neon-red: #ff3131;
-            --neon-white: rgba(255, 255, 255, 0.8);
+            --muted-text: #9ca3af;
+            --blue-ios: #0a84ff; /* iOS Dark Mode Blue */
+            --neon-blue: #00f3ff;
+            --neon-red: #ff3b30;
+            --neon-orange: #ff9f0a;
+            --neon-white: rgba(255, 255, 255, 0.9);
+            --glass-border: rgba(255, 255, 255, 0.08);
         }
 
         * {
@@ -29,67 +33,77 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        /* --- BACKGROUND WITH PREMIUM BLUR FX --- */
         body {
             background-color: var(--bg-color);
-            background-image: radial-gradient(circle at 50% -20%, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            background-image: radial-gradient(circle at 50% 0%, rgba(10, 132, 255, 0.1) 0%, transparent 60%),
+                              radial-gradient(circle at 100% 100%, rgba(255, 49, 49, 0.05) 0%, transparent 50%);
             color: var(--accent-white);
             min-height: 100vh;
             overflow-x: hidden;
+            background-attachment: fixed;
         }
 
-        /* --- Global Water Ripple & Premium Spring Effect --- */
+        /* --- ULTRA SMOOTH RIPPLE & TAP EFFECT --- */
         .ripple-target {
             position: relative;
             overflow: hidden;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            will-change: transform;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            will-change: transform, box-shadow;
         }
         .ripple-target:active {
-            transform: scale(0.92);
+            transform: scale(0.94);
             background: var(--card-hover);
+            border-color: rgba(255, 255, 255, 0.2);
         }
         
-        /* --- Premium UI - White Neon & Black Stroke --- */
+        /* --- NEON GLOW TITLES --- */
         .white-neon-title {
             color: #ffffff;
-            -webkit-text-stroke: 0.8px #000000;
-            text-shadow: 0 0 5px var(--neon-white), 0 0 10px var(--neon-white), 0 0 15px rgba(255,255,255,0.5);
             font-size: 24px;
-            font-weight: 700;
-            letter-spacing: 1px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3), 0 0 20px rgba(255,255,255,0.2);
         }
 
-        /* --- Header --- */
+        /* --- GLASSMORPHISM HEADER --- */
         .header {
             display: flex;
             align-items: center;
             padding: 20px;
-            backdrop-filter: blur(15px);
+            background: rgba(5, 5, 5, 0.6);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             position: sticky;
             top: 0;
             z-index: 1000;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid var(--glass-border);
         }
         .logo {
-            width: 45px; height: 45px; border-radius: 12px; object-fit: cover;
-            border: 1px solid rgba(255,255,255,0.3); margin-right: 15px;
-            box-shadow: 0 0 15px rgba(255,255,255,0.2);
+            width: 48px; height: 48px; border-radius: 14px; object-fit: cover;
+            border: 1px solid rgba(255,255,255,0.2); margin-right: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.1);
         }
 
-        /* --- Sections Layout & Animations --- */
+        /* --- IPHONE 17 FLUID ANIMATIONS FOR VIEWS --- */
         .content-section { display: none; padding: 15px 20px; padding-bottom: 140px; }
-        .content-section.active { display: block; animation: fadeSlideUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        .content-section.active { display: block; animation: fluidFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         
         .home-view { display: none; }
-        .home-view.active-view { display: block; animation: fadeSlideUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        .home-view.active-view { display: block; animation: fluidSlideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
 
-        @keyframes fadeSlideUp { 
-            0% { opacity: 0; transform: translateY(30px) scale(0.98); } 
-            100% { opacity: 1; transform: translateY(0) scale(1); } 
+        @keyframes fluidFadeIn { 
+            0% { opacity: 0; filter: blur(8px); } 
+            100% { opacity: 1; filter: blur(0); } 
+        }
+        @keyframes fluidSlideUp { 
+            0% { opacity: 0; transform: translateY(35px) scale(0.97); filter: blur(5px); } 
+            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } 
         }
 
-        /* --- Grids --- */
+        /* --- GRID CARDS (SQUARE) --- */
         .grid-container {
             display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 15px;
         }
@@ -98,158 +112,158 @@
         }
         
         .cat-card {
-            background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
-            border-radius: 20px; padding: 15px; text-align: center;
-            border: 1px solid rgba(255,255,255,0.1); 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            background: linear-gradient(145deg, rgba(30, 30, 30, 0.5), rgba(15, 15, 15, 0.8));
+            border-radius: 22px; padding: 18px; text-align: center;
+            border: 1px solid var(--glass-border); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             display: flex; flex-direction: column; align-items: center; justify-content: center; aspect-ratio: 1/1;
-        }
-        .cat-card img {
-            width: 70px; height: 70px; border-radius: 18px; object-fit: cover; margin-bottom: 12px;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1);
-        }
-        .grid-3-col .cat-card { padding: 10px; border-radius: 16px; }
-        .grid-3-col .cat-card img { width: 50px; height: 50px; border-radius: 14px; margin-bottom: 8px; }
-        .cat-card span { font-size: 13px; font-weight: 600; line-height: 1.3; color: #ffffff; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
-        .grid-3-col .cat-card span { font-size: 11px; }
-
-        /* Clean Back Button */
-        .back-btn {
-            display: inline-flex; align-items: center; padding: 10px 18px;
-            background: rgba(255, 255, 255, 0.08); color: #fff; border-radius: 14px;
-            font-size: 14px; font-weight: 600; margin-bottom: 20px; border: 1px solid rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
         }
-        .back-btn i { margin-right: 8px; color: var(--blue-ios); }
+        .cat-card img {
+            width: 75px; height: 75px; border-radius: 20px; object-fit: cover; margin-bottom: 14px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.4s ease;
+        }
+        .cat-card:hover img { transform: translateY(-5px); }
+        .grid-3-col .cat-card { padding: 12px; border-radius: 18px; }
+        .grid-3-col .cat-card img { width: 55px; height: 55px; border-radius: 16px; margin-bottom: 10px; }
+        .cat-card span { font-size: 13px; font-weight: 600; line-height: 1.4; color: #f3f4f6; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+        .grid-3-col .cat-card span { font-size: 11px; }
 
-        /* --- PRICE LIST STYLES --- */
-        .midnight-black-title {
-            background: linear-gradient(145deg, #1a1a1a, #0a0a0a); color: #fff;
-            text-align: center; padding: 16px; border-radius: 16px;
-            font-size: 16px; font-weight: 700; margin-bottom: 15px;
-            border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+        /* --- SLEEK BACK BUTTON --- */
+        .back-btn {
+            display: inline-flex; align-items: center; padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.05); color: #fff; border-radius: 30px;
+            font-size: 13px; font-weight: 600; margin-bottom: 25px; border: 1px solid var(--glass-border);
+            backdrop-filter: blur(15px); box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             letter-spacing: 0.5px;
+        }
+        .back-btn i { margin-right: 8px; color: var(--blue-ios); font-size: 14px; }
+
+        /* --- TITLES & PREMIUM NOTES --- */
+        .midnight-black-title {
+            background: linear-gradient(135deg, #1f1f1f 0%, #0a0a0a 100%); color: #fff;
+            text-align: center; padding: 18px; border-radius: 18px;
+            font-size: 15px; font-weight: 700; margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            letter-spacing: 0.5px; text-transform: uppercase;
         }
         
         .danger-note-block {
-            background: linear-gradient(90deg, rgba(255,49,49,0.15), rgba(255,49,49,0.05)); 
-            color: #ff6b6b;
-            border-left: 4px solid var(--neon-red); padding: 14px; border-radius: 12px;
-            font-size: 13px; font-weight: 500; margin-bottom: 20px; line-height: 1.6;
-            display: flex; gap: 10px; align-items: flex-start;
-            box-shadow: 0 4px 15px rgba(255,49,49,0.1);
-        }
-        .danger-note-block i { font-size: 18px; margin-top: 2px; }
-
-        @keyframes pulse { 0% { opacity: 0.7; } 50% { opacity: 1; } 100% { opacity: 0.7; } }
-
-        .price-list-container { 
-            display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 12px; 
-        }
-        .price-card {
-            background: linear-gradient(145deg, #121212, #1c1c1c); 
-            border-radius: 16px; 
-            padding: 16px;
-            display: flex; 
-            flex-direction: column;
-            align-items: center; 
-            justify-content: center;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            text-align: center;
-            transition: 0.3s ease;
-        }
-        .price-card:hover {
-            background: linear-gradient(145deg, #1c1c1c, #262626);
-            border-color: var(--blue-ios);
-        }
-        .price-card img, .price-card .emoji-icon { 
-            width: 50px !important; 
-            height: 50px !important; 
-            object-fit: contain; 
-            margin-bottom: 10px; 
-            filter: drop-shadow(0 0 10px rgba(0, 122, 255, 0.3));
-        }
-        .price-card .p-amt { 
-            font-size: 14px; 
-            font-weight: 600; 
-            color: #ffffff; 
-            margin-bottom: 8px;
-            letter-spacing: 0.5px;
-        }
-        .price-card .p-cost { 
-            font-size: 13px; 
-            color: var(--blue-ios); 
-            font-weight: 700; 
-            background: rgba(0, 122, 255, 0.1);
-            padding: 4px 10px;
-            border-radius: 8px;
-            display: inline-block;
+            background: linear-gradient(90deg, rgba(255,59,48,0.15), rgba(255,59,48,0.02)); 
+            color: #ff6b6b; border-left: 4px solid var(--neon-red); 
+            padding: 16px; border-radius: 14px; font-size: 13px; font-weight: 500; 
+            margin-bottom: 20px; line-height: 1.6; display: flex; gap: 12px; align-items: flex-start;
+            box-shadow: 0 4px 20px rgba(255,59,48,0.1);
         }
         
-        .bot-link-btn {
-            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03)); 
-            color: white; text-align: center;
-            padding: 16px; border-radius: 16px; font-size: 14px; font-weight: 600;
-            margin-top: 20px; border: 1px solid rgba(255,255,255,0.2); display: block; text-decoration: none;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+        .critical-note-block {
+            background: linear-gradient(90deg, rgba(255,159,10,0.2), rgba(255,159,10,0.05)); 
+            border: 1px solid rgba(255,159,10,0.3); border-left: 5px solid var(--neon-orange);
+            padding: 16px; border-radius: 14px; margin-bottom: 15px;
+            box-shadow: 0 0 20px rgba(255,159,10,0.15);
         }
-        .bot-link-btn span { color: var(--blue-ios); font-weight: 700; }
+        .critical-note-block .n-title { color: var(--neon-orange); font-weight: 800; font-size: 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; text-shadow: 0 0 10px rgba(255,159,10,0.5); }
+        .critical-note-block ul { color: #f3f4f6; font-size: 13px; padding-left: 22px; line-height: 1.8; font-weight: 500; }
+
+        @keyframes pulseTime { 0% { opacity: 0.6; transform: scale(0.95); } 50% { opacity: 1; transform: scale(1.05); text-shadow: 0 0 10px #ffcc00; } 100% { opacity: 0.6; transform: scale(0.95); } }
+
+        /* --- NORMAL PRICE LIST (SQUARES) --- */
+        .price-list-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+        .price-card {
+            background: linear-gradient(145deg, #161616, #0d0d0d); 
+            border-radius: 18px; padding: 18px 12px; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4); text-align: center;
+        }
+        .price-card:hover { border-color: var(--blue-ios); box-shadow: 0 0 25px rgba(10,132,255,0.2); }
+        .price-card img, .price-card .emoji-icon { 
+            width: 55px !important; height: 55px !important; object-fit: contain; margin-bottom: 12px; 
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
+        }
+        .price-card .p-amt { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 8px; }
+        .price-card .p-cost { 
+            font-size: 13px; color: #fff; font-weight: 700; background: linear-gradient(90deg, #0a84ff, #00f3ff);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            padding: 4px 10px; border-radius: 8px; border: 1px solid rgba(10,132,255,0.3);
+        }
+
+        /* --- HORIZONTAL PREMIUM PRICE LIST (Blox Fruit Style) --- */
+        .horizontal-list { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
+        .horizontal-card {
+            display: flex; justify-content: space-between; align-items: center;
+            background: linear-gradient(135deg, rgba(25,25,25,0.8) 0%, rgba(10,10,10,0.95) 100%);
+            padding: 18px 20px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5); transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .horizontal-card:hover {
+            border-color: var(--neon-blue); box-shadow: 0 0 20px rgba(0, 243, 255, 0.15); transform: translateY(-2px);
+        }
+        .horizontal-card .h-title {
+            color: #ffffff; font-size: 13px; font-weight: 600; text-shadow: 0 2px 5px rgba(0,0,0,0.8); flex: 1; padding-right: 10px; line-height: 1.5;
+        }
+        .horizontal-card .h-price {
+            background: rgba(0, 243, 255, 0.1); color: var(--neon-blue); font-size: 14px; font-weight: 800;
+            padding: 8px 14px; border-radius: 12px; border: 1px solid rgba(0, 243, 255, 0.3); white-space: nowrap;
+        }
+
+        /* --- 16:9 BANNER CARDS --- */
+        .banner-card {
+            width: 100%; border-radius: 20px; overflow: hidden; background: #111;
+            border: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.7); margin-bottom: 20px;
+        }
+        .banner-card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .banner-card .b-title {
+            padding: 16px; text-align: center; font-size: 15px; font-weight: 700; color: #fff;
+            background: linear-gradient(180deg, rgba(20,20,20,0.8) 0%, rgba(5,5,5,1) 100%);
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+
+        /* --- BUTTONS --- */
+        .bot-link-btn {
+            background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)); 
+            color: white; text-align: center; padding: 18px; border-radius: 18px; font-size: 14px; font-weight: 600;
+            margin-top: 25px; border: 1px solid var(--glass-border); display: block; text-decoration: none;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4); backdrop-filter: blur(10px);
+        }
+        .bot-link-btn span { color: var(--neon-blue); font-weight: 800; }
 
         /* --- Animated Emojis --- */
-        .emoji-icon {
-            font-size: 32px; margin-right: 12px; display: inline-block;
-            animation: gentleBounce 3s infinite ease-in-out;
-        }
-        @keyframes gentleBounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-
-        /* --- Specific Notes --- */
-        .red-bottom-note {
-            color: #ff4d4d; text-align: center; font-size: 12px; font-weight: 600;
-            margin-top: 20px; line-height: 1.6; padding: 10px;
-            background: rgba(255,49,49,0.08); border-radius: 10px; border: 1px dashed rgba(255,49,49,0.3);
-        }
-        
-        .flag-icon { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; margin-right: 14px; border: 2px solid rgba(255,255,255,0.2); }
+        .emoji-icon { font-size: 34px; margin-right: 12px; display: inline-block; animation: floatBounce 3s infinite ease-in-out; }
+        @keyframes floatBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); filter: drop-shadow(0 5px 10px rgba(255,255,255,0.2)); } }
 
         /* --- 2. BUY TAB (Payments) --- */
         .pay-card {
-            background: var(--card-bg); border-radius: 16px; padding: 15px; margin-bottom: 15px;
-            display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255,255,255,0.1);
+            background: linear-gradient(145deg, rgba(30,30,30,0.6), rgba(10,10,10,0.8)); border-radius: 20px; padding: 18px; margin-bottom: 15px;
+            display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px); box-shadow: 0 8px 25px rgba(0,0,0,0.5);
         }
-        .pay-logo-mini { width: 40px; height: 40px; border-radius: 10px; margin-right: 15px; object-fit: contain; }
-        .pay-num { font-weight: 700; font-size: 16px; letter-spacing: 0.5px; }
-        .pay-name { font-size: 13px; color: #dfdfdf; font-weight: 500; margin-top: 2px; }
-        .copy-text { font-size: 11px; color: var(--blue-ios); font-weight: 600; text-transform: uppercase; background: rgba(0,122,255,0.1); padding: 6px 12px; border-radius: 8px; }
+        .pay-logo-mini { width: 45px; height: 45px; border-radius: 12px; margin-right: 16px; object-fit: contain; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .pay-num { font-weight: 800; font-size: 16px; letter-spacing: 0.8px; color: #fff; }
+        .pay-name { font-size: 12px; color: var(--muted-text); font-weight: 500; margin-top: 4px; }
+        .copy-text { font-size: 12px; color: var(--blue-ios); font-weight: 700; text-transform: uppercase; background: rgba(10,132,255,0.15); padding: 8px 16px; border-radius: 10px; border: 1px solid rgba(10,132,255,0.2); }
 
-        /* --- Bottom Nav --- */
+        /* --- ULTRA BOTTOM NAV --- */
         .bottom-nav {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 420px;
-            height: 70px; background: rgba(10, 10, 10, 0.9); backdrop-filter: blur(25px); border-radius: 24px;
-            display: flex; justify-content: space-around; align-items: center; border: 1px solid rgba(255,255,255,0.1); z-index: 2000;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 420px;
+            height: 75px; background: rgba(15, 15, 15, 0.85); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            border-radius: 35px; display: flex; justify-content: space-around; align-items: center; border: 1px solid rgba(255,255,255,0.12); 
+            z-index: 2000; box-shadow: 0 15px 40px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.1);
         }
-        .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 65px; height: 100%; cursor: pointer; position: relative; }
-        .nav-item i { font-size: 24px; color: #777; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .nav-item span { font-size: 10px; color: #777; opacity: 0; transform: translateY(10px); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: absolute; bottom: 10px; font-weight: 600;}
+        .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 70px; height: 100%; cursor: pointer; position: relative; }
+        .nav-item i { font-size: 22px; color: #6b7280; transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1); }
+        .nav-item span { font-size: 11px; color: #6b7280; opacity: 0; transform: translateY(12px); transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1); position: absolute; bottom: 12px; font-weight: 700;}
         
-        .nav-item.active i { transform: translateY(-12px); color: var(--blue-ios); text-shadow: 0 0 20px rgba(0,122,255,0.6); }
-        .nav-item.active span { opacity: 1; transform: translateY(0); color: white; }
+        .nav-item.active i { transform: translateY(-14px); color: var(--blue-ios); filter: drop-shadow(0 0 10px rgba(10,132,255,0.6)); font-size: 24px; }
+        .nav-item.active span { opacity: 1; transform: translateY(0); color: #fff; }
     </style>
 </head>
 <body>
  
-<div id="ads-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: 0.5s ease;">
-    <div style="background: #121212; width: 85%; max-width: 360px; border-radius: 20px; padding: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.1); transform: scale(0.8); transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
-        
-        <img src="https://i.ibb.co/NnVZXJbb/Picsart-26-04-05-01-54-47-621.jpg" alt="Ads" style="width: 100%; border-radius: 12px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.05);">
-        
-        <button id="ads-btn" disabled style="width: 100%; background: #4b5563; color: #a1a1aa; border: none; padding: 14px; border-radius: 14px; font-size: 15px; font-weight: 700; cursor: not-allowed; transition: 0.3s;">
+<div id="ads-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1); backdrop-filter: blur(10px);">
+    <div style="background: #111; width: 85%; max-width: 360px; border-radius: 24px; padding: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.1); transform: scale(0.8); transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1); box-shadow: 0 20px 50px rgba(0,0,0,0.8);">
+        <img src="https://i.ibb.co/NnVZXJbb/Picsart-26-04-05-01-54-47-621.jpg" alt="Ads" style="width: 100%; border-radius: 16px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 20px rgba(0,0,0,0.5);">
+        <button id="ads-btn" disabled style="width: 100%; background: #333; color: #888; border: none; padding: 16px; border-radius: 16px; font-size: 15px; font-weight: 700; cursor: not-allowed; transition: 0.4s;">
             စောင့်ပါ (5)
         </button>
     </div>
@@ -263,8 +277,8 @@
     <main id="home-tab" class="content-section active">
         
         <div id="home-main" class="home-view active-view">
-            <div style="font-size: 14px; font-weight: 500; margin-bottom: 5px; color: white;">Welcome To Kinnara Market</div>
-            <p style="font-size: 12px; color: var(--muted-text); margin-bottom: 15px;">စျေးနှုန်းများကို အောက်ပါအကွက်များတွင်နှိပ်၍ ကြည့်ရှုနိုင်ပါသည်။</p>
+            <div style="font-size: 15px; font-weight: 600; margin-bottom: 5px; color: white;">Welcome To Kinnara Market</div>
+            <p style="font-size: 12px; color: var(--muted-text); margin-bottom: 20px; font-weight: 500;">စျေးနှုန်းများကို အောက်ပါအကွက်များတွင်နှိပ်၍ ကြည့်ရှုနိုင်ပါသည်။</p>
             
             <div class="grid-container">
                 <div class="cat-card ripple-target" onclick="showView('home-games')">
@@ -279,7 +293,62 @@
                     <img src="https://i.ibb.co/bM6wc6mS/social-media-icons-stockcake.jpg" alt="Social Media">
                     <span>Social Media</span>
                 </div>
+                <div class="cat-card ripple-target" onclick="showView('blox-fruit-main')">
+                    <img src="https://i.ibb.co/nMv35P6P/3df966086cc3ba57cdd3ac50bb071bd3.jpg" alt="Blox Fruit">
+                    <span>Blox Fruit Random<br>Accounts</span>
+                </div>
             </div>
+        </div>
+
+        <div id="blox-fruit-main" class="home-view">
+            <div class="back-btn ripple-target" onclick="showView('home-main')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
+            <div class="midnight-black-title" style="margin-bottom: 25px;"><i class="fa-solid fa-gamepad" style="color: var(--neon-blue);"></i> Blox Fruit Accounts</div>
+            
+            <div class="banner-card ripple-target" onclick="showView('blox-mythical-list')">
+                <img src="https://i.ibb.co/NgBw3Bqm/file-000000004ef0720bab7df91c3c65fa12.png" alt="Mythical Accounts">
+                <div class="b-title">Mythical 100% Random Accounts</div>
+            </div>
+            
+            </div>
+
+        <div id="blox-mythical-list" class="home-view">
+            <div class="back-btn ripple-target" onclick="showView('blox-fruit-main')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
+            <div class="midnight-black-title" style="font-size: 13px; padding: 15px;">Mythical Fruit 100% + Level Max + God Human Accounts</div>
+            
+            <div class="danger-note-block" style="border-left-color: var(--neon-blue); background: linear-gradient(90deg, rgba(0,243,255,0.15), rgba(0,243,255,0.02)); box-shadow: 0 4px 15px rgba(0,243,255,0.1);">
+                <i class="fa-solid fa-circle-info" style="color: var(--neon-blue);"></i>
+                <div>
+                    <span style="color: #e0e0e0;">Account ဝယ်ယူပြီးပါက Password တန်းချိန်းပေးပါရန်!</span>
+                    <div style="margin-top: 10px; color: #fff; font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-hourglass-half" style="color: var(--neon-blue); animation: pulseTime 1.5s infinite;"></i> ကြာချိန်: 5 မိနစ် ကနေ 10 မိနစ်ကြား
+                    </div>
+                </div>
+            </div>
+
+            <div class="horizontal-list">
+                <script>
+                    const bloxPrices = [
+                        {desc: "1 Mythical Fruit + Lv Max + God Human", cost: "1,500Ks"},
+                        {desc: "2 Mythical Fruit + Lv Max + God Human", cost: "1,800Ks"},
+                        {desc: "3 Mythical Fruit + Lv Max + God Human", cost: "2,500Ks"},
+                        {desc: "5 Mythical Fruit + Lv Max + God Human", cost: "4,500Ks"},
+                        {desc: "6 Mythical Fruit + Lv Max + God Human", cost: "5,400Ks"},
+                        {desc: "8 Mythical Fruit + Lv Max + God Human", cost: "7,500Ks"},
+                        {desc: "9 Mythical Fruit + Lv Max + God Human", cost: "9,000Ks"},
+                        {desc: "10 Mythical Fruit + Lv Max + God Human", cost: "11,000Ks"},
+                        {desc: "11 Mythical Fruit + Lv Max + God Human", cost: "21,500Ks"}
+                    ];
+                    bloxPrices.forEach(item => {
+                        document.write(`
+                            <div class="horizontal-card ripple-target" onclick="goToPayment()">
+                                <div class="h-title"><i class="fa-solid fa-khanda" style="color: #ff3b30; margin-right: 8px;"></i> ${item.desc}</div>
+                                <div class="h-price">${item.cost}</div>
+                            </div>
+                        `);
+                    });
+                </script>
+            </div>
+            
         </div>
 
         <div id="home-games" class="home-view">
@@ -298,23 +367,21 @@
 
         <div id="mlbb-prices" class="home-view">
             <div class="back-btn ripple-target" onclick="showView('home-games')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
-            <div class="midnight-black-title">Mobile Legends Diamonds Price</div>
+            <div class="midnight-black-title">Mobile Legends Diamonds</div>
              <div class="danger-note-block">
                 <i class="fa-solid fa-triangle-exclamation"></i> 
                 <div>
-                    <span>Note: MLBB Dia ဝယ်ယူသည့်အခါ မိမိ In Game ID|Sever ID ကို Description တွင် ရေးပြီးပို့ပေးရန်!</span>
-                    <div style="margin-top: 8px; color: #ffffff; font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 6px;">
-                        <i class="fa-solid fa-clock" style="color: #ffcc00; animation: pulse 1.5s infinite;"></i> ကြာချိန်: 5 မိနစ်ကနေ 10မိနစ် ကြား
+                    <span style="color: #e0e0e0;">Note: MLBB Dia ဝယ်ယူသည့်အခါ မိမိ In Game ID|Sever ID ကို Description တွင် ရေးပြီးပို့ပေးရန်!</span>
+                    <div style="margin-top: 10px; color: #fff; font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-hourglass-half" style="color: #ffcc00; animation: pulseTime 1.5s infinite;"></i> ကြာချိန်: 5 မိနစ်ကနေ 10မိနစ် ကြား
                     </div>
                 </div>
             </div>
             <div class="price-list-container">
-                <div class="price-card full-width-card ripple-target" onclick="goToPayment()">
-                    <img src="https://i.ibb.co/rnJZC3H/file-000000002d4471faaf3a21cca0e5c27d.png" alt="WP">
-                    <div class="p-info">
-                        <span class="p-amt">Weekly Pass</span>
-                        <span class="p-cost">6,500 Ks</span>
-                    </div>
+                <div class="price-card ripple-target" style="grid-column: span 2;" onclick="goToPayment()">
+                    <img src="https://i.ibb.co/rnJZC3H/file-000000002d4471faaf3a21cca0e5c27d.png" alt="WP" style="width: 60px!important; height:60px!important;">
+                    <div class="p-amt">Weekly Pass</div>
+                    <div class="p-cost" style="font-size: 14px;">6,500 Ks</div>
                 </div>
                 <script>
                     const mlbbPrices = [
@@ -328,10 +395,8 @@
                         document.write(`
                             <div class="price-card ripple-target" onclick="goToPayment()">
                                 <img src="https://i.ibb.co/PsgwwtMg/file-00000000d23471fabfdffe8f6a1ae135.png" alt="Dia">
-                                <div class="p-info">
-                                    <span class="p-amt">Dia ${item.d}</span>
-                                    <span class="p-cost">${item.p} Ks</span>
-                                </div>
+                                <div class="p-amt">Dia ${item.d}</div>
+                                <div class="p-cost">${item.p} Ks</div>
                             </div>
                         `);
                     });
@@ -344,13 +409,13 @@
 
         <div id="pubg-prices" class="home-view">
             <div class="back-btn ripple-target" onclick="showView('home-games')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
-            <div class="midnight-black-title">PUBG Mobile UC Price</div>
+            <div class="midnight-black-title">PUBG Mobile UC</div>
             <div class="danger-note-block">
                 <i class="fa-solid fa-triangle-exclamation"></i> 
                 <div>
-                    <span>Note: PUBG UC ဝယ်ယူသည်အခါ မိမိ In Game ID ကို Description တွင်ရေးပြီးပို့ပေးရန်!</span>
-                    <div style="margin-top: 8px; color: #ffffff; font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 6px;">
-                        <i class="fa-solid fa-clock" style="color: #ffcc00; animation: pulse 1.5s infinite;"></i> ကြာချိန်: 5 မိနစ်ကနေ 10မိနစ် ကြား
+                    <span style="color:#e0e0e0;">Note: PUBG UC ဝယ်ယူသည်အခါ မိမိ In Game ID ကို Description တွင်ရေးပြီးပို့ပေးရန်!</span>
+                    <div style="margin-top: 10px; color: #fff; font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-hourglass-half" style="color: #ffcc00; animation: pulseTime 1.5s infinite;"></i> ကြာချိန်: 5 မိနစ်ကနေ 10မိနစ် ကြား
                     </div>
                 </div>
             </div>
@@ -366,10 +431,8 @@
                         document.write(`
                             <div class="price-card ripple-target" onclick="goToPayment()">
                                 <img src="https://i.ibb.co/G3Np0HmP/file-0000000036d871faad98d3f3c563bcf1.png" alt="UC">
-                                <div class="p-info">
-                                    <span class="p-amt">Uc ${item.u}</span>
-                                    <span class="p-cost">${item.p} Ks</span>
-                                </div>
+                                <div class="p-amt">Uc ${item.u}</div>
+                                <div class="p-cost">${item.p} Ks</div>
                             </div>
                         `);
                     });
@@ -404,20 +467,20 @@
             <div class="danger-note-block">
                 <i class="fa-solid fa-triangle-exclamation"></i> 
                 <div>
-                    <span>Note: Telegram Star & Ton ဝယ်ယူသည်အခါ ကိုယ့် Telegram User Name Or Ton Keeper Address ကို Copy ပြီးထည့်ပေးပါ</span>
-                    <div style="margin-top: 8px; color: #ffffff; font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 6px;">
-                        <i class="fa-solid fa-clock" style="color: #ffcc00; animation: pulse 1.5s infinite;"></i> ကြာချိန်: 5 မိနစ်ကနေ 10မိနစ် ကြား
+                    <span style="color:#e0e0e0;">Note: Telegram Star & Ton ဝယ်ယူသည်အခါ ကိုယ့် Telegram User Name Or Ton Keeper Address ကို Copy ပြီးထည့်ပေးပါ</span>
+                    <div style="margin-top: 10px; color: #fff; font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-hourglass-half" style="color: #ffcc00; animation: pulseTime 1.5s infinite;"></i> ကြာချိန်: 5 မိနစ်ကနေ 10မိနစ် ကြား
                     </div>
                 </div>
             </div>
             <div class="price-list-container">
-                <div class="price-card full-width-card ripple-target" onclick="goToPayment()">
+                <div class="price-card ripple-target" style="grid-column: span 2;" onclick="goToPayment()">
                     <img src="https://i.ibb.co/4n360BQx/Picsart-26-04-01-23-12-29-752.png" alt="Ton">
-                    <div class="p-info"><span class="p-amt">1 Ton</span><span class="p-cost">5,700 Ks</span></div>
+                    <div class="p-amt">1 Ton</div><div class="p-cost">5,700 Ks</div>
                 </div>
-                <div class="price-card full-width-card ripple-target" onclick="goToPayment()">
+                <div class="price-card ripple-target" style="grid-column: span 2;" onclick="goToPayment()">
                     <img src="https://i.ibb.co/4n360BQx/Picsart-26-04-01-23-12-29-752.png" alt="Ton">
-                    <div class="p-info"><span class="p-amt">0.1 Ton</span><span class="p-cost">650 Ks</span></div>
+                    <div class="p-amt">0.1 Ton</div><div class="p-cost">650 Ks</div>
                 </div>
                 <script>
                     const starPrices = [
@@ -430,7 +493,7 @@
                         document.write(`
                             <div class="price-card ripple-target" onclick="goToPayment()">
                                 <img src="https://i.ibb.co/x88dpFHY/Picsart-26-04-01-23-18-30-377.png" alt="Star">
-                                <div class="p-info"><span class="p-amt">Star ${item.s}</span><span class="p-cost">${item.p} Ks</span></div>
+                                <div class="p-amt">Star ${item.s}</div><div class="p-cost">${item.p} Ks</div>
                             </div>
                         `);
                     });
@@ -444,9 +507,9 @@
             <div class="danger-note-block">
                 <i class="fa-solid fa-triangle-exclamation"></i> 
                 <div>
-                    <span>Note: Telegram Gift ကို ဝယ်ယူသည့်အခါ ကိုယ့် Telegram User Name ကို Copy ပြီးထည့်ပေးပါ</span>
-                    <div style="margin-top: 8px; color: #ffffff; font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 6px;">
-                        <i class="fa-solid fa-clock" style="color: #ffcc00; animation: pulse 1.5s infinite;"></i> ကြာချိန်: 5 မိနစ်ကနေ 10မိနစ် ကြား
+                    <span style="color:#e0e0e0;">Note: Telegram Gift ကို ဝယ်ယူသည့်အခါ ကိုယ့် Telegram User Name ကို Copy ပြီးထည့်ပေးပါ</span>
+                    <div style="margin-top: 10px; color: #fff; font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-hourglass-half" style="color: #ffcc00; animation: pulseTime 1.5s infinite;"></i> ကြာချိန်: 5 မိနစ်ကနေ 10မိနစ် ကြား
                     </div>
                 </div>
             </div>
@@ -464,7 +527,7 @@
                         document.write(`
                             <div class="price-card ripple-target" onclick="goToPayment()">
                                 <span class="emoji-icon">${item.e}</span>
-                                <div class="p-info"><span class="p-amt">${item.n}</span><span class="p-cost">${item.p} Ks</span></div>
+                                <div class="p-amt">${item.n}</div><div class="p-cost">${item.p} Ks</div>
                             </div>
                         `);
                     });
@@ -478,9 +541,9 @@
             <div class="danger-note-block">
                 <i class="fa-solid fa-triangle-exclamation"></i> 
                 <div>
-                    <span>Note: ကိုယ့် Boost ချင်သည့် Services ပြုလုပ်သည့်အခါ သက်ဆိုင်ရာ အချက်လက်များဖြည့်သွင်းပေးပါ</span>
-                    <div style="margin-top: 8px; color: #ffffff; font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 6px;">
-                        <i class="fa-solid fa-clock" style="color: #ffcc00; animation: pulse 1.5s infinite;"></i> ကြာချိန်: 5 မိနစ်ကနေ 10မိနစ် ကြား
+                    <span style="color:#e0e0e0;">Note: ကိုယ့် Boost ချင်သည့် Services ပြုလုပ်သည့်အခါ သက်ဆိုင်ရာ အချက်လက်များဖြည့်သွင်းပေးပါ</span>
+                    <div style="margin-top: 10px; color: #fff; font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-hourglass-half" style="color: #ffcc00; animation: pulseTime 1.5s infinite;"></i> ကြာချိန်: 5 မိနစ်ကနေ 10မိနစ် ကြား
                     </div>
                 </div>
             </div>
@@ -500,35 +563,46 @@
             <div class="back-btn ripple-target" onclick="showView('tg-services')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
             <div class="midnight-black-title">All Of Telegram Services</div>
             
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px;">
+            <div class="grid-3-col">
                 <div class="cat-card ripple-target" onclick="showView('tg-sub-boost')">
-                    <img src="https://i.ibb.co/9mnfQfJT/e5ca629751503d9351cb97899a0f4336.jpg" style="width: 50px; height:50px;" alt="Sub Boost">
-                    <span style="font-size: 11px;">Telegram Sub Boost</span>
+                    <img src="https://i.ibb.co/9mnfQfJT/e5ca629751503d9351cb97899a0f4336.jpg" alt="Sub Boost">
+                    <span style="font-size: 10px;">Telegram Sub Boost</span>
                 </div>
-
-                <div class="cat-card" style="opacity: 0.5; cursor: not-allowed;">
-                    <div style="font-size: 24px; color: #777; margin-bottom: 10px;"><i class="fa-solid fa-hourglass-half"></i></div>
-                    <span style="font-size: 11px;">Coming Soon</span>
+                <div class="cat-card" style="opacity: 0.4; cursor: not-allowed;">
+                    <div style="font-size: 26px; color: #555; margin-bottom: 12px;"><i class="fa-solid fa-lock"></i></div>
+                    <span style="font-size: 10px;">Coming Soon</span>
                 </div>
-
-                <div class="cat-card" style="opacity: 0.5; cursor: not-allowed;">
-                    <div style="font-size: 24px; color: #777; margin-bottom: 10px;"><i class="fa-solid fa-hourglass-half"></i></div>
-                    <span style="font-size: 11px;">Coming Soon</span>
+                <div class="cat-card" style="opacity: 0.4; cursor: not-allowed;">
+                    <div style="font-size: 26px; color: #555; margin-bottom: 12px;"><i class="fa-solid fa-lock"></i></div>
+                    <span style="font-size: 10px;">Coming Soon</span>
                 </div>
             </div>
         </div>
 
         <div id="tg-sub-boost" class="home-view">
             <div class="back-btn ripple-target" onclick="showView('tg-all-services')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
+            
+            <div class="critical-note-block">
+                <div class="n-title"><i class="fa-solid fa-triangle-exclamation"></i> Note: ( မဝယ်ခင် သေချာချာ ဖတ်ပေးပါ )</div>
+                <ul>
+                    <li>Gp/Channel အကုန်ရ</li>
+                    <li>Public Ch/GP ဖြစ်ရမယ်</li>
+                    <li>Ch သည် 18+, Scam, ဘာမှမတင်ထားသော Channel မဖြစ်ရပါ။</li>
+                    <li>Channel ၏သက်တမ်းသည် 2 ပတ်အထက် ရှိရမည်။</li>
+                    <li>အနည်းဆုံး Post 3 ခုရှိရမည်။</li>
+                </ul>
+            </div>
+
             <div class="danger-note-block">
-                <i class="fa-solid fa-triangle-exclamation"></i> 
+                <i class="fa-solid fa-circle-info" style="color: var(--neon-red);"></i> 
                 <div>
-                    <span>Note: Telegram Subscriber Boost ဝယ်ယူရာတွင် Channel Link ထည့်ပေးပါ</span>
-                    <div style="margin-top: 8px; color: #ffffff; font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 6px;">
-                        <i class="fa-solid fa-clock" style="color: #ffcc00; animation: pulse 1.5s infinite;"></i> ကြာချိန်: 5 မိနစ်ကနေ 10မိနစ် ကြား
+                    <span style="color:#e0e0e0;">Note: Telegram Subscriber Boost ဝယ်ယူရာတွင် Channel Link ထည့်ပေးပါ</span>
+                    <div style="margin-top: 10px; color: #fff; font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-hourglass-half" style="color: #ffcc00; animation: pulseTime 1.5s infinite;"></i> ကြာချိန်: 5 မိနစ်ကနေ 10မိနစ် ကြား
                     </div>
                 </div>
             </div>
+
             <div class="grid-container">
                 <div class="cat-card ripple-target" onclick="showView('tg-mm-sub')">
                     <img src="https://i.ibb.co/Z6B96XGf/6ee1ff69dd2165d51cedf840b01e07e8.jpg" alt="MM" style="border-radius: 50%;">
@@ -555,18 +629,15 @@
                     mmSubPrices.forEach(item => {
                         document.write(`
                             <div class="price-card ripple-target" onclick="goToPayment()">
-                                <img src="https://i.ibb.co/Z6B96XGf/6ee1ff69dd2165d51cedf840b01e07e8.jpg" class="flag-icon" alt="MM">
-                                <div class="p-info"><span class="p-amt">MM Sub ${item.s}</span><span class="p-cost">${item.p} Ks</span></div>
+                                <img src="https://i.ibb.co/Z6B96XGf/6ee1ff69dd2165d51cedf840b01e07e8.jpg" style="border-radius:50%; border:2px solid rgba(255,255,255,0.2);" alt="MM">
+                                <div class="p-amt">MM Sub ${item.s}</div><div class="p-cost">${item.p} Ks</div>
                             </div>
                         `);
                     });
                 </script>
             </div>
-            <a href="https://t.me/KinnaraMarket_bot" target="_blank" class="bot-link-btn ripple-target">
-                Other Amount Bot ကိုမေးရန် <span>[နှိပ်ပါ]</span>
-            </a>
-            <div class="red-bottom-note">
-                 Myanmar Name နဲ့ Subscriber များဖြစ်မည်။ <br>( ရက် 60 တိတိအာမခံ )
+            <div class="red-bottom-note" style="margin-top: 20px; text-align: center; font-size: 13px; color: #ff6b6b; background: rgba(255,59,48,0.1); padding: 15px; border-radius: 12px; border: 1px dashed rgba(255,59,48,0.3);">
+                 Myanmar Name နဲ့ Subscriber များဖြစ်မည်။ <br><span style="font-weight: 700; color: #fff;">( ရက် 60 တိတိအာမခံ )</span>
             </div>
         </div>
 
@@ -584,18 +655,15 @@
                     engSubPrices.forEach(item => {
                         document.write(`
                             <div class="price-card ripple-target" onclick="goToPayment()">
-                                <img src="https://i.ibb.co/RpTLKnmM/337a27d282b3b04c744209040942e3cc.jpg" class="flag-icon" alt="USA">
-                                <div class="p-info"><span class="p-amt">Eng Sub ${item.s}</span><span class="p-cost">${item.p} Ks</span></div>
+                                <img src="https://i.ibb.co/RpTLKnmM/337a27d282b3b04c744209040942e3cc.jpg" style="border-radius:50%; border:2px solid rgba(255,255,255,0.2);" alt="USA">
+                                <div class="p-amt">Eng Sub ${item.s}</div><div class="p-cost">${item.p} Ks</div>
                             </div>
                         `);
                     });
                 </script>
             </div>
-            <a href="https://t.me/KinnaraMarket_bot" target="_blank" class="bot-link-btn ripple-target">
-                Other Amount Bot ကိုမေးရန် <span>[နှိပ်ပါ]</span>
-            </a>
-            <div class="red-bottom-note">
-                ( ရက် 60 တိတိအာမခံ )
+            <div class="red-bottom-note" style="margin-top: 20px; text-align: center; font-size: 13px; color: #ff6b6b; background: rgba(255,59,48,0.1); padding: 15px; border-radius: 12px; border: 1px dashed rgba(255,59,48,0.3);">
+                <span style="font-weight: 700; color: #fff;">( ရက် 60 တိတိအာမခံ )</span>
             </div>
         </div>
 
@@ -605,47 +673,38 @@
             <div class="danger-note-block">
                 <i class="fa-solid fa-triangle-exclamation"></i> 
                 <div>
-                    <span>Note: Telegram Premium ဝယ်ယူသည့်အခါ ကိုယ့် Telegram User Name Copy ပြီးထည့်ပေးပါ</span>
-                    <div style="margin-top: 8px; color: #ffffff; font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 6px;">
-                        <i class="fa-solid fa-clock" style="color: #ffcc00; animation: pulse 1.5s infinite;"></i> ကြာချိန်: 5 မိနစ်ကနေ 10မိနစ် ကြား
+                    <span style="color:#e0e0e0;">Note: Telegram Premium ဝယ်ယူသည့်အခါ ကိုယ့် Telegram User Name Copy ပြီးထည့်ပေးပါ</span>
+                    <div style="margin-top: 10px; color: #fff; font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-hourglass-half" style="color: #ffcc00; animation: pulseTime 1.5s infinite;"></i> ကြာချိန်: 5 မိနစ်ကနေ 10မိနစ် ကြား
                     </div>
                 </div>
             </div>
             <div class="price-list-container">
-                <div class="price-card full-width-card ripple-target" onclick="goToPayment()">
-                    <img src="https://i.ibb.co/0yrSM1sH/telegram-premium-3-months-subscription-77644.jpg" alt="Prem" style="border-radius: 8px;">
-                    <div class="p-info"><span class="p-amt">Premium 1 Month</span><span class="p-cost">23,000 Ks (Login)</span></div>
+                <div class="price-card ripple-target" style="grid-column: span 2;" onclick="goToPayment()">
+                    <img src="https://i.ibb.co/0yrSM1sH/telegram-premium-3-months-subscription-77644.jpg" alt="Prem" style="border-radius: 12px;">
+                    <div class="p-amt">Premium 1 Month</div><div class="p-cost">23,000 Ks (Login)</div>
                 </div>
-                <div class="price-card full-width-card ripple-target" onclick="goToPayment()">
-                    <img src="https://i.ibb.co/0yrSM1sH/telegram-premium-3-months-subscription-77644.jpg" alt="Prem" style="border-radius: 8px;">
-                    <div class="p-info"><span class="p-amt">Premium 3 Months</span><span class="p-cost">50,000 Ks</span></div>
+                <div class="price-card ripple-target" style="grid-column: span 2;" onclick="goToPayment()">
+                    <img src="https://i.ibb.co/0yrSM1sH/telegram-premium-3-months-subscription-77644.jpg" alt="Prem" style="border-radius: 12px;">
+                    <div class="p-amt">Premium 3 Months</div><div class="p-cost">50,000 Ks</div>
                 </div>
-                <div class="price-card full-width-card ripple-target" onclick="goToPayment()">
-                    <img src="https://i.ibb.co/0yrSM1sH/telegram-premium-3-months-subscription-77644.jpg" alt="Prem" style="border-radius: 8px;">
-                    <div class="p-info"><span class="p-amt">Premium 6 Months</span><span class="p-cost">72,000 Ks</span></div>
+                <div class="price-card ripple-target" style="grid-column: span 2;" onclick="goToPayment()">
+                    <img src="https://i.ibb.co/0yrSM1sH/telegram-premium-3-months-subscription-77644.jpg" alt="Prem" style="border-radius: 12px;">
+                    <div class="p-amt">Premium 6 Months</div><div class="p-cost">72,000 Ks</div>
                 </div>
-                <div class="price-card full-width-card ripple-target" onclick="goToPayment()">
-                    <img src="https://i.ibb.co/0yrSM1sH/telegram-premium-3-months-subscription-77644.jpg" alt="Prem" style="border-radius: 8px;">
-                    <div class="p-info"><span class="p-amt">Premium 12 Months (1 Year)</span><span class="p-cost">117,000 Ks</span></div>
+                <div class="price-card ripple-target" style="grid-column: span 2;" onclick="goToPayment()">
+                    <img src="https://i.ibb.co/0yrSM1sH/telegram-premium-3-months-subscription-77644.jpg" alt="Prem" style="border-radius: 12px;">
+                    <div class="p-amt">Premium 12 Months (1 Year)</div><div class="p-cost">117,000 Ks</div>
                 </div>
-            </div>
-        </div>
-
-        <div id="home-soon" class="home-view">
-            <div class="back-btn ripple-target" onclick="showView('home-main')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
-            <div style="text-align: center; margin-top: 50px;">
-                <i class="fa-solid fa-clock-rotate-left" style="font-size: 50px; color: var(--blue-ios); margin-bottom: 15px; filter: drop-shadow(0 0 15px rgba(0,122,255,0.4));"></i>
-                <h2 style="font-size: 22px; font-weight: 600; margin-bottom: 5px;">Coming Soon!</h2>
-                <p style="color: var(--muted-text); font-size: 13px;">ဈေးနှုန်းဇယားများကို မကြာမီ တင်ပေးသွားပါမည်။</p>
             </div>
         </div>
 
         <div id="social-media" class="home-view">
             <div class="back-btn ripple-target" onclick="showView('home-main')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
             <div class="danger-note-block">
-                <i class="fa-solid fa-triangle-exclamation"></i>
+                <i class="fa-solid fa-gem" style="color: var(--neon-blue);"></i>
                 <div>
-                    <b style="color: var(--neon-red);">Note:</b> Quality အကောင်းစားတွေကြီးဘဲ သုံးထားတာမို့ စျေးအနည်းငယ်ကြီးပါမယ်ဗျာ့။
+                    <b style="color: var(--neon-blue);">Note:</b> <span style="color:#e0e0e0;">Quality အကောင်းစားတွေကြီးဘဲ သုံးထားတာမို့ စျေးအနည်းငယ်ကြီးပါမယ်ဗျာ့။</span>
                 </div>
             </div>
             <div class="grid-container">
@@ -662,90 +721,88 @@
 
         <div id="tiktok-page" class="home-view">
             <div class="back-btn ripple-target" onclick="showView('social-media')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
-            <div class="midnight-black-title">Tiktok Like/Follower/View Price</div>
+            <div class="midnight-black-title">Tiktok Like/Follower/View</div>
             <div class="danger-note-block">
                 <i class="fa-solid fa-triangle-exclamation"></i>
                 <div>
-                    <span>Note: Tiktok Acc/Vd Link နဲ့တကွပို့ပေးရန်</span>
-                    <div style="margin-top: 8px; color: #ffffff; font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 6px;">
-                        <i class="fa-solid fa-clock" style="color: #ffcc00; animation: pulse 1.5s infinite;"></i> ကြာချိန်: 5 မိနစ်ကနေ 10မိနစ် ကြား
+                    <span style="color:#e0e0e0;">Note: Tiktok Acc/Vd Link နဲ့တကွပို့ပေးရန်</span>
+                    <div style="margin-top: 10px; color: #fff; font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-hourglass-half" style="color: #ffcc00; animation: pulseTime 1.5s infinite;"></i> ကြာချိန်: 5 မိနစ်ကနေ 10မိနစ် ကြား
                     </div>
                 </div>
             </div>
 
-            <h3 style="font-size: 15px; color: #fff; margin: 20px 0 10px;"><i class="fa-solid fa-thumbs-up"></i> Tiktok Like <i class="fa-solid fa-gem" style="color: #ffaa00; font-size: 12px;"></i></h3>
+            <h3 style="font-size: 15px; color: #fff; margin: 25px 0 15px; display: flex; align-items: center; gap: 8px;"><i class="fa-solid fa-thumbs-up" style="color:var(--neon-blue);"></i> Tiktok Like <i class="fa-solid fa-gem" style="color: #ffaa00; font-size: 13px; text-shadow: 0 0 10px #ffaa00;"></i></h3>
             <div class="price-list-container">
                 <script>
                     const tkLike = [{a:"50",p:"100"},{a:"100",p:"150"},{a:"200",p:"250"},{a:"300",p:"350"},{a:"400",p:"450"},{a:"500",p:"550"},{a:"600",p:"650"},{a:"700",p:"800"},{a:"800",p:"900"},{a:"900",p:"1,000"},{a:"1K",p:"1,200"}];
-                    tkLike.forEach(i => document.write(`<div class="price-card ripple-target" onclick="goToPayment()"><div class="p-info"><span class="p-amt">Like ${i.a}</span><span class="p-cost">${i.p} Ks</span></div></div>`));
+                    tkLike.forEach(i => document.write(`<div class="price-card ripple-target" onclick="goToPayment()"><div class="p-amt">Like ${i.a}</div><div class="p-cost">${i.p} Ks</div></div>`));
                 </script>
             </div>
 
-            <h3 style="font-size: 15px; color: #fff; margin: 25px 0 10px;"><i class="fa-solid fa-user-group"></i> Tiktok Follower <i class="fa-solid fa-crown" style="color: #ffaa00; font-size: 12px;"></i></h3>
+            <h3 style="font-size: 15px; color: #fff; margin: 35px 0 15px; display: flex; align-items: center; gap: 8px;"><i class="fa-solid fa-user-group" style="color:var(--neon-blue);"></i> Tiktok Follower <i class="fa-solid fa-crown" style="color: #ffaa00; font-size: 13px; text-shadow: 0 0 10px #ffaa00;"></i></h3>
             <div class="price-list-container">
                 <script>
                     const tkFol = [{a:"100",p:"1,600"},{a:"200",p:"3,000"},{a:"300",p:"4,400"},{a:"400",p:"5,800"},{a:"500",p:"7,200"},{a:"600",p:"8,600"},{a:"700",p:"10,000"},{a:"800",p:"11,500"},{a:"900",p:"12,800"},{a:"1K",p:"14,200"}];
-                    tkFol.forEach(i => document.write(`<div class="price-card ripple-target" onclick="goToPayment()"><div class="p-info"><span class="p-amt">Follower ${i.a}</span><span class="p-cost">${i.p} Ks</span></div></div>`));
+                    tkFol.forEach(i => document.write(`<div class="price-card ripple-target" onclick="goToPayment()"><div class="p-amt">Follower ${i.a}</div><div class="p-cost">${i.p} Ks</div></div>`));
                 </script>
             </div>
 
-            <h3 style="font-size: 15px; color: #fff; margin: 25px 0 10px;"><i class="fa-solid fa-eye"></i> Tiktok View <i class="fa-solid fa-crown" style="color: #ffaa00; font-size: 12px;"></i></h3>
+            <h3 style="font-size: 15px; color: #fff; margin: 35px 0 15px; display: flex; align-items: center; gap: 8px;"><i class="fa-solid fa-eye" style="color:var(--neon-blue);"></i> Tiktok View <i class="fa-solid fa-crown" style="color: #ffaa00; font-size: 13px; text-shadow: 0 0 10px #ffaa00;"></i></h3>
             <div class="price-list-container">
                 <script>
                     const tkView = [{a:"1K",p:"2,500"},{a:"2K",p:"4,900"},{a:"3K",p:"7,300"},{a:"4K",p:"9,700"},{a:"5K",p:"11,100"},{a:"6K",p:"14,400"},{a:"7K",p:"16,800"},{a:"8K",p:"19,200"},{a:"9K",p:"21,600"},{a:"10K",p:"24,000"}];
-                    tkView.forEach(i => document.write(`<div class="price-card ripple-target" onclick="goToPayment()"><div class="p-info"><span class="p-amt">View ${i.a}</span><span class="p-cost">${i.p} Ks</span></div></div>`));
+                    tkView.forEach(i => document.write(`<div class="price-card ripple-target" onclick="goToPayment()"><div class="p-amt">View ${i.a}</div><div class="p-cost">${i.p} Ks</div></div>`));
                 </script>
             </div>
             
-            <a href="https://t.me/LaPa_PaBu" target="_blank" class="bot-link-btn ripple-target">
+            <a href="https://t.me/KinnaraMarket_bot" target="_blank" class="bot-link-btn ripple-target">
                 Other Amount Bot ကိုမေးရန် <span>[နှိပ်ပါ]</span>
             </a>
         </div>
 
         <div id="youtube-page" class="home-view">
             <div class="back-btn ripple-target" onclick="showView('social-media')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
-            <div class="midnight-black-title">Youtube Sub/Like/View Price</div>
+            <div class="midnight-black-title">Youtube Sub/Like/View</div>
             <div class="danger-note-block">
                 <i class="fa-solid fa-triangle-exclamation"></i>
                 <div>
-                    <span>Note: Youtube Acc/Vd Link နဲ့တကွပို့ပေးရန်</span>
-                    <div style="margin-top: 8px; color: #ffffff; font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 6px;">
-                        <i class="fa-solid fa-clock" style="color: #ffcc00; animation: pulse 1.5s infinite;"></i> ကြာချိန်: 5 မိနစ်ကနေ 10မိနစ် ကြား
+                    <span style="color:#e0e0e0;">Note: Youtube Acc/Vd Link နဲ့တကွပို့ပေးရန်</span>
+                    <div style="margin-top: 10px; color: #fff; font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-hourglass-half" style="color: #ffcc00; animation: pulseTime 1.5s infinite;"></i> ကြာချိန်: 5 မိနစ်ကနေ 10မိနစ် ကြား
                     </div>
                 </div>
             </div>
 
-            <h3 style="font-size: 15px; color: #fff; margin: 20px 0 10px;"><i class="fa-brands fa-youtube" style="color: #ff0000;"></i> Youtube Subscriber</h3>
+            <h3 style="font-size: 15px; color: #fff; margin: 25px 0 15px; display: flex; align-items: center; gap: 8px;"><i class="fa-brands fa-youtube" style="color: #ff0000; text-shadow: 0 0 10px rgba(255,0,0,0.5);"></i> Youtube Subscriber</h3>
             <div class="price-list-container">
                 <script>
                     const ytSub = [{a:"100",p:"9,300"},{a:"200",p:"18,400"},{a:"300",p:"27,600"},{a:"400",p:"36,800"},{a:"500",p:"45,800"},{a:"600",p:"55,100"},{a:"700",p:"64,300"},{a:"800",p:"73,400"},{a:"900",p:"82,600"},{a:"1K",p:"91,700"}];
-                    ytSub.forEach(i => document.write(`<div class="price-card ripple-target" onclick="goToPayment()"><div class="p-info"><span class="p-amt">Sub ${i.a}</span><span class="p-cost">${i.p} Ks</span></div></div>`));
+                    ytSub.forEach(i => document.write(`<div class="price-card ripple-target" onclick="goToPayment()"><div class="p-amt">Sub ${i.a}</div><div class="p-cost">${i.p} Ks</div></div>`));
                 </script>
             </div>
 
-            <h3 style="font-size: 15px; color: #fff; margin: 30px 0 10px;">More Services</h3>
+            <h3 style="font-size: 15px; color: #fff; margin: 35px 0 15px;">More Services</h3>
             <div class="price-list-container">
-                <div class="price-card" style="opacity: 0.5; cursor: not-allowed; border: 1px dashed rgba(255,255,255,0.1);">
-                    <div class="p-info">
-                        <span class="p-amt"><i class="fa-solid fa-lock"></i> Youtube Like</span>
-                        <span class="p-cost" style="color: var(--neon-red); background: transparent;">Locked</span>
-                    </div>
+                <div class="price-card" style="opacity: 0.4; cursor: not-allowed; border: 1px dashed rgba(255,255,255,0.1); background: transparent;">
+                    <div class="p-amt"><i class="fa-solid fa-lock"></i> Youtube Like</div>
+                    <div class="p-cost" style="color: var(--neon-red); background: transparent; border:none; -webkit-text-fill-color: var(--neon-red);">Locked</div>
                 </div>
-                <div class="price-card" style="opacity: 0.5; cursor: not-allowed; border: 1px dashed rgba(255,255,255,0.1);">
-                    <div class="p-info">
-                        <span class="p-amt"><i class="fa-solid fa-lock"></i> Youtube View</span>
-                        <span class="p-cost" style="color: var(--neon-red); background: transparent;">Locked</span>
-                    </div>
+                <div class="price-card" style="opacity: 0.4; cursor: not-allowed; border: 1px dashed rgba(255,255,255,0.1); background: transparent;">
+                    <div class="p-amt"><i class="fa-solid fa-lock"></i> Youtube View</div>
+                    <div class="p-cost" style="color: var(--neon-red); background: transparent; border:none; -webkit-text-fill-color: var(--neon-red);">Locked</div>
                 </div>
             </div>
 
-            <a href="https://t.me/LaPa_PaBu" target="_blank" class="bot-link-btn ripple-target">
+            <a href="https://t.me/KinnaraMarket_bot" target="_blank" class="bot-link-btn ripple-target">
                 Other Amount Bot ကိုမေးရန် <span>[နှိပ်ပါ]</span>
             </a>
         </div>
     </main>
 
     <main id="buy-tab" class="content-section">
+        <div class="midnight-black-title" style="margin-top: 10px; font-size: 14px;">ငွေပေးချေရန် အကောင့်များ</div>
+        
         <div class="pay-card ripple-target" onclick="copyValue('09788319436', this)">
             <div style="display:flex; align-items:center;">
                 <img src="https://i.ibb.co/0pB9vcGt/IMG-20260329-154219.png" class="pay-logo-mini">
@@ -779,44 +836,60 @@
             <span class="copy-text">Copy</span>
         </div>
 
-        <div style="background: rgba(255, 49, 49, 0.05); border: 1px solid var(--neon-red); padding: 15px; border-radius: 16px; margin: 20px 0; box-shadow: 0 0 15px rgba(255, 49, 49, 0.15);">
-            <p style="font-size: 12px; line-height: 1.6; color: #ffcccc; margin-bottom: 5px;">• ပြေစာပို့ရာတွင် ဝယ်ယူမည့် Game/Social Media ၏ အချက်အလက် (ID/Name/Link) တွဲပို့ပါ။</p>
-            <p style="font-size: 12px; line-height: 1.6; color: #ffcccc; margin-bottom: 5px;">• ဥပမာ - MLBB ဝယ်လျှင် In Game ID | Sever ID ထည့်ပေးပါ။</p>
-            <p style="font-size: 12px; line-height: 1.6; color: #ffcccc; margin-bottom: 5px;">• ငွေလွှဲမှတ်ချက်တွင် "Shop" ဟုသာ ရေးပါ။ အခြားစာများရေးပါက လက်ခံမည်မဟုတ်ပါ။</p>
-            <span style="color: var(--neon-red); font-size: 13px; font-weight: 700; margin-top: 10px; display: block; text-shadow: 0 0 8px rgba(255,49,49,0.4); text-align: center;">" ငွေအပြည့်လွဲမှသာ ဝယ်ယူသည့် Items ရောက်မည်! "</span>
+        <div style="background: linear-gradient(135deg, rgba(255, 59, 48, 0.1), rgba(0,0,0,0.5)); border: 1px solid rgba(255, 59, 48, 0.3); padding: 20px; border-radius: 20px; margin: 25px 0; box-shadow: 0 10px 30px rgba(255, 59, 48, 0.15);">
+            <div style="display: flex; gap: 10px; margin-bottom: 12px; align-items: center;">
+                <i class="fa-solid fa-triangle-exclamation" style="color: var(--neon-red); font-size: 18px;"></i>
+                <span style="color: #fff; font-weight: 700; font-size: 14px;">အရေးကြီးမှတ်ချက်</span>
+            </div>
+            <ul style="font-size: 12px; line-height: 1.8; color: #d1d5db; padding-left: 20px; margin-bottom: 15px;">
+                <li>ပြေစာပို့ရာတွင် ဝယ်ယူမည့် Game/Social Media ၏ အချက်အလက် (ID/Name/Link) တွဲပို့ပါ။</li>
+                <li>ဥပမာ - MLBB ဝယ်လျှင် In Game ID | Sever ID ထည့်ပေးပါ။</li>
+                <li>ငွေလွှဲမှတ်ချက်တွင် "Shop" ဟုသာ ရေးပါ။ အခြားစာများရေးပါက လက်ခံမည်မဟုတ်ပါ။</li>
+            </ul>
+            <div style="background: rgba(255, 59, 48, 0.15); padding: 10px; border-radius: 10px; text-align: center;">
+                <span style="color: var(--neon-red); font-size: 13px; font-weight: 800; text-shadow: 0 0 10px rgba(255,59,48,0.5);">" ငွေအပြည့်လွဲမှသာ ဝယ်ယူသည့် Items ရောက်မည်! "</span>
+            </div>
         </div>
 
-        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 18px; margin-bottom: 15px;">
+        <div style="background: rgba(20,20,20,0.6); border: 1px solid var(--glass-border); border-radius: 24px; padding: 22px; margin-bottom: 20px; backdrop-filter: blur(15px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
             <input type="file" id="receipt-upload" style="display: none;" accept="image/*">
-            <div class="ripple-target" id="upload-box" onclick="document.getElementById('receipt-upload').click()" style="width: 100%; height: 90px; border: 1.5px dashed rgba(255,255,255,0.3); border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255,255,255,0.02); margin-bottom: 15px;">
-                <i class="fa-solid fa-cloud-arrow-up" style="font-size: 26px; margin-bottom: 8px; color: var(--blue-ios);"></i>
-                <span style="font-size: 13px; font-weight: 600; color: white;">ပြေစာပုံတင်ရန် နှိပ်ပါ</span>
+            <div class="ripple-target" id="upload-box" onclick="document.getElementById('receipt-upload').click()" style="width: 100%; height: 110px; border: 2px dashed rgba(10,132,255,0.4); border-radius: 18px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(10,132,255,0.05); margin-bottom: 18px; transition: 0.3s;">
+                <i class="fa-solid fa-cloud-arrow-up" style="font-size: 32px; margin-bottom: 10px; color: var(--blue-ios); filter: drop-shadow(0 0 10px rgba(10,132,255,0.4));"></i>
+                <span style="font-size: 13px; font-weight: 700; color: #fff;">ပြေစာပုံတင်ရန် နှိပ်ပါ</span>
             </div>
 
             <div style="position: relative;">
-                <span id="remove-preview-btn" onclick="resetUploadState()" style="display: none; position: absolute; top: 10px; right: 10px; background: rgba(255, 49, 49, 0.8); color: white; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; cursor: pointer; z-index: 10; font-weight: bold;">×</span>
+                <span id="remove-preview-btn" onclick="resetUploadState()" style="display: none; position: absolute; top: -10px; right: -10px; background: var(--neon-red); color: white; width: 30px; height: 30px; border-radius: 50%; text-align: center; line-height: 30px; cursor: pointer; z-index: 10; font-weight: bold; box-shadow: 0 4px 10px rgba(255,59,48,0.5);">×</span>
             </div>
             
-            <img id="img-preview" alt="Preview" class="ripple-target" onclick="document.getElementById('receipt-upload').click()" style="width: 100%; border-radius: 14px; margin-bottom: 15px; display: none; border: 1px solid rgba(255,255,255,0.1);">
+            <img id="img-preview" alt="Preview" class="ripple-target" onclick="document.getElementById('receipt-upload').click()" style="width: 100%; border-radius: 16px; margin-bottom: 18px; display: none; border: 1px solid var(--glass-border); box-shadow: 0 5px 15px rgba(0,0,0,0.5);">
 
-            <textarea id="user-info" rows="2" placeholder="Game ID | User name | Link များကို ဤနေရာတွင် ရေးပေးပါ..." style="width: 100%; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 15px; color: white; font-size: 13px; outline: none; resize: none; transition: 0.3s;"></textarea>
+            <textarea id="user-info" rows="3" placeholder="Game ID | User name | Link များကို ဤနေရာတွင် ရေးပေးပါ..." style="width: 100%; background: rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; padding: 16px; color: white; font-size: 13px; outline: none; resize: none; transition: all 0.3s; margin-bottom: 5px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);"></textarea>
             
-            <button class="ripple-target" id="send-btn" onclick="sendToTelegram()" style="width: 100%; background: var(--blue-ios); color: white; border: none; padding: 16px; border-radius: 16px; font-size: 15px; font-weight: 700; display: none; margin-top: 15px; box-shadow: 0 6px 20px rgba(0, 122, 255, 0.4);">ယခုပို့မည်</button>
+            <button class="ripple-target" id="send-btn" onclick="sendToTelegram()" style="width: 100%; background: linear-gradient(90deg, #0a84ff, #00f3ff); color: white; border: none; padding: 18px; border-radius: 18px; font-size: 15px; font-weight: 800; display: none; margin-top: 15px; box-shadow: 0 8px 25px rgba(10, 132, 255, 0.4); text-transform: uppercase; letter-spacing: 1px;">ယခုပို့မည်</button>
         </div>
     </main>
 
     <main id="info-tab" class="content-section">
-        <a href="https://t.me/LaPa_PaBu" target="_blank" class="ripple-target" style="display: flex; align-items: center; background: var(--card-bg); padding: 18px; border-radius: 16px; margin-bottom: 12px; text-decoration: none; color: white; border: 1px solid rgba(255,255,255,0.08);">
-            <i class="fa-solid fa-user-tie" style="font-size: 22px; margin-right: 15px; color: var(--blue-ios); width: 30px; text-align: center;"></i>
-            <span style="font-size: 14px; font-weight: 600;">Owner : @LaPa_PaBu</span>
+        <div class="midnight-black-title" style="margin-top: 10px; font-size: 14px;">Contact Information</div>
+
+        <a href="https://t.me/LaPa_PaBu" target="_blank" class="ripple-target" style="display: flex; align-items: center; background: linear-gradient(145deg, rgba(30,30,30,0.6), rgba(10,10,10,0.8)); padding: 20px; border-radius: 20px; margin-bottom: 15px; text-decoration: none; color: white; border: 1px solid var(--glass-border); box-shadow: 0 8px 20px rgba(0,0,0,0.4); backdrop-filter: blur(10px);">
+            <div style="background: rgba(10,132,255,0.1); width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 18px; border: 1px solid rgba(10,132,255,0.2);">
+                <i class="fa-solid fa-user-tie" style="font-size: 20px; color: var(--neon-blue); filter: drop-shadow(0 0 8px rgba(0,243,255,0.5));"></i>
+            </div>
+            <span style="font-size: 14px; font-weight: 600; letter-spacing: 0.5px;">Owner : @LaPa_PaBu</span>
         </a>
-        <a href="https://t.me/KixxZGame_Store" target="_blank" class="ripple-target" style="display: flex; align-items: center; background: var(--card-bg); padding: 18px; border-radius: 16px; margin-bottom: 12px; text-decoration: none; color: white; border: 1px solid rgba(255,255,255,0.08);">
-            <i class="fa-solid fa-bullhorn" style="font-size: 22px; margin-right: 15px; color: var(--blue-ios); width: 30px; text-align: center;"></i>
-            <span style="font-size: 14px; font-weight: 600;">Channel : @KixxZGame_Store</span>
+        <a href="https://t.me/KixxZGame_Store" target="_blank" class="ripple-target" style="display: flex; align-items: center; background: linear-gradient(145deg, rgba(30,30,30,0.6), rgba(10,10,10,0.8)); padding: 20px; border-radius: 20px; margin-bottom: 15px; text-decoration: none; color: white; border: 1px solid var(--glass-border); box-shadow: 0 8px 20px rgba(0,0,0,0.4); backdrop-filter: blur(10px);">
+            <div style="background: rgba(10,132,255,0.1); width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 18px; border: 1px solid rgba(10,132,255,0.2);">
+                <i class="fa-solid fa-bullhorn" style="font-size: 20px; color: var(--neon-blue); filter: drop-shadow(0 0 8px rgba(0,243,255,0.5));"></i>
+            </div>
+            <span style="font-size: 14px; font-weight: 600; letter-spacing: 0.5px;">Channel : @KixxZGame_Store</span>
         </a>
-        <a href="https://t.me/KinnaraMarket_bot" target="_blank" class="ripple-target" style="display: flex; align-items: center; background: var(--card-bg); padding: 18px; border-radius: 16px; margin-bottom: 12px; text-decoration: none; color: white; border: 1px solid rgba(255,255,255,0.08);">
-            <i class="fa-solid fa-robot" style="font-size: 22px; margin-right: 15px; color: var(--blue-ios); width: 30px; text-align: center;"></i>
-            <span style="font-size: 14px; font-weight: 600;">Bot : @KinnaraMarket_bot</span>
+        <a href="https://t.me/KinnaraMarket_bot" target="_blank" class="ripple-target" style="display: flex; align-items: center; background: linear-gradient(145deg, rgba(30,30,30,0.6), rgba(10,10,10,0.8)); padding: 20px; border-radius: 20px; margin-bottom: 15px; text-decoration: none; color: white; border: 1px solid var(--glass-border); box-shadow: 0 8px 20px rgba(0,0,0,0.4); backdrop-filter: blur(10px);">
+            <div style="background: rgba(10,132,255,0.1); width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 18px; border: 1px solid rgba(10,132,255,0.2);">
+                <i class="fa-solid fa-robot" style="font-size: 20px; color: var(--neon-blue); filter: drop-shadow(0 0 8px rgba(0,243,255,0.5));"></i>
+            </div>
+            <span style="font-size: 14px; font-weight: 600; letter-spacing: 0.5px;">Bot : @KinnaraMarket_bot</span>
         </a>
     </main>
 
@@ -833,7 +906,7 @@
     </nav>
 
     <script>
-        // --- Telegram User Info Integration ---
+        // --- Telegram Integration ---
         const tg = window.Telegram.WebApp;
         tg.expand();
         const user = tg.initDataUnsafe?.user;
@@ -841,7 +914,7 @@
         const tgUserId = user ? user.id : null;
         const tgUsernameTag = user?.username ? `(@${user.username})` : "";
 
-        // --- Tab & View Switching ---
+        // --- Core UI Functions ---
         const sections = document.querySelectorAll('.content-section');
         const navItems = document.querySelectorAll('.nav-item');
 
@@ -856,6 +929,31 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        function showView(viewId) {
+            document.querySelectorAll('.home-view').forEach(v => v.classList.remove('active-view'));
+            document.getElementById(viewId).classList.add('active-view');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function goToPayment() {
+            const buyTabBtn = document.querySelectorAll('.nav-item')[1];
+            switchTab('buy-tab', buyTabBtn);
+        }
+
+        function copyValue(val, el) {
+            navigator.clipboard.writeText(val);
+            const hint = el.querySelector('.copy-text');
+            hint.innerText = "Copied!";
+            hint.style.color = "#fff";
+            hint.style.background = "var(--blue-ios)";
+            setTimeout(() => { 
+                hint.innerText = "Copy"; 
+                hint.style.color = "var(--blue-ios)"; 
+                hint.style.background = "rgba(10,132,255,0.15)";
+            }, 2000);
+        }
+
+        // --- Initial Ads Modal ---
         window.onload = function() {
             const modal = document.getElementById('ads-modal');
             const adsBtn = document.getElementById('ads-btn');
@@ -874,10 +972,10 @@
                         clearInterval(timer);
                         adsBtn.innerText = "OK";
                         adsBtn.disabled = false;
-                        adsBtn.style.background = "var(--blue-ios)";
+                        adsBtn.style.background = "linear-gradient(90deg, #0a84ff, #00f3ff)";
                         adsBtn.style.color = "white";
                         adsBtn.style.cursor = "pointer";
-                        adsBtn.style.boxShadow = "0 4px 15px rgba(0, 122, 255, 0.4)";
+                        adsBtn.style.boxShadow = "0 8px 25px rgba(10, 132, 255, 0.4)";
                         
                         adsBtn.onclick = function() {
                             modal.style.opacity = '0';
@@ -886,29 +984,10 @@
                         }
                     }
                 }, 1000);
-            }, 1000);
+            }, 800);
         };
 
-        function showView(viewId) {
-            document.querySelectorAll('.home-view').forEach(v => v.classList.remove('active-view'));
-            document.getElementById(viewId).classList.add('active-view');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function goToPayment() {
-            const buyTabBtn = document.querySelectorAll('.nav-item')[1];
-            switchTab('buy-tab', buyTabBtn);
-        }
-
-        function copyValue(val, el) {
-            navigator.clipboard.writeText(val);
-            const hint = el.querySelector('.copy-text');
-            hint.innerText = "Copied!";
-            hint.style.color = "white";
-            setTimeout(() => { hint.innerText = "Copy"; hint.style.color = "var(--blue-ios)"; }, 2000);
-        }
-
-        // --- Image Preview ---
+        // --- File Upload & Preview ---
         const fileInput = document.getElementById('receipt-upload');
         const preview = document.getElementById('img-preview');
         const sendBtn = document.getElementById('send-btn');
@@ -929,7 +1008,20 @@
             }
         }
 
-        // --- SENDING TO TELEGRAM ---
+        function resetUploadState() {
+            fileInput.value = '';
+            preview.style.display = 'none';
+            uploadBox.style.display = 'flex';
+            sendBtn.style.display = 'none';
+            sendBtn.disabled = false;
+            sendBtn.innerHTML = 'ယခုပို့မည်';
+            sendBtn.style.background = 'linear-gradient(90deg, #0a84ff, #00f3ff)';
+            document.getElementById('user-info').value = '';
+            const removeBtn = document.getElementById('remove-preview-btn');
+            if(removeBtn) removeBtn.style.display = 'none';
+        }
+
+        // --- Telegram Bot Sending Logic ---
         async function sendToTelegram() {
             const BOT_TOKEN = '8666396262:AAE9E39Td3mLkQTD7EvbDPGPrynAiFJIfsY'; 
             const OWNER_CHAT_ID = '2006437268'; 
@@ -941,7 +1033,6 @@
                 document.getElementById('user-info').focus();
                 return;
             }
-
             if (!fileInput.files[0]) {
                 alert("ကျေးဇူးပြု၍ ပြေစာပုံ အရင်ရွေးချယ်ပါ");
                 return;
@@ -949,6 +1040,8 @@
 
             sendBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ပို့နေပါသည်...';
             sendBtn.disabled = true;
+            sendBtn.style.background = 'rgba(255,255,255,0.2)';
+            sendBtn.style.boxShadow = 'none';
 
             const adminCaption = `🧾 ပြေစာအသစ် ရောက်ပါပြီ!\n\n👤 ပို့သူ: ${tgUserName} ${tgUsernameTag}\n📝 အချက်အလက်များ:\n${userDescription}`;
 
@@ -985,31 +1078,20 @@
                         });
                     }
                     sendBtn.innerHTML = '<i class="fa-solid fa-check"></i> ပို့ပြီးပါပြီ';
-                    sendBtn.style.background = '#28a745';
-                    sendBtn.style.boxShadow = '0 6px 20px rgba(40, 167, 69, 0.4)';
+                    sendBtn.style.background = 'linear-gradient(90deg, #32d74b, #28a745)';
+                    sendBtn.style.boxShadow = '0 8px 25px rgba(50, 215, 75, 0.4)';
                 } else {
                     alert("Error: ပို့လို့မရပါ။ Connection စစ်ဆေးပါ။");
                     sendBtn.disabled = false;
                     sendBtn.innerHTML = 'ယခုပို့မည်';
+                    sendBtn.style.background = 'linear-gradient(90deg, #0a84ff, #00f3ff)';
                 }
             } catch (err) {
                 alert("အင်တာနက်ချိတ်ဆက်မှု မရှိပါ");
                 sendBtn.disabled = false;
                 sendBtn.innerHTML = 'ယခုပို့မည်';
+                sendBtn.style.background = 'linear-gradient(90deg, #0a84ff, #00f3ff)';
             }
-        }
-
-        function resetUploadState() {
-            fileInput.value = '';
-            preview.style.display = 'none';
-            uploadBox.style.display = 'flex';
-            sendBtn.style.display = 'none';
-            sendBtn.disabled = false;
-            sendBtn.innerHTML = 'ယခုပို့မည်';
-            sendBtn.style.background = 'var(--blue-ios)';
-            document.getElementById('user-info').value = '';
-            const removeBtn = document.getElementById('remove-preview-btn');
-            if(removeBtn) removeBtn.style.display = 'none';
         }
     </script>
 </body>
