@@ -99,6 +99,42 @@
             100% { opacity: 1; transform: translateY(0); } 
         }
 
+        /* Product တစ်ခုချင်းစီရဲ့ ဘောင် (Container) */
+        .product-card {
+        display: flex;
+        justify-content: space-between; /* နာမည် နဲ့ ဈေးနှုန်း ကို ဘယ်/ညာ အစွန်ပို့မယ် */
+        align-items: center; /* အပေါ်အောက် အလယ်ညှိမယ် */
+        padding: 12px 15px;
+        background: var(--card-bg);
+        border-radius: 12px;
+        margin-bottom: 8px;
+        width: 100%; /* Mobile screen တစ်ခုလုံး အပြည့်ယူမယ် */
+        box-sizing: border-box;
+        }
+
+        /* နာမည်စာသား အပိုင်း */
+        .product-name {
+        font-size: 18px; /* စာလုံးကြီးချင်ရင် ဒီဂဏန်းကို တိုးပါ */
+        font-weight: 600;
+        color: #ffffff;
+    
+        /* တစ်ကြောင်းတည်း ဖြစ်စေရန် အဓိကအပိုင်း */
+        white-space: nowrap;       /* စာကို အောက်ကြောင်း ပေးမဆင်းတာ */
+        overflow: hidden;          /* ဘောင်ကျော်ရင် ဖျောက်ထားတာ */
+        text-overflow: ellipsis;   /* စာသား အရမ်းရှည်ရင် အစွန်မှာ ... လေးပေါ်လာတာ */
+    
+        flex: 1;                   /* ကျန်တဲ့နေရာအလွတ်ကို သူက အကုန်ယူမယ် */
+        margin-right: 10px;        /* ဈေးနှုန်းနဲ့ မကပ်အောင် ခြားထားတာ */
+        }
+
+        /* ဈေးနှုန်း အပိုင်း */
+        .product-price {
+        font-size: 18px;           /* ဈေးနှုန်းကိုလည်း စာလုံးကြီးထားမယ် */
+        font-weight: 700;
+        color: var(--neon-blue);   /* မင်းသုံးထားတဲ့ အပြာရောင် */
+        flex-shrink: 0;            /* ဈေးနှုန်းစာသားကို အနှိပ်စက်မခံဘဲ ပုံမပျက်အောင် ထိန်းတာ */
+        }
+
         .grid-container {
             display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 15px;
         }
@@ -329,15 +365,15 @@
                 <script>
                     const ghIconHTML = '<img src="https://i.ibb.co/n8LPWL06/is-godhuman-even-good-v0-ovttx5v7fs4f1-1775764911122edit.jpg" class="small-gh-icon">';
                     const bloxPrices1 = [
-                        {desc: `1 Mythical + Lv Max + God Human ${ghIconHTML}`, cost: "1,500Ks"},
-                        {desc: `2 Mythical + Lv Max + God Human ${ghIconHTML}`, cost: "1,800Ks"},
-                        {desc: `3 Mythical + Lv Max + God Human ${ghIconHTML}`, cost: "2,500Ks"},
-                        {desc: `5 Mythical + Lv Max + God Human ${ghIconHTML}`, cost: "4,500Ks"},
-                        {desc: `6 Mythical + Lv Max + God Human ${ghIconHTML}`, cost: "5,400Ks"},
-                        {desc: `8 Mythical + Lv Max + God Human ${ghIconHTML}`, cost: "7,500Ks"},
-                        {desc: `9 Mythical + Lv Max + God Human ${ghIconHTML}`, cost: "9,000Ks"},
-                        {desc: `10 Mythical + Lv Max + God Human ${ghIconHTML}`, cost: "11,000Ks"},
-                        {desc: `11 Mythical + Lv Max + God Human ${ghIconHTML}`, cost: "21,500Ks"}
+                        {desc: `1 Mythical + Lv Max + ${ghIconHTML}`, cost: "1,500Ks"},
+                        {desc: `2 Mythical + Lv Max + ${ghIconHTML}`, cost: "1,800Ks"},
+                        {desc: `3 Mythical + Lv Max + ${ghIconHTML}`, cost: "2,500Ks"},
+                        {desc: `5 Mythical + Lv Max + ${ghIconHTML}`, cost: "4,500Ks"},
+                        {desc: `6 Mythical + Lv Max + ${ghIconHTML}`, cost: "5,400Ks"},
+                        {desc: `8 Mythical + Lv Max + ${ghIconHTML}`, cost: "7,500Ks"},
+                        {desc: `9 Mythical + Lv Max + ${ghIconHTML}`, cost: "9,000Ks"},
+                        {desc: `10 Mythical + Lv Max + ${ghIconHTML}`, cost: "11,000Ks"},
+                        {desc: `11 Mythical + Lv Max + ${ghIconHTML}`, cost: "21,500Ks"}
                     ];
                     bloxPrices1.forEach(item => {
                         document.write(`
@@ -353,7 +389,7 @@
 
         <div id="blox-other-list" class="home-view">
             <div class="back-btn ripple-target" onclick="showView('blox-fruit-main')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
-            <div class="midnight-black-title" style="font-size: 13px; padding: 15px;">Blox Fruit Other Random Accounts <span style="color: var(--neon-orange);">( Premium )</span></div>
+            <div class="midnight-black-title" style="font-size: 13px; padding: 15px;">BF Other Random Accounts <span style="color: var(--neon-orange);">(Premium)</span></div>
             
             <div class="danger-note-block" style="border-left-color: var(--neon-orange); background: linear-gradient(90deg, rgba(255,159,10,0.15), rgba(255,159,10,0.02));">
                 <i class="fa-solid fa-circle-info" style="color: var(--neon-orange);"></i>
@@ -369,10 +405,10 @@
                 <script>
                     const otherPrices = [
                         {desc: `Cyborg FG + CDK + Soul Guitar 80% + ${ghIconHTML}`, cost: "5,500Ks"},
-                        {desc: `Ghoul FG + CDK + Soul Guitar 80% +  ${ghIconHTML}`, cost: "5,500Ks"},
-                        {desc: `Shark FG + CDK + Soul Guitar 80% +  ${ghIconHTML}`, cost: "5,500Ks"},
-                        {desc: `Angel FG + CDK + Soul Guitar 95% +  ${ghIconHTML}`, cost: "5,500Ks"},
-                        {desc: `Random Race FG + CDK + ${ghIconHTML}`, cost: "5,500Ks"},
+                        {desc: `Ghoul FG + CDK + Soul Guitar 80% + ${ghIconHTML}`, cost: "5,500Ks"},
+                        {desc: `Shark FG + CDK + Soul Guitar 80% + ${ghIconHTML}`, cost: "5,500Ks"},
+                        {desc: `Angel FG + CDK + Soul Guitar 95% + ${ghIconHTML}`, cost: "5,500Ks"},
+                        {desc: `Random Race FG + ${ghIconHTML} + CDK `, cost: "5,500Ks"},
                         {desc: `CDK + ${ghIconHTML} + Soul Guitar + MM Random`, cost: "3,500Ks"},
                         {desc: `CDK + ${ghIconHTML}`, cost: "2,500Ks"}
                     ];
@@ -884,7 +920,7 @@
                 <li>ငွေလွှဲမှတ်ချက်တွင် "Shop" ဟုသာ ရေးပါ။ အခြားစာများရေးပါက လက်ခံမည်မဟုတ်ပါ။</li>
             </ul>
             <div style="background: rgba(255, 59, 48, 0.15); padding: 10px; border-radius: 10px; text-align: center;">
-                <span style="color: var(--neon-red); font-size: 13px; font-weight: 800; text-shadow: 0 0 10px rgba(255,59,48,0.5);">" ငွေအပြည့်လွဲမှသာ ဝယ်ယူသည့် Items ရောက်မည်! "</span>
+                <span style="color: var(--neon-red); font-size: 13px; font-weight: 800; text-shadow: 0 0 10px rgba(255,59,48,0.5);">ငွေအပြည့်လွဲမှသာ ဝယ်ယူသည့် Items ရောက်မည်!</span>
             </div>
         </div>
 
