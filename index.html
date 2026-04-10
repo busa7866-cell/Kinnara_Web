@@ -11,13 +11,13 @@
     <style>
         /* --- PREMIUM ULTRA UI COLOR PALETTE --- */
         :root {
-            --bg-color: #030303; /* Deep Midnight Black */
+            --bg-color: #030303; 
             --card-bg: rgba(20, 20, 20, 0.45);
             --card-hover: rgba(35, 35, 35, 0.6);
             --nav-bg: rgba(10, 10, 10, 0.75);
             --accent-white: #ffffff;
             --muted-text: #9ca3af;
-            --blue-ios: #0a84ff; /* iOS Dark Mode Blue */
+            --blue-ios: #0a84ff; 
             --neon-blue: #00f3ff;
             --neon-red: #ff3b30;
             --neon-orange: #ff9f0a;
@@ -33,7 +33,6 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* --- BACKGROUND WITH PREMIUM BLUR FX --- */
         body {
             background-color: var(--bg-color);
             background-image: radial-gradient(circle at 50% 0%, rgba(10, 132, 255, 0.1) 0%, transparent 60%),
@@ -44,21 +43,19 @@
             background-attachment: fixed;
         }
 
-        /* --- ULTRA SMOOTH RIPPLE & TAP EFFECT --- */
+        /* --- FAST & SMOOTH RIPPLE --- */
         .ripple-target {
             position: relative;
             overflow: hidden;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            will-change: transform, box-shadow;
+            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.2s;
+            will-change: transform;
         }
         .ripple-target:active {
-            transform: scale(0.94);
-            background: var(--card-hover);
-            border-color: rgba(255, 255, 255, 0.2);
+            transform: scale(0.96);
+            /* ဖိထားရင် အပြာရောင်မပေါ်အောင် ဖြုတ်ထားပါသည် */
         }
         
-        /* --- NEON GLOW TITLES --- */
         .white-neon-title {
             color: #ffffff;
             font-size: 24px;
@@ -68,7 +65,6 @@
             text-shadow: 0 0 10px rgba(255,255,255,0.3), 0 0 20px rgba(255,255,255,0.2);
         }
 
-        /* --- GLASSMORPHISM HEADER --- */
         .header {
             display: flex;
             align-items: center;
@@ -87,23 +83,22 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.1);
         }
 
-        /* --- IPHONE 17 FLUID ANIMATIONS FOR VIEWS --- */
+        /* --- ULTRA FAST WITHOUT BLUR ANIMATIONS --- */
         .content-section { display: none; padding: 15px 20px; padding-bottom: 140px; }
-        .content-section.active { display: block; animation: fluidFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .content-section.active { display: block; animation: fastFadeIn 0.3s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
         
         .home-view { display: none; }
-        .home-view.active-view { display: block; animation: fluidSlideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+        .home-view.active-view { display: block; animation: fastSlideUp 0.3s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
 
-        @keyframes fluidFadeIn { 
-            0% { opacity: 0; filter: blur(8px); } 
-            100% { opacity: 1; filter: blur(0); } 
+        @keyframes fastFadeIn { 
+            0% { opacity: 0; } 
+            100% { opacity: 1; } 
         }
-        @keyframes fluidSlideUp { 
-            0% { opacity: 0; transform: translateY(35px) scale(0.97); filter: blur(5px); } 
-            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } 
+        @keyframes fastSlideUp { 
+            0% { opacity: 0; transform: translateY(15px); } 
+            100% { opacity: 1; transform: translateY(0); } 
         }
 
-        /* --- GRID CARDS (SQUARE) --- */
         .grid-container {
             display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 15px;
         }
@@ -117,30 +112,25 @@
             border: 1px solid var(--glass-border); 
             box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             display: flex; flex-direction: column; align-items: center; justify-content: center; aspect-ratio: 1/1;
-            backdrop-filter: blur(10px);
         }
         .cat-card img {
             width: 75px; height: 75px; border-radius: 20px; object-fit: cover; margin-bottom: 14px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05);
-            transition: transform 0.4s ease;
         }
-        .cat-card:hover img { transform: translateY(-5px); }
         .grid-3-col .cat-card { padding: 12px; border-radius: 18px; }
         .grid-3-col .cat-card img { width: 55px; height: 55px; border-radius: 16px; margin-bottom: 10px; }
-        .cat-card span { font-size: 13px; font-weight: 600; line-height: 1.4; color: #f3f4f6; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+        .cat-card span { font-size: 13px; font-weight: 600; line-height: 1.4; color: #f3f4f6; }
         .grid-3-col .cat-card span { font-size: 11px; }
 
-        /* --- SLEEK BACK BUTTON --- */
         .back-btn {
             display: inline-flex; align-items: center; padding: 10px 20px;
             background: rgba(255, 255, 255, 0.05); color: #fff; border-radius: 30px;
             font-size: 13px; font-weight: 600; margin-bottom: 25px; border: 1px solid var(--glass-border);
-            backdrop-filter: blur(15px); box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             letter-spacing: 0.5px;
         }
         .back-btn i { margin-right: 8px; color: var(--blue-ios); font-size: 14px; }
 
-        /* --- TITLES & PREMIUM NOTES --- */
         .midnight-black-title {
             background: linear-gradient(135deg, #1f1f1f 0%, #0a0a0a 100%); color: #fff;
             text-align: center; padding: 18px; border-radius: 18px;
@@ -154,32 +144,29 @@
             color: #ff6b6b; border-left: 4px solid var(--neon-red); 
             padding: 16px; border-radius: 14px; font-size: 13px; font-weight: 500; 
             margin-bottom: 20px; line-height: 1.6; display: flex; gap: 12px; align-items: flex-start;
-            box-shadow: 0 4px 20px rgba(255,59,48,0.1);
         }
         
         .critical-note-block {
             background: linear-gradient(90deg, rgba(255,159,10,0.2), rgba(255,159,10,0.05)); 
             border: 1px solid rgba(255,159,10,0.3); border-left: 5px solid var(--neon-orange);
             padding: 16px; border-radius: 14px; margin-bottom: 15px;
-            box-shadow: 0 0 20px rgba(255,159,10,0.15);
         }
-        .critical-note-block .n-title { color: var(--neon-orange); font-weight: 800; font-size: 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; text-shadow: 0 0 10px rgba(255,159,10,0.5); }
+        .critical-note-block .n-title { color: var(--neon-orange); font-weight: 800; font-size: 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
         .critical-note-block ul { color: #f3f4f6; font-size: 13px; padding-left: 22px; line-height: 1.8; font-weight: 500; }
 
-        @keyframes pulseTime { 0% { opacity: 0.6; transform: scale(0.95); } 50% { opacity: 1; transform: scale(1.05); text-shadow: 0 0 10px #ffcc00; } 100% { opacity: 0.6; transform: scale(0.95); } }
+        @keyframes pulseTime { 0% { opacity: 0.6; transform: scale(0.95); } 50% { opacity: 1; transform: scale(1.05); } 100% { opacity: 0.6; transform: scale(0.95); } }
 
-        /* --- NORMAL PRICE LIST (SQUARES) --- */
+        /* --- PRICE LIST CARDS --- */
         .price-list-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
         .price-card {
             background: linear-gradient(145deg, #161616, #0d0d0d); 
             border-radius: 18px; padding: 18px 12px; display: flex; flex-direction: column;
             align-items: center; justify-content: center; border: 1px solid rgba(255, 255, 255, 0.06);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4); text-align: center;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4); text-align: center; transition: 0.2s;
         }
-        .price-card:hover { border-color: var(--blue-ios); box-shadow: 0 0 25px rgba(10,132,255,0.2); }
+        /* ဖိထားစဉ် အပြာရောင်မပြောင်းအောင် ဖြုတ်ထားသည် */
         .price-card img, .price-card .emoji-icon { 
             width: 55px !important; height: 55px !important; object-fit: contain; margin-bottom: 12px; 
-            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
         }
         .price-card .p-amt { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 8px; }
         .price-card .p-cost { 
@@ -188,71 +175,74 @@
             padding: 4px 10px; border-radius: 8px; border: 1px solid rgba(10,132,255,0.3);
         }
 
-        /* --- HORIZONTAL PREMIUM PRICE LIST (Blox Fruit Style) --- */
         .horizontal-list { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
         .horizontal-card {
             display: flex; justify-content: space-between; align-items: center;
             background: linear-gradient(135deg, rgba(25,25,25,0.8) 0%, rgba(10,10,10,0.95) 100%);
             padding: 18px 20px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.5); transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-        .horizontal-card:hover {
-            border-color: var(--neon-blue); box-shadow: 0 0 20px rgba(0, 243, 255, 0.15); transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5); transition: 0.2s;
         }
         .horizontal-card .h-title {
-            color: #ffffff; font-size: 13px; font-weight: 600; text-shadow: 0 2px 5px rgba(0,0,0,0.8); flex: 1; padding-right: 10px; line-height: 1.5;
+            color: #ffffff; font-size: 13px; font-weight: 600; flex: 1; padding-right: 10px; line-height: 1.5;
+            display: flex; align-items: center; flex-wrap: wrap; gap: 4px;
         }
         .horizontal-card .h-price {
             background: rgba(0, 243, 255, 0.1); color: var(--neon-blue); font-size: 14px; font-weight: 800;
             padding: 8px 14px; border-radius: 12px; border: 1px solid rgba(0, 243, 255, 0.3); white-space: nowrap;
         }
 
-        /* --- 16:9 BANNER CARDS --- */
         .banner-card {
             width: 100%; border-radius: 20px; overflow: hidden; background: #111;
             border: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.7); margin-bottom: 20px;
         }
         .banner-card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .banner-card .b-title {
-            padding: 16px; text-align: center; font-size: 15px; font-weight: 700; color: #fff;
+            padding: 15px; text-align: center; font-size: 15px; font-weight: 700; color: #fff;
             background: linear-gradient(180deg, rgba(20,20,20,0.8) 0%, rgba(5,5,5,1) 100%);
             text-transform: uppercase; letter-spacing: 0.5px;
         }
+        .buy-now-btn {
+            background: linear-gradient(90deg, #ffcc00, #ff9f0a); color: #000;
+            padding: 10px 24px; border-radius: 12px; font-weight: 800; display: inline-block;
+            margin-top: 12px; font-size: 14px; text-transform: uppercase; box-shadow: 0 4px 15px rgba(255, 204, 0, 0.4);
+        }
 
-        /* --- BUTTONS --- */
         .bot-link-btn {
             background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)); 
             color: white; text-align: center; padding: 18px; border-radius: 18px; font-size: 14px; font-weight: 600;
             margin-top: 25px; border: 1px solid var(--glass-border); display: block; text-decoration: none;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4); backdrop-filter: blur(10px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4); 
         }
         .bot-link-btn span { color: var(--neon-blue); font-weight: 800; }
 
-        /* --- Animated Emojis --- */
         .emoji-icon { font-size: 34px; margin-right: 12px; display: inline-block; animation: floatBounce 3s infinite ease-in-out; }
-        @keyframes floatBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); filter: drop-shadow(0 5px 10px rgba(255,255,255,0.2)); } }
+        @keyframes floatBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 
-        /* --- 2. BUY TAB (Payments) --- */
+        /* Small Godhuman Icon CSS */
+        .small-gh-icon {
+            width: 22px; height: 22px; border-radius: 4px; object-fit: cover; vertical-align: middle;
+            border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 0 5px rgba(255,255,255,0.2);
+            margin: 0 4px; display: inline-block;
+        }
+
         .pay-card {
             background: linear-gradient(145deg, rgba(30,30,30,0.6), rgba(10,10,10,0.8)); border-radius: 20px; padding: 18px; margin-bottom: 15px;
             display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--glass-border);
-            backdrop-filter: blur(10px); box-shadow: 0 8px 25px rgba(0,0,0,0.5);
         }
-        .pay-logo-mini { width: 45px; height: 45px; border-radius: 12px; margin-right: 16px; object-fit: contain; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .pay-logo-mini { width: 45px; height: 45px; border-radius: 12px; margin-right: 16px; object-fit: contain; }
         .pay-num { font-weight: 800; font-size: 16px; letter-spacing: 0.8px; color: #fff; }
         .pay-name { font-size: 12px; color: var(--muted-text); font-weight: 500; margin-top: 4px; }
         .copy-text { font-size: 12px; color: var(--blue-ios); font-weight: 700; text-transform: uppercase; background: rgba(10,132,255,0.15); padding: 8px 16px; border-radius: 10px; border: 1px solid rgba(10,132,255,0.2); }
 
-        /* --- ULTRA BOTTOM NAV --- */
         .bottom-nav {
             position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 420px;
-            height: 75px; background: rgba(15, 15, 15, 0.85); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            height: 75px; background: rgba(15, 15, 15, 0.9); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border-radius: 35px; display: flex; justify-content: space-around; align-items: center; border: 1px solid rgba(255,255,255,0.12); 
             z-index: 2000; box-shadow: 0 15px 40px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.1);
         }
         .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 70px; height: 100%; cursor: pointer; position: relative; }
-        .nav-item i { font-size: 22px; color: #6b7280; transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1); }
-        .nav-item span { font-size: 11px; color: #6b7280; opacity: 0; transform: translateY(12px); transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1); position: absolute; bottom: 12px; font-weight: 700;}
+        .nav-item i { font-size: 22px; color: #6b7280; transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); }
+        .nav-item span { font-size: 11px; color: #6b7280; opacity: 0; transform: translateY(12px); transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); position: absolute; bottom: 12px; font-weight: 700;}
         
         .nav-item.active i { transform: translateY(-14px); color: var(--blue-ios); filter: drop-shadow(0 0 10px rgba(10,132,255,0.6)); font-size: 24px; }
         .nav-item.active span { opacity: 1; transform: translateY(0); color: #fff; }
@@ -260,14 +250,14 @@
 </head>
 <body>
  
-<div id="ads-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1); backdrop-filter: blur(10px);">
-    <div style="background: #111; width: 85%; max-width: 360px; border-radius: 24px; padding: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.1); transform: scale(0.8); transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1); box-shadow: 0 20px 50px rgba(0,0,0,0.8);">
-        <img src="https://i.ibb.co/NnVZXJbb/Picsart-26-04-05-01-54-47-621.jpg" alt="Ads" style="width: 100%; border-radius: 16px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 20px rgba(0,0,0,0.5);">
-        <button id="ads-btn" disabled style="width: 100%; background: #333; color: #888; border: none; padding: 16px; border-radius: 16px; font-size: 15px; font-weight: 700; cursor: not-allowed; transition: 0.4s;">
-            စောင့်ပါ (5)
-        </button>
+    <div id="ads-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: 0.3s cubic-bezier(0.25, 1, 0.5, 1);">
+        <div style="background: #111; width: 85%; max-width: 360px; border-radius: 24px; padding: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.1); transform: scale(0.9); transition: 0.3s cubic-bezier(0.25, 1, 0.5, 1); box-shadow: 0 20px 50px rgba(0,0,0,0.8);">
+            <img src="https://i.ibb.co/NnVZXJbb/Picsart-26-04-05-01-54-47-621.jpg" alt="Ads" style="width: 100%; border-radius: 16px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05);">
+            <button id="ads-btn" disabled style="width: 100%; background: #333; color: #888; border: none; padding: 16px; border-radius: 16px; font-size: 15px; font-weight: 700; cursor: not-allowed; transition: 0.3s;">
+                စောင့်ပါ (5)
+            </button>
+        </div>
     </div>
-</div>
 
     <header class="header">
         <img src="https://i.ibb.co/XvPdKky/IMG-20260329-012454-453.jpg" class="logo">
@@ -306,16 +296,26 @@
             
             <div class="banner-card ripple-target" onclick="showView('blox-mythical-list')">
                 <img src="https://i.ibb.co/NgBw3Bqm/file-000000004ef0720bab7df91c3c65fa12.png" alt="Mythical Accounts">
-                <div class="b-title">Mythical 100% Random Accounts</div>
+                <div class="b-title">
+                    <div>Mythical 100% Random Accounts</div>
+                    <div class="buy-now-btn">Buy Now</div>
+                </div>
             </div>
-            
+
+            <div class="banner-card ripple-target" onclick="showView('blox-other-list')">
+                <img src="https://i.ibb.co/SwqtzNQJ/file-00000000f4e47208bdfb604d592187b0.png" alt="Other Accounts">
+                <div class="b-title">
+                    <div>Blox Fruit Other Random Accounts<br><span style="font-size: 11px; color: var(--neon-orange); text-transform: none;">( Premium Quality )</span></div>
+                    <div class="buy-now-btn">Buy Now</div>
+                </div>
             </div>
+        </div>
 
         <div id="blox-mythical-list" class="home-view">
             <div class="back-btn ripple-target" onclick="showView('blox-fruit-main')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
             <div class="midnight-black-title" style="font-size: 13px; padding: 15px;">Mythical Fruit 100% + Level Max + God Human Accounts</div>
             
-            <div class="danger-note-block" style="border-left-color: var(--neon-blue); background: linear-gradient(90deg, rgba(0,243,255,0.15), rgba(0,243,255,0.02)); box-shadow: 0 4px 15px rgba(0,243,255,0.1);">
+            <div class="danger-note-block" style="border-left-color: var(--neon-blue); background: linear-gradient(90deg, rgba(0,243,255,0.15), rgba(0,243,255,0.02));">
                 <i class="fa-solid fa-circle-info" style="color: var(--neon-blue);"></i>
                 <div>
                     <span style="color: #e0e0e0;">Account ဝယ်ယူပြီးပါက Password တန်းချိန်းပေးပါရန်!</span>
@@ -327,18 +327,19 @@
 
             <div class="horizontal-list">
                 <script>
-                    const bloxPrices = [
-                        {desc: "1 Mythical Fruit + Lv Max + God Human", cost: "1,500Ks"},
-                        {desc: "2 Mythical Fruit + Lv Max + God Human", cost: "1,800Ks"},
-                        {desc: "3 Mythical Fruit + Lv Max + God Human", cost: "2,500Ks"},
-                        {desc: "5 Mythical Fruit + Lv Max + God Human", cost: "4,500Ks"},
-                        {desc: "6 Mythical Fruit + Lv Max + God Human", cost: "5,400Ks"},
-                        {desc: "8 Mythical Fruit + Lv Max + God Human", cost: "7,500Ks"},
-                        {desc: "9 Mythical Fruit + Lv Max + God Human", cost: "9,000Ks"},
-                        {desc: "10 Mythical Fruit + Lv Max + God Human", cost: "11,000Ks"},
-                        {desc: "11 Mythical Fruit + Lv Max + God Human", cost: "21,500Ks"}
+                    const ghIconHTML = '<img src="https://i.ibb.co/n8LPWL06/is-godhuman-even-good-v0-ovttx5v7fs4f1-1775764911122edit.jpg" class="small-gh-icon">';
+                    const bloxPrices1 = [
+                        {desc: `1 Mythical Fruit + Lv Max + God Human ${ghIconHTML}`, cost: "1,500Ks"},
+                        {desc: `2 Mythical Fruit + Lv Max + God Human ${ghIconHTML}`, cost: "1,800Ks"},
+                        {desc: `3 Mythical Fruit + Lv Max + God Human ${ghIconHTML}`, cost: "2,500Ks"},
+                        {desc: `5 Mythical Fruit + Lv Max + God Human ${ghIconHTML}`, cost: "4,500Ks"},
+                        {desc: `6 Mythical Fruit + Lv Max + God Human ${ghIconHTML}`, cost: "5,400Ks"},
+                        {desc: `8 Mythical Fruit + Lv Max + God Human ${ghIconHTML}`, cost: "7,500Ks"},
+                        {desc: `9 Mythical Fruit + Lv Max + God Human ${ghIconHTML}`, cost: "9,000Ks"},
+                        {desc: `10 Mythical Fruit + Lv Max + God Human ${ghIconHTML}`, cost: "11,000Ks"},
+                        {desc: `11 Mythical Fruit + Lv Max + God Human ${ghIconHTML}`, cost: "21,500Ks"}
                     ];
-                    bloxPrices.forEach(item => {
+                    bloxPrices1.forEach(item => {
                         document.write(`
                             <div class="horizontal-card ripple-target" onclick="goToPayment()">
                                 <div class="h-title"><i class="fa-solid fa-khanda" style="color: #ff3b30; margin-right: 8px;"></i> ${item.desc}</div>
@@ -348,7 +349,43 @@
                     });
                 </script>
             </div>
+        </div>
+
+        <div id="blox-other-list" class="home-view">
+            <div class="back-btn ripple-target" onclick="showView('blox-fruit-main')"><i class="fa-solid fa-arrow-left"></i> နောက်သို့</div>
+            <div class="midnight-black-title" style="font-size: 13px; padding: 15px;">Blox Fruit Other Random Accounts <span style="color: var(--neon-orange);">( Premium )</span></div>
             
+            <div class="danger-note-block" style="border-left-color: var(--neon-orange); background: linear-gradient(90deg, rgba(255,159,10,0.15), rgba(255,159,10,0.02));">
+                <i class="fa-solid fa-circle-info" style="color: var(--neon-orange);"></i>
+                <div>
+                    <span style="color: #e0e0e0;">Note: Account ဝယ်ယူပြီးပါက Password တန်းချိန်းပေးပါရန်!</span>
+                    <div style="margin-top: 10px; color: #fff; font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-hourglass-half" style="color: var(--neon-orange); animation: pulseTime 1.5s infinite;"></i> ကြာချိန်: 10 မိနစ် ကနေ 15 မိနစ်ကြား
+                    </div>
+                </div>
+            </div>
+
+            <div class="horizontal-list">
+                <script>
+                    const otherPrices = [
+                        {desc: `Cyborg FG + CDK + Soul Guitar 80% + Godhuman ${ghIconHTML}`, cost: "5,500Ks"},
+                        {desc: `Ghoul FG + CDK + Soul Guitar 80% + GodHuman ${ghIconHTML}`, cost: "5,500Ks"},
+                        {desc: `Shark FG + CDK + Soul Guitar 80% + GodHuman ${ghIconHTML}`, cost: "5,500Ks"},
+                        {desc: `Angel FG + CDK + Soul Guitar 95% + GodHuman ${ghIconHTML}`, cost: "5,500Ks"},
+                        {desc: `Random Race FG + CDK + GodHuman ${ghIconHTML}`, cost: "5,500Ks"},
+                        {desc: `CDK + Godhuman ${ghIconHTML} + Soul Guitar + MM Random`, cost: "3,500Ks"},
+                        {desc: `CDK + Godhuman ${ghIconHTML}`, cost: "2,500Ks"}
+                    ];
+                    otherPrices.forEach(item => {
+                        document.write(`
+                            <div class="horizontal-card ripple-target" onclick="goToPayment()">
+                                <div class="h-title"><i class="fa-solid fa-khanda" style="color: #ff3b30; margin-right: 8px;"></i> ${item.desc}</div>
+                                <div class="h-price">${item.cost}</div>
+                            </div>
+                        `);
+                    });
+                </script>
+            </div>
         </div>
 
         <div id="home-games" class="home-view">
@@ -381,7 +418,7 @@
                 <div class="price-card ripple-target" style="grid-column: span 2;" onclick="goToPayment()">
                     <img src="https://i.ibb.co/rnJZC3H/file-000000002d4471faaf3a21cca0e5c27d.png" alt="WP" style="width: 60px!important; height:60px!important;">
                     <div class="p-amt">Weekly Pass</div>
-                    <div class="p-cost" style="font-size: 14px;">6,500 Ks</div>
+                    <div class="p-cost" style="font-size: 14px;">6,550 Ks</div>
                 </div>
                 <script>
                     const mlbbPrices = [
@@ -476,7 +513,7 @@
             <div class="price-list-container">
                 <div class="price-card ripple-target" style="grid-column: span 2;" onclick="goToPayment()">
                     <img src="https://i.ibb.co/4n360BQx/Picsart-26-04-01-23-12-29-752.png" alt="Ton">
-                    <div class="p-amt">1 Ton</div><div class="p-cost">5,700 Ks</div>
+                    <div class="p-amt">1 Ton</div><div class="p-cost">5,800 Ks</div>
                 </div>
                 <div class="price-card ripple-target" style="grid-column: span 2;" onclick="goToPayment()">
                     <img src="https://i.ibb.co/4n360BQx/Picsart-26-04-01-23-12-29-752.png" alt="Ton">
@@ -906,7 +943,6 @@
     </nav>
 
     <script>
-        // --- Telegram Integration ---
         const tg = window.Telegram.WebApp;
         tg.expand();
         const user = tg.initDataUnsafe?.user;
@@ -914,7 +950,6 @@
         const tgUserId = user ? user.id : null;
         const tgUsernameTag = user?.username ? `(@${user.username})` : "";
 
-        // --- Core UI Functions ---
         const sections = document.querySelectorAll('.content-section');
         const navItems = document.querySelectorAll('.nav-item');
 
@@ -953,7 +988,6 @@
             }, 2000);
         }
 
-        // --- Initial Ads Modal ---
         window.onload = function() {
             const modal = document.getElementById('ads-modal');
             const adsBtn = document.getElementById('ads-btn');
@@ -980,14 +1014,13 @@
                         adsBtn.onclick = function() {
                             modal.style.opacity = '0';
                             modal.style.pointerEvents = 'none';
-                            modal.firstElementChild.style.transform = 'scale(0.8)';
+                            modal.firstElementChild.style.transform = 'scale(0.9)';
                         }
                     }
                 }, 1000);
             }, 800);
         };
 
-        // --- File Upload & Preview ---
         const fileInput = document.getElementById('receipt-upload');
         const preview = document.getElementById('img-preview');
         const sendBtn = document.getElementById('send-btn');
@@ -1021,7 +1054,7 @@
             if(removeBtn) removeBtn.style.display = 'none';
         }
 
-        // --- Telegram Bot Sending Logic ---
+        // --- UPDATED TELEGRAM MESSAGE FORMATTING ---
         async function sendToTelegram() {
             const BOT_TOKEN = '8666396262:AAE9E39Td3mLkQTD7EvbDPGPrynAiFJIfsY'; 
             const OWNER_CHAT_ID = '2006437268'; 
@@ -1043,7 +1076,10 @@
             sendBtn.style.background = 'rgba(255,255,255,0.2)';
             sendBtn.style.boxShadow = 'none';
 
-            const adminCaption = `🧾 ပြေစာအသစ် ရောက်ပါပြီ!\n\n👤 ပို့သူ: ${tgUserName} ${tgUsernameTag}\n📝 အချက်အလက်များ:\n${userDescription}`;
+            const currentTime = new Date().toLocaleString('en-US', { timeZone: 'Asia/Yangon' });
+
+            // 1. Message to Admin (Owner)
+            const adminCaption = `စာရောက်လာပါ\n\nပို့သူ - ${tgUserName} ${tgUsernameTag}\nအချိန် - ${currentTime}\nအကြောင်းအရာ - \n${userDescription}`;
 
             const replyMarkup = {
                 inline_keyboard: [
@@ -1068,10 +1104,14 @@
 
                 if (responseOwner.ok) {
                     if (tgUserId && tgUserId != OWNER_CHAT_ID) {
+                        
+                        // 2. Message sent back to Customer
+                        const customerCaption = `✅ Admin မှ ငွေစစ်ပေးပါမည်။ စောင့်ဆိုင်းပေးပါ။\n\n🛍 သင်ဝယ်ယူထားသော အကြောင်းအရာ: \n${userDescription}\n\n🕒 အချိန်: ${currentTime}\n👤 Customer Name: ${tgUserName}`;
+
                         const formDataCustomer = new FormData();
                         formDataCustomer.append('chat_id', tgUserId);
                         formDataCustomer.append('photo', fileInput.files[0]);
-                        formDataCustomer.append('caption', `✅ သင်၏ ပြေစာကို လက်ခံရရှိပါပြီ။\n\n📝 အချက်အလက်များ:\n${userDescription}\n\nခဏစောင့်ပေးပါ Admin မှ စစ်ဆေးပြီး Items လွဲပေးပါမည်။`);
+                        formDataCustomer.append('caption', customerCaption);
                         
                         fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
                             method: 'POST', body: formDataCustomer
