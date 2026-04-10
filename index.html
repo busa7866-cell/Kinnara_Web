@@ -204,7 +204,7 @@
         .price-card img, .price-card .emoji-icon { 
             width: 55px !important; height: 55px !important; object-fit: contain; margin-bottom: 12px; 
         }
-        .price-card .p-amt { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 8px; }
+        .price-card .p-amt { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 8px; }
         .price-card .p-cost { 
             font-size: 13px; color: #fff; font-weight: 700; background: linear-gradient(90deg, #0a84ff, #00f3ff);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
@@ -373,12 +373,12 @@
                         {desc: `8 Mythical + Lv Max +${ghIconHTML}`, cost: "7,500Ks"},
                         {desc: `9 Mythical + Lv Max +${ghIconHTML}`, cost: "9,000Ks"},
                         {desc: `10 Mythical + Lv Max +${ghIconHTML}`, cost: "11,000Ks"},
-                        {desc: `11 Mythical + Lv Max +${ghIconHTML}`, cost: "21,500Ks"}
+                        {desc: `11 Mythical + Lv Max +${ghIconHTML} + (secret-items)`, cost: "21,500Ks"}
                     ];
                     bloxPrices1.forEach(item => {
                         document.write(`
                             <div class="horizontal-card ripple-target" onclick="goToPayment()">
-                                <div class="h-title"><i class="fa-solid fa-khanda" style="color: #ff3b30; margin-right: 8px;"></i> ${item.desc}</div>
+                                <div class=style="color: #ff3b30; margin-right: 8px;"></i> ${item.desc}</div>
                                 <div class="h-price">${item.cost}</div>
                             </div>
                         `);
@@ -392,7 +392,6 @@
             <div class="midnight-black-title" style="font-size: 13px; padding: 15px;">BF Other Random Accounts <span style="color: var(--neon-orange);">(Premium)</span></div>
             
             <div class="danger-note-block" style="border-left-color: var(--neon-orange); background: linear-gradient(90deg, rgba(255,159,10,0.15), rgba(255,159,10,0.02));">
-                <i class="fa-solid fa-circle-info" style="color: var(--neon-orange);"></i>
                 <div>
                     <span style="color: #e0e0e0;">Note: Account ဝယ်ယူပြီးပါက Password တန်းချိန်းပေးပါရန်!</span>
                     <div style="margin-top: 10px; color: #fff; font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 8px;">
@@ -415,7 +414,7 @@
                     otherPrices.forEach(item => {
                         document.write(`
                             <div class="horizontal-card ripple-target" onclick="goToPayment()">
-                                <div class="h-title"><i class="fa-solid fa-khanda" style="color: #ff3b30; margin-right: 8px;"></i> ${item.desc}</div>
+                                <div class=style="color: #ff3b30; margin-right: 8px;"></i> ${item.desc}</div>
                                 <div class="h-price">${item.cost}</div>
                             </div>
                         `);
